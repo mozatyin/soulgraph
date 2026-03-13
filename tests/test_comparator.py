@@ -48,7 +48,11 @@ class TestSemanticMatcher:
 
     def test_match_items_returns_mapping(self):
         matcher = SemanticMatcher(api_key="fake")
-        matcher.is_match = lambda a, b: a == b
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text='{"matches": [{"gt_id": "gt_1", "det_id": "det_1", "similarity": 0.9}]}')]
+        matcher._client = MagicMock()
+        matcher._client.messages.create.return_value = mock_response
+
         gt_items = [
             SoulItem(id="gt_1", text="loves family", domains=["family"]),
             SoulItem(id="gt_2", text="wants SUV", domains=["purchase"]),
@@ -59,6 +63,21 @@ class TestSemanticMatcher:
         ]
         mapping = matcher.match_items(gt_items, det_items)
         assert mapping == {"gt_1": "det_1"}
+
+    def test_batch_match_items(self):
+        matcher = SemanticMatcher(api_key="fake")
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text='{"matches": [{"gt_id": "gt_1", "det_id": "det_1", "similarity": 0.9}, {"gt_id": "gt_2", "det_id": "det_2", "similarity": 0.7}]}')]
+        matcher._client = MagicMock()
+        matcher._client.messages.create.return_value = mock_response
+
+        gt = [SoulItem(id="gt_1", text="loves family", domains=["family"]),
+              SoulItem(id="gt_2", text="wants SUV", domains=["purchase"])]
+        det = [SoulItem(id="det_1", text="family important", domains=["family"]),
+               SoulItem(id="det_2", text="buying SUV", domains=["purchase"])]
+
+        mapping = matcher.match_items(gt, det)
+        assert mapping == {"gt_1": "det_1", "gt_2": "det_2"}
 
 
 class TestGraphComparator:
