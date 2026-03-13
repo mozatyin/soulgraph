@@ -9,20 +9,23 @@ from soulgraph.experiment.models import Message
 from soulgraph.graph.models import SoulEdge, SoulGraph, SoulItem
 
 _DETECT_SYSTEM = """\
-You are a soul graph detector. You listen to a conversation and extract the speaker's \
-inner world as a graph of soul items (intentions, facts, personality traits, experiences, \
-values, emotions) and their relationships.
+You are a soul graph detector. You analyze conversation to extract the speaker's \
+inner world as a graph of soul items and their relationships.
 
 ## Current Detected Graph
 {current_graph_json}
 
 ## Rules
-1. Extract NEW soul items not already in the graph.
-2. Extract relationships between items (causes, enables, compensates, manifests_as, \
-drives, conflicts_with, decomposes_to, next_step).
-3. If existing items are reinforced by new evidence, list their IDs in strengthen_ids.
-4. Each item needs: id (continue from highest existing), text, domains, confidence (0-1), specificity (0-1).
-5. Be conservative — only extract what is clearly supported by the conversation.
+1. Extract ONLY soul items that are clearly evidenced by the conversation. Do NOT infer or guess.
+2. A soul item is a meaningful unit: a value, intention, fact, experience, emotion, or personality trait.
+3. Prefer fewer, higher-confidence items over many low-confidence ones. Quality over quantity.
+4. Each item should be distinct — do NOT create near-duplicates of existing items.
+5. Before adding a new item, check if an existing item already covers the same concept. \
+If so, add its ID to strengthen_ids instead.
+6. Relationships: causes, enables, compensates, manifests_as, drives, conflicts_with, \
+decomposes_to, next_step.
+7. Assign confidence based on how explicitly the speaker expressed this (0.9 = stated directly, \
+0.5 = implied, 0.3 = weak inference).
 
 Return JSON:
 {{
@@ -30,21 +33,24 @@ Return JSON:
   "new_edges": [{{"from_id": "...", "to_id": "...", "relation": "...", "strength": 0.0-1.0, "confidence": 0.0-1.0}}],
   "strengthen_ids": ["si_001", ...]
 }}
+
+IMPORTANT: Only return items with confidence >= 0.4. Max 3-5 new items per extraction cycle.
 """
 
 _QUESTION_SYSTEM = """\
-You are a skilled listener trying to understand someone's inner world. Based on what \
-you've learned so far, ask the single most valuable next question to uncover more about \
-their soul — their deep motivations, hidden experiences, values, or intentions.
+You are a skilled listener building a deep understanding of someone through conversation. \
+Based on what you've learned so far, ask the most valuable next question.
 
 ## What You Know So Far
 {current_graph_json}
 
-## Rules
-1. Ask naturally — like a curious friend, not an interviewer.
-2. Target sparse areas of the graph (domains with few items, or items with no connections).
-3. One question only. Be specific, not generic.
-4. Respond in the same language as the conversation.
+## Strategy
+1. If graph is empty or sparse: ask broad, warm questions to build rapport.
+2. If graph has items but few connections: explore relationships between known items.
+3. If graph has clusters: probe gaps between clusters or unexplored domains.
+4. Always ask naturally — like a curious, empathetic friend.
+5. One question only. Specific, not generic. Open-ended (not yes/no).
+6. Respond in the same language as the conversation.
 
 Return ONLY the question text, nothing else.
 """
@@ -110,6 +116,9 @@ class Detector:
 
         next_id = len(self.detected_graph.items) + 1
         for item_data in data.get("new_items", []):
+            confidence = item_data.get("confidence", 0.5)
+            if confidence < 0.4:
+                continue  # Skip low-confidence items
             item_id = item_data.get("id", f"si_{next_id:03d}")
             self.detected_graph.add_item(
                 SoulItem(
