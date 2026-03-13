@@ -80,3 +80,15 @@ class TestExperimentRunner:
         assert len(result.conversation) == 6  # 3 turns x 2 messages
         assert mock_speaker.respond.call_count == 3
         assert mock_detector.listen_and_detect.call_count == 3
+
+
+class TestDetectorSession:
+    def test_detector_session_number(self):
+        from soulgraph.experiment.detector import Detector
+        det = Detector(api_key="fake", session_number=2)
+        assert det.session_number == 2
+
+    def test_detector_default_session(self):
+        from soulgraph.experiment.detector import Detector
+        det = Detector(api_key="fake")
+        assert det.session_number == 0

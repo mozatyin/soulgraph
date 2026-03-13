@@ -100,8 +100,9 @@ Return ONLY the question text (with optional reflection prefix), nothing else.
 
 
 class Detector:
-    def __init__(self, api_key: str, model: str = "claude-sonnet-4-20250514"):
+    def __init__(self, api_key: str, model: str = "claude-sonnet-4-20250514", session_number: int = 0):
         self.detected_graph = SoulGraph(owner_id="unknown")
+        self.session_number = session_number
         kwargs: dict = {"api_key": api_key}
         if api_key.startswith("sk-or-"):
             kwargs["base_url"] = "https://openrouter.ai/api"
@@ -300,6 +301,7 @@ class Detector:
                 confidence=confidence,
                 specificity=item_data.get("specificity", 0.5),
                 tags=tags,
+                source_session=str(self.session_number),
             )
         )
 
@@ -317,6 +319,7 @@ class Detector:
                 relation=edge_data.get("relation", "relates_to"),
                 strength=edge_data.get("strength", 0.5),
                 confidence=edge_data.get("confidence", 0.5),
+                source_session=self.session_number,
             )
         )
 
