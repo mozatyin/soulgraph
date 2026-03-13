@@ -49,7 +49,7 @@ class TestExperimentRunner:
         mock_detector.detected_graph = SoulGraph(owner_id="det")
 
         runner = ExperimentRunner(api_key="fake")
-        result = runner.run(self._make_gt_graph(), max_turns=3)
+        result = runner.run(self._make_gt_graph(), max_turns=3, verbose=False)
 
         assert result.turns == 3
         assert len(result.conversation) == 6  # 3 turns x 2 messages

@@ -27,6 +27,7 @@ class ExperimentRunner:
         ground_truth: SoulGraph,
         max_turns: int = 20,
         hub_top_k: int = 5,
+        verbose: bool = True,
     ) -> ExperimentResult:
         speaker = Speaker(
             soul_graph=ground_truth,
@@ -36,14 +37,32 @@ class ExperimentRunner:
         detector = Detector(api_key=self._api_key, model=self._detector_model)
         conversation: list[Message] = []
 
+        if verbose:
+            print(f"Starting experiment: {len(ground_truth.items)} GT items, {max_turns} turns")
+
         question = detector.ask_next_question(conversation)
 
         for turn in range(max_turns):
+            if verbose:
+                print(f"\n--- Turn {turn + 1}/{max_turns} ---")
+                print(f"Detector asks: {question[:80]}...")
+
             response = speaker.respond(question, conversation)
             conversation.append(Message(role="speaker", content=response))
+
+            if verbose:
+                print(f"Speaker says: {response[:80]}...")
+
             detector.listen_and_detect(conversation)
+
+            if verbose:
+                print(f"Detected so far: {len(detector.detected_graph.items)} items, {len(detector.detected_graph.edges)} edges")
+
             question = detector.ask_next_question(conversation)
             conversation.append(Message(role="detector", content=question))
+
+        if verbose:
+            print(f"\nComparing graphs...")
 
         matcher = SemanticMatcher(api_key=self._api_key, model=self._matcher_model)
         comparator = GraphComparator(matcher=matcher)
