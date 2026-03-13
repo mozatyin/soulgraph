@@ -2,7 +2,8 @@ from unittest.mock import MagicMock
 
 from soulgraph.comparator.models import HubRecall, LocalStructureSimilarity, GraphSimilarity
 from soulgraph.comparator.semantic import SemanticMatcher
-from soulgraph.graph.models import SoulItem
+from soulgraph.comparator.structural import GraphComparator
+from soulgraph.graph.models import SoulGraph, SoulItem, SoulEdge
 
 
 class TestComparatorModels:
@@ -58,3 +59,51 @@ class TestSemanticMatcher:
         ]
         mapping = matcher.match_items(gt_items, det_items)
         assert mapping == {"gt_1": "det_1"}
+
+
+class TestGraphComparator:
+    def _make_gt_graph(self) -> SoulGraph:
+        g = SoulGraph(owner_id="gt")
+        g.add_item(SoulItem(id="si_001", text="重视家庭", domains=["family"], mention_count=5))
+        g.add_item(SoulItem(id="si_002", text="想买SUV", domains=["purchase"], mention_count=3))
+        g.add_item(SoulItem(id="si_003", text="预算有限", domains=["finance"], mention_count=1))
+        g.add_edge(SoulEdge(from_id="si_001", to_id="si_002", relation="drives"))
+        g.add_edge(SoulEdge(from_id="si_003", to_id="si_002", relation="constrains"))
+        return g
+
+    def _make_detected_graph(self) -> SoulGraph:
+        g = SoulGraph(owner_id="detected")
+        g.add_item(SoulItem(id="d_001", text="重视家庭", domains=["family"]))
+        g.add_item(SoulItem(id="d_002", text="想买SUV", domains=["purchase"]))
+        g.add_edge(SoulEdge(from_id="d_001", to_id="d_002", relation="drives"))
+        return g
+
+    def test_compare_returns_graph_similarity(self):
+        gt = self._make_gt_graph()
+        det = self._make_detected_graph()
+        matcher = MagicMock()
+        matcher.match_items.return_value = {"si_001": "d_001", "si_002": "d_002"}
+        comparator = GraphComparator(matcher=matcher)
+        result = comparator.compare(gt, det, hub_top_k=2)
+        assert result.hub_recall.recall > 0
+        assert len(result.local_similarities) > 0
+        assert 0.0 <= result.overall_score <= 1.0
+
+    def test_compare_perfect_match(self):
+        gt = self._make_gt_graph()
+        matcher = MagicMock()
+        matcher.match_items.return_value = {"si_001": "si_001", "si_002": "si_002", "si_003": "si_003"}
+        comparator = GraphComparator(matcher=matcher)
+        result = comparator.compare(gt, gt, hub_top_k=2)
+        assert result.hub_recall.recall == 1.0
+        assert result.overall_score > 0.8
+
+    def test_compare_no_match(self):
+        gt = self._make_gt_graph()
+        det = SoulGraph(owner_id="empty")
+        matcher = MagicMock()
+        matcher.match_items.return_value = {}
+        comparator = GraphComparator(matcher=matcher)
+        result = comparator.compare(gt, det, hub_top_k=2)
+        assert result.hub_recall.recall == 0.0
+        assert result.overall_score == 0.0
