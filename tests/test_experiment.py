@@ -39,10 +39,11 @@ class TestExperimentRunner:
 
     @patch("soulgraph.experiment.runner.GraphComparator")
     @patch("soulgraph.experiment.runner.SemanticMatcher")
+    @patch("soulgraph.experiment.runner.RankingComparator")
     @patch("soulgraph.experiment.runner.EmbeddingMatcher")
     @patch("soulgraph.experiment.runner.Speaker")
     @patch("soulgraph.experiment.runner.Detector")
-    def test_run_completes(self, MockDetector, MockSpeaker, MockEmbMatcher, MockSemMatcher, MockGraphComp):
+    def test_run_completes(self, MockDetector, MockSpeaker, MockEmbMatcher, MockRankComp, MockSemMatcher, MockGraphComp):
         mock_speaker = MockSpeaker.return_value
         mock_speaker.respond.return_value = "我最近在想买车"
 
@@ -57,6 +58,13 @@ class TestExperimentRunner:
             "triple_recall": 0.0, "triple_precision": 0.0, "triple_f1": 0.0,
             "overall": 0.25, "matched_nodes": 1, "gt_nodes": 2, "det_nodes": 0,
             "gt_edges": 1, "det_edges": 0,
+        }
+
+        # Mock ranking comparator
+        MockRankComp.return_value.compare.return_value = {
+            "rank_correlation": 0.5, "domain_ndcg": 0.5,
+            "absorption_rate": 0.5, "intention_recall": 0.5,
+            "overall": 0.5, "matched_items": 1, "gt_items": 2, "det_items": 0,
         }
 
         # Mock legacy comparator

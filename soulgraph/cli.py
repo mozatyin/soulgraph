@@ -75,6 +75,13 @@ def _print_result(result) -> None:
         avg_local = sum(ls.combined_score for ls in result.similarity.local_similarities) / len(result.similarity.local_similarities)
         print(f"Avg Local Sim:  {avg_local:.2f}")
     print(f"Overall Score:  {result.similarity.overall_score:.2f}")
+    if result.ranking_scores:
+        print(f"\n--- Ranking (V4) ---")
+        print(f"Rank Correlation: {result.ranking_scores['rank_correlation']:.3f}")
+        print(f"Domain NDCG:      {result.ranking_scores['domain_ndcg']:.3f}")
+        print(f"Absorption Rate:  {result.ranking_scores['absorption_rate']:.3f}")
+        print(f"Intention Recall: {result.ranking_scores['intention_recall']:.3f}")
+        print(f"Overall (V4):     {result.ranking_scores['overall']:.3f}")
     print(f"\n--- Detected Items ---")
     for item in result.detected_graph.items:
         type_tag = f"[{item.item_type.value}]" if hasattr(item, 'item_type') else ""

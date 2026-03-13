@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from soulgraph.comparator.embedding import EmbeddingMatcher
+from soulgraph.comparator.ranking import RankingComparator
 from soulgraph.comparator.semantic import SemanticMatcher
 from soulgraph.comparator.structural import GraphComparator
 from soulgraph.experiment.detector import Detector
@@ -81,6 +82,18 @@ class ExperimentRunner:
             print(f"Triple F1:       {emb_scores['triple_f1']:.3f}")
             print(f"Overall (V3):    {emb_scores['overall']:.3f}")
 
+        # V4: Ranking-based comparison
+        ranking_comp = RankingComparator()
+        ranking_scores = ranking_comp.compare(ground_truth, detector.detected_graph)
+
+        if verbose:
+            print(f"\n--- Ranking Comparison (V4) ---")
+            print(f"Rank Correlation: {ranking_scores['rank_correlation']:.3f}")
+            print(f"Domain NDCG:      {ranking_scores['domain_ndcg']:.3f}")
+            print(f"Absorption Rate:  {ranking_scores['absorption_rate']:.3f}")
+            print(f"Intention Recall: {ranking_scores['intention_recall']:.3f}")
+            print(f"Overall (V4):     {ranking_scores['overall']:.3f}")
+
         # Also run legacy comparison for backward compat
         matcher = SemanticMatcher(api_key=self._api_key, model=self._matcher_model)
         comparator = GraphComparator(matcher=matcher)
@@ -97,6 +110,7 @@ class ExperimentRunner:
         )
         # Attach V3 scores as extra data
         result.embedding_scores = emb_scores  # type: ignore[attr-defined]
+        result.ranking_scores = ranking_scores
         return result
 
     def run_multi(
@@ -110,30 +124,50 @@ class ExperimentRunner:
         """Run multiple experiments and report mean±std for all metrics."""
         import numpy as np
 
-        all_scores: list[dict] = []
+        all_emb_scores: list[dict] = []
+        all_rank_scores: list[dict] = []
         for i in range(num_runs):
             if verbose:
                 print(f"\n{'='*60}")
                 print(f"RUN {i + 1}/{num_runs}")
                 print(f"{'='*60}")
             result = self.run(ground_truth, max_turns=max_turns, hub_top_k=hub_top_k, verbose=verbose)
-            all_scores.append(result.embedding_scores)  # type: ignore[attr-defined]
+            all_emb_scores.append(result.embedding_scores)  # type: ignore[attr-defined]
+            if result.ranking_scores is not None:
+                all_rank_scores.append(result.ranking_scores)
 
-        # Aggregate
-        metrics = ["node_recall", "node_precision", "hub_recall", "triple_recall", "triple_precision", "triple_f1", "overall"]
+        # Aggregate V3 (embedding) metrics
+        emb_metrics = ["node_recall", "node_precision", "hub_recall", "triple_recall", "triple_precision", "triple_f1", "overall"]
         summary: dict = {}
-        for m in metrics:
-            values = [s[m] for s in all_scores]
+        for m in emb_metrics:
+            values = [s[m] for s in all_emb_scores]
             summary[m] = {"mean": round(float(np.mean(values)), 3), "std": round(float(np.std(values)), 3)}
 
+        # Aggregate V4 (ranking) metrics
+        rank_metrics = ["rank_correlation", "domain_ndcg", "absorption_rate", "intention_recall"]
+        if all_rank_scores:
+            for m in rank_metrics:
+                values = [s[m] for s in all_rank_scores]
+                summary[f"v4_{m}"] = {"mean": round(float(np.mean(values)), 3), "std": round(float(np.std(values)), 3)}
+            v4_overall = [s["overall"] for s in all_rank_scores]
+            summary["v4_overall"] = {"mean": round(float(np.mean(v4_overall)), 3), "std": round(float(np.std(v4_overall)), 3)}
+
         summary["num_runs"] = num_runs
-        summary["raw_scores"] = all_scores
+        summary["raw_scores"] = all_emb_scores
+        summary["raw_ranking_scores"] = all_rank_scores
 
         if verbose:
             print(f"\n{'='*60}")
             print(f"MULTI-RUN SUMMARY ({num_runs} runs)")
             print(f"{'='*60}")
-            for m in metrics:
+            print(f"  --- V3 (Embedding) ---")
+            for m in emb_metrics:
                 print(f"  {m:20s}: {summary[m]['mean']:.3f} ± {summary[m]['std']:.3f}")
+            if all_rank_scores:
+                print(f"  --- V4 (Ranking) ---")
+                for m in rank_metrics:
+                    key = f"v4_{m}"
+                    print(f"  {m:20s}: {summary[key]['mean']:.3f} ± {summary[key]['std']:.3f}")
+                print(f"  {'v4_overall':20s}: {summary['v4_overall']['mean']:.3f} ± {summary['v4_overall']['std']:.3f}")
 
         return summary

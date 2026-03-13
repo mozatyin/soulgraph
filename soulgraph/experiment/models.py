@@ -21,3 +21,4 @@ class ExperimentResult(BaseModel):
     similarity: GraphSimilarity
     turns: int
     embedding_scores: dict[str, Any] | None = None
+    ranking_scores: dict[str, Any] | None = None
