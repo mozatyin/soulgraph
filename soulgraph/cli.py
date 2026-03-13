@@ -34,6 +34,9 @@ def main() -> None:
         print(f"Running smoke test (3 turns) on {fixture_path.name}...")
         result = runner.run(gt, max_turns=3, hub_top_k=3)
         _print_result(result)
+        if args.output:
+            Path(args.output).write_text(result.model_dump_json(indent=2), encoding="utf-8")
+            print(f"\nResult saved to {args.output}")
     elif args.experiment:
         gt_path = Path(args.experiment)
         if not gt_path.exists():
@@ -63,6 +66,9 @@ def _print_result(result) -> None:
         avg_local = sum(ls.combined_score for ls in result.similarity.local_similarities) / len(result.similarity.local_similarities)
         print(f"Avg Local Sim:  {avg_local:.2f}")
     print(f"Overall Score:  {result.similarity.overall_score:.2f}")
+    print(f"\n--- Detected Items ---")
+    for item in result.detected_graph.items:
+        print(f"  {item.id}: {item.text[:60]}  conf={item.confidence:.1f}  domains={item.domains}")
     print(f"\n--- Conversation (last 4 messages) ---")
     for msg in result.conversation[-4:]:
         role = "Speaker" if msg.role == "speaker" else "Detector"
