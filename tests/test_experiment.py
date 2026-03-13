@@ -101,6 +101,46 @@ class TestMultiSessionResult:
         assert len(result.session_scores) == 3
 
 
+class TestMultiSessionRunner:
+    def _make_gt_graph(self) -> SoulGraph:
+        g = SoulGraph(owner_id="gt")
+        g.add_item(SoulItem(id="si_001", text="重视家庭", domains=["family"], tags=["intention"]))
+        g.add_item(SoulItem(id="si_002", text="想买SUV", domains=["purchase"]))
+        g.add_edge(SoulEdge(from_id="si_001", to_id="si_002", relation="drives"))
+        return g
+
+    @patch("soulgraph.experiment.runner.RankingComparator")
+    @patch("soulgraph.experiment.runner.Speaker")
+    @patch("soulgraph.experiment.runner.Detector")
+    def test_run_multi_session(self, MockDetector, MockSpeaker, MockRankComp):
+        mock_speaker = MockSpeaker.return_value
+        mock_speaker.respond.return_value = "我最近在想买车"
+
+        mock_detector = MockDetector.return_value
+        mock_detector.ask_next_question.return_value = "你在想什么？"
+        mock_detector.listen_and_detect.return_value = SoulGraph(owner_id="det")
+        mock_detector.detected_graph = SoulGraph(owner_id="det")
+        mock_detector.session_number = 0
+
+        MockRankComp.return_value.compare.return_value = {
+            "rank_correlation": 0.5, "domain_ndcg": 0.5,
+            "absorption_rate": 0.5, "intention_recall": 0.5,
+            "overall": 0.5, "matched_items": 1, "gt_items": 2, "det_items": 0,
+        }
+
+        runner = ExperimentRunner(api_key="fake")
+        session_configs = [
+            {"turns": 3, "topic_hints": ["family"]},
+            {"turns": 3, "topic_hints": ["career"]},
+        ]
+        result = runner.run_multi_session(
+            self._make_gt_graph(), session_configs=session_configs, verbose=False
+        )
+        assert result["num_sessions"] == 2
+        assert len(result["session_scores"]) == 2
+        assert "rank_improvement" in result
+
+
 class TestDetectorSession:
     def test_detector_session_number(self):
         from soulgraph.experiment.detector import Detector

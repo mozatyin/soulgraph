@@ -171,3 +171,91 @@ class ExperimentRunner:
                 print(f"  {'v4_overall':20s}: {summary['v4_overall']['mean']:.3f} ± {summary['v4_overall']['std']:.3f}")
 
         return summary
+
+    def run_multi_session(
+        self,
+        ground_truth: SoulGraph,
+        session_configs: list[dict],
+        hub_top_k: int = 5,
+        verbose: bool = True,
+    ) -> dict:
+        """Run multiple sessions with persistent detector graph."""
+        detector = Detector(api_key=self._api_key, model=self._detector_model, session_number=0)
+        session_scores: list[dict] = []
+        ranking_comp = RankingComparator()
+
+        for si, config in enumerate(session_configs):
+            turns = config.get("turns", 10)
+            topic_hints = config.get("topic_hints", [])
+            detector.session_number = si + 1
+
+            speaker = Speaker(
+                soul_graph=ground_truth,
+                api_key=self._api_key,
+                model=self._speaker_model,
+                topic_hints=topic_hints,
+            )
+            conversation: list[Message] = []
+
+            if verbose:
+                print(f"\n{'='*60}")
+                print(f"SESSION {si + 1}/{len(session_configs)} — topics: {topic_hints}")
+                print(f"{'='*60}")
+                print(f"Graph state: {len(detector.detected_graph.items)} items, {len(detector.detected_graph.edges)} edges")
+
+            question = detector.ask_next_question(conversation)
+
+            for turn in range(turns):
+                if verbose:
+                    print(f"\n--- Session {si + 1}, Turn {turn + 1}/{turns} ---")
+                    print(f"Detector asks: {question[:80]}...")
+
+                response = speaker.respond(question, conversation)
+                conversation.append(Message(role="speaker", content=response))
+
+                if verbose:
+                    print(f"Speaker says: {response[:80]}...")
+
+                detector.listen_and_detect(conversation)
+
+                if verbose:
+                    print(f"Detected so far: {len(detector.detected_graph.items)} items, {len(detector.detected_graph.edges)} edges")
+
+                question = detector.ask_next_question(conversation)
+                conversation.append(Message(role="detector", content=question))
+
+            # Evaluate after this session
+            scores = ranking_comp.compare(ground_truth, detector.detected_graph)
+            session_scores.append(scores)
+
+            if verbose:
+                print(f"\n--- Session {si + 1} Results ---")
+                print(f"Rank Correlation: {scores['rank_correlation']:.3f}")
+                print(f"Domain NDCG:      {scores['domain_ndcg']:.3f}")
+                print(f"Absorption Rate:  {scores['absorption_rate']:.3f}")
+                print(f"Intention Recall: {scores['intention_recall']:.3f}")
+                print(f"Overall (V4):     {scores['overall']:.3f}")
+
+        # Cross-session metrics
+        rank_improvement = (
+            session_scores[-1]["rank_correlation"] - session_scores[0]["rank_correlation"]
+            if len(session_scores) >= 2 else 0.0
+        )
+
+        result = {
+            "session_scores": session_scores,
+            "rank_improvement": round(rank_improvement, 3),
+            "final_scores": session_scores[-1] if session_scores else {},
+            "num_sessions": len(session_configs),
+            "turns_per_session": [c.get("turns", 10) for c in session_configs],
+        }
+
+        if verbose:
+            print(f"\n{'='*60}")
+            print(f"MULTI-SESSION SUMMARY")
+            print(f"{'='*60}")
+            for si, scores in enumerate(session_scores):
+                print(f"  Session {si + 1}: rank_corr={scores['rank_correlation']:.3f}  absorption={scores['absorption_rate']:.3f}  overall={scores['overall']:.3f}")
+            print(f"  Rank Improvement: {rank_improvement:+.3f}")
+
+        return result
