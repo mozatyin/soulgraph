@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import time
 
 import anthropic
 import numpy as np
@@ -104,6 +105,21 @@ class Detector:
         self._client = anthropic.Anthropic(**kwargs)
         self._model = model
 
+    def _call_api(self, **kwargs) -> str:
+        """Call API with retry on transient errors."""
+        for attempt in range(3):
+            try:
+                response = self._client.messages.create(**kwargs)
+                if response.content:
+                    return response.content[0].text
+                return ""
+            except (anthropic.APIError, anthropic.APIConnectionError) as e:
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise
+        return ""
+
     def listen_and_detect(self, conversation: list[Message]) -> SoulGraph:
         # Extract-then-diff: send only latest speaker message + context
         current_json = self.detected_graph.model_dump_json(indent=2)
@@ -124,14 +140,14 @@ class Detector:
             f"LATEST SPEAKER MESSAGE (extract from this):\n{latest_speaker}"
         )
 
-        response = self._client.messages.create(
+        raw = self._call_api(
             model=self._model,
             max_tokens=2048,
             system=system,
             messages=[{"role": "user", "content": user_msg}],
         )
-        raw = response.content[0].text
-        self._apply_detection_with_diff(raw)
+        if raw:
+            self._apply_detection_with_diff(raw)
         return self.detected_graph
 
     def _compute_question_mode(self) -> str:
@@ -181,13 +197,12 @@ class Detector:
             user_msg = f"Conversation so far:\n{conv_text}\n\nWhat should I ask next?"
         else:
             user_msg = "This is the start of the conversation. What opening question should I ask?"
-        response = self._client.messages.create(
+        text = self._call_api(
             model=self._model,
             max_tokens=512,
             system=system,
             messages=[{"role": "user", "content": user_msg}],
-        )
-        text = response.content[0].text.strip()
+        ).strip()
         if text.startswith("```"):
             text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
         return text

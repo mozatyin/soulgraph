@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import time
 
 import anthropic
 
@@ -80,13 +81,25 @@ class Speaker:
             for m in conversation
         ]
         messages.append({"role": "user", "content": question})
-        response = self._client.messages.create(
-            model=self._model,
-            max_tokens=1024,
-            system=system,
-            messages=messages,
-        )
-        raw = response.content[0].text
+        raw = ""
+        for attempt in range(3):
+            try:
+                response = self._client.messages.create(
+                    model=self._model,
+                    max_tokens=1024,
+                    system=system,
+                    messages=messages,
+                )
+                if response.content:
+                    raw = response.content[0].text
+                    break
+            except (anthropic.APIError, anthropic.APIConnectionError):
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise
+        if not raw:
+            return "嗯...让我想想"
         # Strip markdown code blocks if present
         if raw.startswith("```"):
             raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
