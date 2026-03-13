@@ -18,6 +18,7 @@ def main() -> None:
     parser.add_argument("--hubs", type=int, default=5, help="Top-k hubs for comparison")
     parser.add_argument("--output", type=str, help="Path to save result JSON")
     parser.add_argument("--runs", type=int, default=1, help="Number of runs for multi-run averaging (default 1)")
+    parser.add_argument("--sessions", type=int, default=0, help="Number of sessions for multi-session experiment (reads session configs from fixture)")
     args = parser.parse_args()
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
@@ -45,7 +46,21 @@ def main() -> None:
             sys.exit(1)
         gt = SoulGraph.load(gt_path)
         runner = ExperimentRunner(api_key=api_key)
-        if args.runs > 1:
+        if args.sessions > 0:
+            import json as json_mod
+            fixture_data = json_mod.loads(gt_path.read_text(encoding="utf-8"))
+            session_configs = fixture_data.get("sessions", [])[:args.sessions]
+            if not session_configs:
+                print("Error: fixture has no 'sessions' field", file=sys.stderr)
+                sys.exit(1)
+            for sc in session_configs:
+                sc["turns"] = args.turns
+            print(f"Running multi-session experiment ({args.sessions} sessions, {args.turns} turns each) on {gt_path.name}...")
+            summary = runner.run_multi_session(gt, session_configs=session_configs)
+            if args.output:
+                Path(args.output).write_text(json_mod.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+                print(f"\nSummary saved to {args.output}")
+        elif args.runs > 1:
             print(f"Running multi-run experiment ({args.runs} runs, {args.turns} turns each) on {gt_path.name}...")
             import json
             summary = runner.run_multi(gt, max_turns=args.turns, hub_top_k=args.hubs, num_runs=args.runs)
