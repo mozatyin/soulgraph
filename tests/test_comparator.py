@@ -1,4 +1,8 @@
+from unittest.mock import MagicMock
+
 from soulgraph.comparator.models import HubRecall, LocalStructureSimilarity, GraphSimilarity
+from soulgraph.comparator.semantic import SemanticMatcher
+from soulgraph.graph.models import SoulItem
 
 
 class TestComparatorModels:
@@ -24,3 +28,33 @@ class TestComparatorModels:
         hr = HubRecall(ground_truth_hubs=["a"], detected_hubs=[], recall=0.0)
         gs = GraphSimilarity(hub_recall=hr, local_similarities=[])
         assert gs.overall_score == 0.0
+
+
+class TestSemanticMatcher:
+    def test_match_identical_text(self):
+        matcher = SemanticMatcher(api_key="fake")
+        assert matcher.is_match("重视家庭", "重视家庭") is True
+
+    def test_match_uses_llm(self):
+        matcher = SemanticMatcher(api_key="fake")
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text='{"is_match": true, "similarity": 0.9}')]
+        matcher._client = MagicMock()
+        matcher._client.messages.create.return_value = mock_response
+        result = matcher.is_match("重视家庭", "家庭很重要")
+        assert result is True
+        matcher._client.messages.create.assert_called_once()
+
+    def test_match_items_returns_mapping(self):
+        matcher = SemanticMatcher(api_key="fake")
+        matcher.is_match = lambda a, b: a == b
+        gt_items = [
+            SoulItem(id="gt_1", text="loves family", domains=["family"]),
+            SoulItem(id="gt_2", text="wants SUV", domains=["purchase"]),
+        ]
+        det_items = [
+            SoulItem(id="det_1", text="loves family", domains=["family"]),
+            SoulItem(id="det_3", text="likes sports", domains=["health"]),
+        ]
+        mapping = matcher.match_items(gt_items, det_items)
+        assert mapping == {"gt_1": "det_1"}
