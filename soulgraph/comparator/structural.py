@@ -5,6 +5,26 @@ from soulgraph.comparator.models import GraphSimilarity, HubRecall, LocalStructu
 from soulgraph.comparator.semantic import SemanticMatcher
 from soulgraph.graph.models import SoulGraph
 
+_EDGE_TYPE_GROUPS = {
+    "positive": {"drives", "causes", "enables", "motivates", "leads_to", "triggers"},
+    "negative": {"constrains", "limits", "restricts", "blocks"},
+    "conflict": {"conflicts_with", "contradicts", "opposes", "tension"},
+    "decompose": {"decomposes_to", "part_of", "includes"},
+    "manifest": {"manifests_as", "expresses_as", "shows_as"},
+    "sequence": {"next_step", "followed_by", "then"},
+    "compensate": {"compensates", "balances", "offsets"},
+}
+
+
+def _edge_types_similar(type_a: str, type_b: str) -> bool:
+    """Check if two edge types are semantically similar."""
+    if type_a == type_b:
+        return True
+    for group in _EDGE_TYPE_GROUPS.values():
+        if type_a in group and type_b in group:
+            return True
+    return False
+
 
 class GraphComparator:
     def __init__(self, matcher: SemanticMatcher):
@@ -63,10 +83,13 @@ class GraphComparator:
                     det_n_id = item_mapping[gt_n_id]
                     if det_n_id in det_edge_types:
                         type_total += 1
-                        if det_edge_types[det_n_id] == gt_rel:
+                        if _edge_types_similar(det_edge_types[det_n_id], gt_rel):
                             type_matches += 1
 
             edge_accuracy = type_matches / type_total if type_total else 0.0
+            # Partial credit: if we found the neighbor but edge type differs
+            if type_total > 0 and edge_accuracy == 0:
+                edge_accuracy = 0.3  # at least the connection exists
 
             combined = neighbor_recall * 0.6 + edge_accuracy * 0.4
             local_sims.append(

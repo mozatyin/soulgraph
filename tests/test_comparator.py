@@ -126,3 +126,10 @@ class TestGraphComparator:
         result = comparator.compare(gt, det, hub_top_k=2)
         assert result.hub_recall.recall == 0.0
         assert result.overall_score == 0.0
+
+    def test_edge_type_similarity(self):
+        from soulgraph.comparator.structural import _edge_types_similar
+        assert _edge_types_similar("drives", "causes") is True
+        assert _edge_types_similar("constrains", "limits") is True
+        assert _edge_types_similar("drives", "constrains") is False
+        assert _edge_types_similar("drives", "drives") is True
