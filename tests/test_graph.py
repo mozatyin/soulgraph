@@ -258,6 +258,27 @@ class TestPageRank:
         assert abs(ranks["si_001"] - ranks["si_002"]) < 0.01
 
 
+class TestSessionAwareness:
+    def test_edge_source_session_default(self):
+        edge = SoulEdge(from_id="a", to_id="b", relation="drives")
+        assert edge.source_session == 0
+
+    def test_edge_source_session_set(self):
+        edge = SoulEdge(from_id="a", to_id="b", relation="drives", source_session=2)
+        assert edge.source_session == 2
+
+    def test_mention_boost_in_pagerank(self):
+        """Items with higher mention_count should rank higher via boosted edge weight."""
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="A", domains=["x"], mention_count=5))
+        g.add_item(SoulItem(id="si_002", text="B", domains=["x"], mention_count=0))
+        g.add_item(SoulItem(id="si_003", text="C", domains=["x"], mention_count=0))
+        g.add_edge(SoulEdge(from_id="si_003", to_id="si_001", relation="drives", strength=0.5))
+        g.add_edge(SoulEdge(from_id="si_003", to_id="si_002", relation="drives", strength=0.5))
+        ranks = g.pagerank()
+        assert ranks["si_001"] > ranks["si_002"]
+
+
 class TestFixtures:
     def test_load_car_buyer(self):
         path = Path(__file__).parent.parent / "fixtures" / "car_buyer.json"

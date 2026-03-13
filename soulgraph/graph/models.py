@@ -65,6 +65,7 @@ class SoulEdge(BaseModel):
     relation: str
     strength: float = 0.5
     confidence: float = 0.5
+    source_session: int = 0
     created_at: datetime | None = None
 
     @field_validator("strength", "confidence", mode="before")
@@ -160,7 +161,7 @@ class SoulGraph(BaseModel):
             G.add_node(item.id)
         for edge in self.edges:
             if G.has_node(edge.from_id) and G.has_node(edge.to_id):
-                weight = edge.strength * (1 + 0.1 * self._mention_count(edge.from_id))
+                weight = edge.strength * (1 + 0.2 * self._mention_count(edge.to_id))
                 G.add_edge(edge.from_id, edge.to_id, weight=weight)
         return G
 
