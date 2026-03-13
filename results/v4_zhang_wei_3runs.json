@@ -1,0 +1,127 @@
+{
+  "node_recall": {
+    "mean": 0.967,
+    "std": 0.013
+  },
+  "node_precision": {
+    "mean": 0.737,
+    "std": 0.052
+  },
+  "hub_recall": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "triple_recall": {
+    "mean": 0.988,
+    "std": 0.01
+  },
+  "triple_precision": {
+    "mean": 0.514,
+    "std": 0.022
+  },
+  "triple_f1": {
+    "mean": 0.676,
+    "std": 0.018
+  },
+  "overall": {
+    "mean": 0.831,
+    "std": 0.007
+  },
+  "v4_rank_correlation": {
+    "mean": 0.6,
+    "std": 0.041
+  },
+  "v4_domain_ndcg": {
+    "mean": 0.886,
+    "std": 0.045
+  },
+  "v4_absorption_rate": {
+    "mean": 0.967,
+    "std": 0.013
+  },
+  "v4_intention_recall": {
+    "mean": 0.933,
+    "std": 0.094
+  },
+  "v4_overall": {
+    "mean": 0.826,
+    "std": 0.021
+  },
+  "num_runs": 3,
+  "raw_scores": [
+    {
+      "node_recall": 0.951,
+      "node_precision": 0.667,
+      "hub_recall": 1.0,
+      "triple_recall": 0.975,
+      "triple_precision": 0.52,
+      "triple_f1": 0.678,
+      "overall": 0.829,
+      "matched_nodes": 58,
+      "gt_nodes": 61,
+      "det_nodes": 87,
+      "gt_edges": 81,
+      "det_edges": 152
+    },
+    {
+      "node_recall": 0.984,
+      "node_precision": 0.789,
+      "hub_recall": 1.0,
+      "triple_recall": 1.0,
+      "triple_precision": 0.485,
+      "triple_f1": 0.653,
+      "overall": 0.823,
+      "matched_nodes": 60,
+      "gt_nodes": 61,
+      "det_nodes": 76,
+      "gt_edges": 81,
+      "det_edges": 167
+    },
+    {
+      "node_recall": 0.967,
+      "node_precision": 0.756,
+      "hub_recall": 1.0,
+      "triple_recall": 0.988,
+      "triple_precision": 0.537,
+      "triple_f1": 0.696,
+      "overall": 0.841,
+      "matched_nodes": 59,
+      "gt_nodes": 61,
+      "det_nodes": 78,
+      "gt_edges": 81,
+      "det_edges": 149
+    }
+  ],
+  "raw_ranking_scores": [
+    {
+      "rank_correlation": 0.564,
+      "domain_ndcg": 0.941,
+      "absorption_rate": 0.951,
+      "intention_recall": 1.0,
+      "overall": 0.842,
+      "matched_items": 58,
+      "gt_items": 61,
+      "det_items": 87
+    },
+    {
+      "rank_correlation": 0.579,
+      "domain_ndcg": 0.888,
+      "absorption_rate": 0.984,
+      "intention_recall": 0.8,
+      "overall": 0.797,
+      "matched_items": 60,
+      "gt_items": 61,
+      "det_items": 76
+    },
+    {
+      "rank_correlation": 0.657,
+      "domain_ndcg": 0.83,
+      "absorption_rate": 0.967,
+      "intention_recall": 1.0,
+      "overall": 0.839,
+      "matched_items": 59,
+      "gt_items": 61,
+      "det_items": 78
+    }
+  ]
+}

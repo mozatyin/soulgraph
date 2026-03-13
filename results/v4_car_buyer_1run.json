@@ -1,0 +1,2227 @@
+{
+  "conversation": [
+    {
+      "role": "speaker",
+      "content": "嗯...最近我同事刚买了一辆特斯拉，天天跟我们炫耀那个加速感，说什么零百加速几秒几秒的。说实话，看他开得那么爽，我心里也有点痒痒的，毕竟小时候坐过邻居家跑车，那种推背感到现在还记得呢。"
+    },
+    {
+      "role": "detector",
+      "content": "那个推背感对你来说意味着什么呢？"
+    },
+    {
+      "role": "speaker",
+      "content": "哎呀，怎么说呢...那种感觉就像是一瞬间所有烦恼都被抛在脑后了，纯粹的刺激和快感。但是现在想想，我有个5岁的女儿，她还那么小，我总不能为了自己过瘾就不顾家人安全吧？每次想到这个，心里就很纠结。"
+    },
+    {
+      "role": "detector",
+      "content": "听起来你在\"推背感带来的纯粹快感\"和\"保护家人安全\"之间感到很纠结。在这两个重要的东西中，如果你必须选择一个作为最核心的，会是哪一个呢？"
+    },
+    {
+      "role": "speaker",
+      "content": "这还用想吗？肯定是家人安全啊。说实话，我们家所有的决定都是围绕着我女儿转的，她的需求永远排第一位。虽然我心里确实还惦记着那种驾驶的快感，但是一想到如果出什么意外，我怎么对得起我妻子和女儿...那种愧疚感比任何快感都要强烈。"
+    },
+    {
+      "role": "detector",
+      "content": "你提到那种愧疚感比任何快感都要强烈，这种愧疚感在你生活中的其他方面是怎样体现的呢？"
+    },
+    {
+      "role": "speaker",
+      "content": "嗯...比如说买车这件事吧，我其实一直想要一辆SUV，主要是考虑空间大，适合全家出行。我们每年都要带女儿自驾游好几次，有时候单程就要开五六百公里呢。但是我预算只有30万以内，我老婆又比较在意车子的外观和内饰，要好看一些的...有时候我就想，是不是应该再攒攒钱，给家人更好的？"
+    },
+    {
+      "role": "detector",
+      "content": "听起来你在很多决定上都会考虑\"给家人更好的\"，这种想法背后最深层的担心是什么呢？"
+    },
+    {
+      "role": "speaker",
+      "content": "说到底...我就是担心自己做得不够好吧。我在IT行业工作，收入还算稳定，但也不是什么大富大贵的。每次看到别人家的孩子用更好的东西，或者我老婆羡慕别人的车子时，我就会想，是不是我能力不够，没能给她们更好的生活条件？"
+    },
+    {
+      "role": "detector",
+      "content": "听起来你对自己的能力有很多质疑，总是觉得做得还不够好。当你说\"能力不够\"的时候，你心里对\"够\"的标准是什么样的呢？"
+    },
+    {
+      "role": "speaker",
+      "content": "这个问题...让我想想。其实我也说不清楚什么叫'够'，可能就是希望我女儿跟其他小朋友比起来不会觉得自卑吧？像她幼儿园有些同学家里开的是宝马奔驰，我就想，如果我也能给她这样的条件就好了。但理智上我知道，30万的预算其实已经不少了，关键是要选对车，既安全又实用。"
+    },
+    {
+      "role": "detector",
+      "content": "听起来你一直在围绕着女儿的感受在做决定——不希望她自卑，想给她更好的条件。我很好奇，这种\"女儿的感受永远排第一位\"的想法，对你自己那种对推背感的渴望产生了什么样的影响？"
+    },
+    {
+      "role": "speaker",
+      "content": "唉...说实话，有时候我开车的时候，特别是在高速上，看到那些跑车嗖一下超过去，心里还是会有那么一瞬间的冲动。但马上就会想到后座上的女儿，她那么信任地坐在那里，有时候还会说\"爸爸开车最棒了\"...那一刻我就觉得，什么推背感都比不上她的这句话。可能这就是当爸爸的代价吧，把自己的一些小私心藏起来。"
+    },
+    {
+      "role": "detector",
+      "content": "听起来你把对推背感的渴望看作是需要\"藏起来的小私心\"，认为当父亲就意味着要牺牲这些个人欲望。我很好奇，如果有一种方式能让你既享受到那种驾驶的快感，又不会影响到对女儿的保护和责任，你觉得那会是什么样的？"
+    },
+    {
+      "role": "speaker",
+      "content": "这个...我还真没想过这种可能性。也许就是那种很安全但又有一定驾驶乐趣的车吧？其实我最近关注电车也有这个考虑，听同事说电车的加速很线性很顺，而且安全配置都挺高的。但我又担心续航问题，万一带家人长途旅行到一半没电了怎么办？那不是更危险吗？"
+    },
+    {
+      "role": "detector",
+      "content": "从我们的谈话中，我听到你在寻找一个平衡点——既要有驾驶乐趣，又要确保家人安全，还要考虑实用性。你提到了对电车的关注，也提到了对续航的担心。在所有这些考虑中——推背感的渴望、对女儿的保护、实用性、安全性——哪一个对你来说感觉是最核心的，最能影响你其他决定的？"
+    },
+    {
+      "role": "speaker",
+      "content": "说到底，还是对女儿的保护吧。我发现我做任何决定，最后都会回到这个问题上——这对她好吗？这会不会伤害到她？就像买车这件事，我可能会被推背感吸引，会被电车的科技感打动，但最终拍板的时候，我脑子里想的还是她坐在后座的样子。这种想法...好像已经成了我的本能了。"
+    },
+    {
+      "role": "detector",
+      "content": "听起来保护女儿这种本能已经深深融入了你的决策过程中。我很好奇，在成为父亲之前，你是怎么做决定的？那时候什么对你来说是最重要的？"
+    },
+    {
+      "role": "speaker",
+      "content": "哈，那时候多简单啊！基本上就是想要什么就买什么，只要预算够就行。我记得刚工作那几年，攒了点钱就想着要买个性能好点的车，最好是能跑得快的那种。那时候觉得人生就是要体验各种刺激嘛，工作赚钱不就是为了让自己过得爽一点？现在想想，那时候的我真是...太自私了。"
+    },
+    {
+      "role": "detector",
+      "content": "你说\"那时候的我真是...太自私了\"，但从另一个角度看，那时候你对推背感的渴望和现在其实还在，只是现在你把它看成需要压抑的东西。你觉得那个享受刺激、追求驾驶乐趣的你，和现在这个保护女儿的父亲，真的完全不能共存吗？"
+    }
+  ],
+  "ground_truth": {
+    "owner_id": "car_buyer_001",
+    "items": [
+      {
+        "id": "si_001",
+        "text": "重视家庭，家人的需求排在第一位",
+        "domains": [
+          "family",
+          "values"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.3,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879863Z",
+        "last_referenced": "2026-03-13T17:10:42.879863Z",
+        "mention_count": 5,
+        "tags": []
+      },
+      {
+        "id": "si_002",
+        "text": "想买一辆SUV，空间大适合全家出行",
+        "domains": [
+          "purchase",
+          "family"
+        ],
+        "item_type": "background",
+        "confidence": 0.8,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879894Z",
+        "last_referenced": "2026-03-13T17:10:42.879894Z",
+        "mention_count": 3,
+        "tags": []
+      },
+      {
+        "id": "si_003",
+        "text": "预算在30万以内",
+        "domains": [
+          "finance",
+          "purchase"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879901Z",
+        "last_referenced": "2026-03-13T17:10:42.879901Z",
+        "mention_count": 2,
+        "tags": []
+      },
+      {
+        "id": "si_004",
+        "text": "小时候坐过邻居的跑车，对速度有情结",
+        "domains": [
+          "experience",
+          "lifestyle"
+        ],
+        "item_type": "background",
+        "confidence": 0.7,
+        "specificity": 0.6,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879905Z",
+        "last_referenced": "2026-03-13T17:10:42.879905Z",
+        "mention_count": 1,
+        "tags": []
+      },
+      {
+        "id": "si_005",
+        "text": "对速度和驾驶快感有向往",
+        "domains": [
+          "lifestyle",
+          "values"
+        ],
+        "item_type": "background",
+        "confidence": 0.6,
+        "specificity": 0.4,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879909Z",
+        "last_referenced": "2026-03-13T17:10:42.879909Z",
+        "mention_count": 2,
+        "tags": []
+      },
+      {
+        "id": "si_006",
+        "text": "家庭安全是第一优先级，不能为了速度牺牲安全",
+        "domains": [
+          "family",
+          "values",
+          "purchase"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879913Z",
+        "last_referenced": "2026-03-13T17:10:42.879913Z",
+        "mention_count": 4,
+        "tags": []
+      },
+      {
+        "id": "si_007",
+        "text": "同事最近买了特斯拉，开始关注电车",
+        "domains": [
+          "purchase",
+          "social"
+        ],
+        "item_type": "background",
+        "confidence": 0.6,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879916Z",
+        "last_referenced": "2026-03-13T17:10:42.879916Z",
+        "mention_count": 1,
+        "tags": []
+      },
+      {
+        "id": "si_008",
+        "text": "担心电车续航不够长途自驾",
+        "domains": [
+          "purchase",
+          "concern"
+        ],
+        "item_type": "background",
+        "confidence": 0.7,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879919Z",
+        "last_referenced": "2026-03-13T17:10:42.879919Z",
+        "mention_count": 1,
+        "tags": []
+      },
+      {
+        "id": "si_009",
+        "text": "每年带家人自驾游2-3次，单程500km以上",
+        "domains": [
+          "family",
+          "lifestyle",
+          "purchase"
+        ],
+        "item_type": "background",
+        "confidence": 0.8,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879923Z",
+        "last_referenced": "2026-03-13T17:10:42.879923Z",
+        "mention_count": 2,
+        "tags": []
+      },
+      {
+        "id": "si_010",
+        "text": "妻子更在意车的外观和内饰品质",
+        "domains": [
+          "family",
+          "purchase"
+        ],
+        "item_type": "background",
+        "confidence": 0.7,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879926Z",
+        "last_referenced": "2026-03-13T17:10:42.879926Z",
+        "mention_count": 1,
+        "tags": []
+      },
+      {
+        "id": "si_011",
+        "text": "在IT行业工作，收入稳定但不算富裕",
+        "domains": [
+          "career",
+          "finance"
+        ],
+        "item_type": "background",
+        "confidence": 0.8,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879932Z",
+        "last_referenced": "2026-03-13T17:10:42.879932Z",
+        "mention_count": 1,
+        "tags": []
+      },
+      {
+        "id": "si_012",
+        "text": "有一个5岁的女儿，是所有决策的核心考量",
+        "domains": [
+          "family"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:42.879935Z",
+        "last_referenced": "2026-03-13T17:10:42.879935Z",
+        "mention_count": 3,
+        "tags": []
+      }
+    ],
+    "edges": [
+      {
+        "from_id": "si_001",
+        "to_id": "si_002",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:10:42.879942Z"
+      },
+      {
+        "from_id": "si_003",
+        "to_id": "si_002",
+        "relation": "constrains",
+        "strength": 0.7,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:10:42.879951Z"
+      },
+      {
+        "from_id": "si_004",
+        "to_id": "si_005",
+        "relation": "causes",
+        "strength": 0.7,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T17:10:42.879953Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_006",
+        "relation": "conflicts_with",
+        "strength": 0.6,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:10:42.879955Z"
+      },
+      {
+        "from_id": "si_007",
+        "to_id": "si_008",
+        "relation": "enables",
+        "strength": 0.5,
+        "confidence": 0.6,
+        "created_at": "2026-03-13T17:10:42.879957Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_009",
+        "relation": "conflicts_with",
+        "strength": 0.6,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T17:10:42.879959Z"
+      },
+      {
+        "from_id": "si_009",
+        "to_id": "si_002",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:10:42.879960Z"
+      },
+      {
+        "from_id": "si_010",
+        "to_id": "si_002",
+        "relation": "constrains",
+        "strength": 0.5,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T17:10:42.879962Z"
+      },
+      {
+        "from_id": "si_011",
+        "to_id": "si_003",
+        "relation": "causes",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:10:42.879964Z"
+      },
+      {
+        "from_id": "si_012",
+        "to_id": "si_001",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:10:42.879966Z"
+      },
+      {
+        "from_id": "si_012",
+        "to_id": "si_006",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:10:42.879968Z"
+      },
+      {
+        "from_id": "si_001",
+        "to_id": "si_006",
+        "relation": "enables",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:10:42.879969Z"
+      },
+      {
+        "from_id": "si_006",
+        "to_id": "si_005",
+        "relation": "constrains",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:10:42.879971Z"
+      }
+    ]
+  },
+  "detected_graph": {
+    "owner_id": "unknown",
+    "items": [
+      {
+        "id": "si_001",
+        "text": "同事刚买了一辆特斯拉",
+        "domains": [
+          "relationships",
+          "consumption"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:59.990213Z",
+        "last_referenced": "2026-03-13T17:10:59.990213Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_002",
+        "text": "同事天天炫耀特斯拉的加速感",
+        "domains": [
+          "relationships",
+          "social"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:59.990248Z",
+        "last_referenced": "2026-03-13T17:10:59.990248Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "behavior",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_003",
+        "text": "对特斯拉的加速性能感到心动",
+        "domains": [
+          "consumption",
+          "desires"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:59.990258Z",
+        "last_referenced": "2026-03-13T17:10:59.990258Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "preference"
+        ]
+      },
+      {
+        "id": "si_004",
+        "text": "小时候坐过邻居家跑车",
+        "domains": [
+          "relationships",
+          "experiences"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:59.990264Z",
+        "last_referenced": "2026-03-13T17:10:59.990264Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "fact",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_005",
+        "text": "至今记得跑车的推背感体验",
+        "domains": [
+          "experiences",
+          "sensations"
+        ],
+        "item_type": "background",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:10:59.990270Z",
+        "last_referenced": "2026-03-13T17:14:46.311285Z",
+        "mention_count": 4,
+        "tags": [
+          "memory",
+          "emotion",
+          "preference"
+        ]
+      },
+      {
+        "id": "si_006",
+        "text": "推背感让一瞬间所有烦恼都被抛在脑后",
+        "domains": [
+          "experiences",
+          "emotions"
+        ],
+        "item_type": "cognitive",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:25.449905Z",
+        "last_referenced": "2026-03-13T17:11:47.475604Z",
+        "mention_count": 1,
+        "tags": [
+          "emotion",
+          "preference",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_008",
+        "text": "有一个5岁的女儿",
+        "domains": [
+          "relationships",
+          "family"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:25.450070Z",
+        "last_referenced": "2026-03-13T17:11:25.450070Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_009",
+        "text": "认为女儿还很小需要保护",
+        "domains": [
+          "family",
+          "beliefs"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:25.450085Z",
+        "last_referenced": "2026-03-13T17:11:25.450085Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "emotion",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_010",
+        "text": "不能为了自己过瘾而不顾家人安全",
+        "domains": [
+          "family",
+          "values"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:25.450097Z",
+        "last_referenced": "2026-03-13T17:11:25.450097Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "intention"
+        ]
+      },
+      {
+        "id": "si_011",
+        "text": "在个人欲望和家庭责任之间感到纠结",
+        "domains": [
+          "emotions",
+          "conflicts"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:25.450107Z",
+        "last_referenced": "2026-03-13T17:11:25.450107Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_012",
+        "text": "家庭决定都围绕女儿的需求制定",
+        "domains": [
+          "family",
+          "decision_making"
+        ],
+        "item_type": "background",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:47.475464Z",
+        "last_referenced": "2026-03-13T17:14:20.683583Z",
+        "mention_count": 1,
+        "tags": [
+          "fact",
+          "behavior",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_013",
+        "text": "女儿的需求永远排第一位",
+        "domains": [
+          "family",
+          "values"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:47.475532Z",
+        "last_referenced": "2026-03-13T17:11:47.475532Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "preference",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_015",
+        "text": "有一个妻子",
+        "domains": [
+          "relationships",
+          "family"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:47.475582Z",
+        "last_referenced": "2026-03-13T17:11:47.475582Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_016",
+        "text": "担心意外发生时无法面对妻子和女儿",
+        "domains": [
+          "emotions",
+          "family"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:11:47.475594Z",
+        "last_referenced": "2026-03-13T17:11:47.475594Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_017",
+        "text": "一直想要一辆SUV",
+        "domains": [
+          "consumption",
+          "desires"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027382Z",
+        "last_referenced": "2026-03-13T17:12:11.027382Z",
+        "mention_count": 0,
+        "tags": [
+          "preference",
+          "intention"
+        ]
+      },
+      {
+        "id": "si_018",
+        "text": "选择SUV主要考虑空间大适合全家出行",
+        "domains": [
+          "family",
+          "decision_making"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027660Z",
+        "last_referenced": "2026-03-13T17:12:11.027660Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "preference",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_019",
+        "text": "每年带女儿自驾游好几次",
+        "domains": [
+          "family",
+          "activities"
+        ],
+        "item_type": "background",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027711Z",
+        "last_referenced": "2026-03-13T17:12:58.249587Z",
+        "mention_count": 1,
+        "tags": [
+          "fact",
+          "behavior",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_020",
+        "text": "自驾游单程要开五六百公里",
+        "domains": [
+          "activities",
+          "experiences"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027735Z",
+        "last_referenced": "2026-03-13T17:12:11.027735Z",
+        "mention_count": 0,
+        "tags": [
+          "fact"
+        ]
+      },
+      {
+        "id": "si_021",
+        "text": "买车预算只有30万以内",
+        "domains": [
+          "consumption",
+          "finances"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027752Z",
+        "last_referenced": "2026-03-13T17:12:11.027752Z",
+        "mention_count": 0,
+        "tags": [
+          "fact"
+        ]
+      },
+      {
+        "id": "si_022",
+        "text": "妻子比较在意车子的外观和内饰要好看",
+        "domains": [
+          "relationships",
+          "preferences"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027771Z",
+        "last_referenced": "2026-03-13T17:12:11.027771Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "relationship",
+          "preference"
+        ]
+      },
+      {
+        "id": "si_023",
+        "text": "想是否应该再攒钱给家人更好的",
+        "domains": [
+          "family",
+          "finances"
+        ],
+        "item_type": "cognitive",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:11.027788Z",
+        "last_referenced": "2026-03-13T17:13:56.022569Z",
+        "mention_count": 2,
+        "tags": [
+          "intention",
+          "belief",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_024",
+        "text": "担心自己做得不够好",
+        "domains": [
+          "emotions",
+          "self_perception"
+        ],
+        "item_type": "cognitive",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:32.885674Z",
+        "last_referenced": "2026-03-13T17:13:56.023042Z",
+        "mention_count": 1,
+        "tags": [
+          "emotion",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_025",
+        "text": "在IT行业工作",
+        "domains": [
+          "work",
+          "background"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:32.885759Z",
+        "last_referenced": "2026-03-13T17:12:32.885759Z",
+        "mention_count": 0,
+        "tags": [
+          "fact"
+        ]
+      },
+      {
+        "id": "si_026",
+        "text": "收入还算稳定但不是大富大贵",
+        "domains": [
+          "finances",
+          "self_perception"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:32.885785Z",
+        "last_referenced": "2026-03-13T17:12:32.885785Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_027",
+        "text": "看到别人家孩子用更好的东西会产生比较心理",
+        "domains": [
+          "emotions",
+          "social"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:32.885797Z",
+        "last_referenced": "2026-03-13T17:12:32.885797Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "behavior"
+        ]
+      },
+      {
+        "id": "si_028",
+        "text": "看到妻子羡慕别人的车子会感到不安",
+        "domains": [
+          "emotions",
+          "relationships"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:32.885809Z",
+        "last_referenced": "2026-03-13T17:12:32.885809Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_029",
+        "text": "质疑自己能力不够",
+        "domains": [
+          "self_perception",
+          "emotions"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:32.885820Z",
+        "last_referenced": "2026-03-13T17:12:32.885820Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "emotion"
+        ]
+      },
+      {
+        "id": "si_030",
+        "text": "对'够好'的标准感到困惑和模糊",
+        "domains": [
+          "self_perception",
+          "emotions"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:58.249491Z",
+        "last_referenced": "2026-03-13T17:12:58.249491Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_031",
+        "text": "希望女儿不会因为家庭条件而感到自卑",
+        "domains": [
+          "family",
+          "emotions"
+        ],
+        "item_type": "cognitive",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:58.249561Z",
+        "last_referenced": "2026-03-13T17:13:27.057095Z",
+        "mention_count": 1,
+        "tags": [
+          "intention",
+          "emotion",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_033",
+        "text": "女儿幼儿园同学家里有开宝马奔驰的",
+        "domains": [
+          "social",
+          "comparison"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:58.249605Z",
+        "last_referenced": "2026-03-13T17:12:58.249605Z",
+        "mention_count": 0,
+        "tags": [
+          "fact"
+        ]
+      },
+      {
+        "id": "si_035",
+        "text": "理智上认为30万预算已经不少",
+        "domains": [
+          "finances",
+          "self_perception"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:58.249636Z",
+        "last_referenced": "2026-03-13T17:12:58.249636Z",
+        "mention_count": 0,
+        "tags": [
+          "belief"
+        ]
+      },
+      {
+        "id": "si_036",
+        "text": "认为选车的关键是安全和实用",
+        "domains": [
+          "decision_making",
+          "values"
+        ],
+        "item_type": "cognitive",
+        "confidence": 1.0,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:12:58.249648Z",
+        "last_referenced": "2026-03-13T17:13:56.022631Z",
+        "mention_count": 1,
+        "tags": [
+          "belief",
+          "preference"
+        ]
+      },
+      {
+        "id": "si_037",
+        "text": "开车时在高速上看到跑车超车会产生冲动",
+        "domains": [
+          "experiences",
+          "emotions"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:27.057004Z",
+        "last_referenced": "2026-03-13T17:13:27.057004Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "emotion",
+          "behavior"
+        ]
+      },
+      {
+        "id": "si_038",
+        "text": "女儿坐在后座时会信任地依赖父亲",
+        "domains": [
+          "relationships",
+          "family"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:27.057070Z",
+        "last_referenced": "2026-03-13T17:13:27.057070Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "relationship",
+          "emotion"
+        ]
+      },
+      {
+        "id": "si_040",
+        "text": "女儿的夸奖比推背感更重要",
+        "domains": [
+          "family",
+          "values"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:27.057107Z",
+        "last_referenced": "2026-03-13T17:13:27.057107Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "preference",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_041",
+        "text": "认为当父亲需要牺牲个人欲望",
+        "domains": [
+          "family",
+          "beliefs"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:27.057119Z",
+        "last_referenced": "2026-03-13T17:13:27.057119Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "emotion"
+        ]
+      },
+      {
+        "id": "si_042",
+        "text": "把对推背感的渴望视为需要隐藏的小私心",
+        "domains": [
+          "emotions",
+          "self_perception"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:27.057131Z",
+        "last_referenced": "2026-03-13T17:13:27.057131Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "emotion"
+        ]
+      },
+      {
+        "id": "si_045",
+        "text": "最近在关注电车",
+        "domains": [
+          "consumption",
+          "research"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:56.022892Z",
+        "last_referenced": "2026-03-13T17:13:56.022892Z",
+        "mention_count": 0,
+        "tags": [
+          "fact",
+          "behavior"
+        ]
+      },
+      {
+        "id": "si_046",
+        "text": "听说电车加速很线性很顺",
+        "domains": [
+          "consumption",
+          "knowledge"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:56.022988Z",
+        "last_referenced": "2026-03-13T17:13:56.022988Z",
+        "mention_count": 0,
+        "tags": [
+          "fact"
+        ]
+      },
+      {
+        "id": "si_047",
+        "text": "了解到电车安全配置都挺高的",
+        "domains": [
+          "consumption",
+          "safety"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:56.023015Z",
+        "last_referenced": "2026-03-13T17:13:56.023015Z",
+        "mention_count": 0,
+        "tags": [
+          "fact"
+        ]
+      },
+      {
+        "id": "si_049",
+        "text": "担心长途旅行时电车没电会造成危险",
+        "domains": [
+          "family",
+          "safety"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:13:56.023060Z",
+        "last_referenced": "2026-03-13T17:13:56.023060Z",
+        "mention_count": 0,
+        "tags": [
+          "emotion",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_051",
+        "text": "决策过程中会问自己'这对她好吗？这会不会伤害到她？'",
+        "domains": [
+          "family",
+          "decision_making"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:20.683791Z",
+        "last_referenced": "2026-03-13T17:14:20.683791Z",
+        "mention_count": 0,
+        "tags": [
+          "behavior",
+          "belief",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_052",
+        "text": "会被电车的科技感打动",
+        "domains": [
+          "consumption",
+          "preferences"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:20.683835Z",
+        "last_referenced": "2026-03-13T17:14:20.683835Z",
+        "mention_count": 0,
+        "tags": [
+          "preference",
+          "emotion"
+        ]
+      },
+      {
+        "id": "si_053",
+        "text": "最终拍板时脑子里想的是女儿坐在后座的样子",
+        "domains": [
+          "family",
+          "decision_making"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:20.683861Z",
+        "last_referenced": "2026-03-13T17:14:20.683861Z",
+        "mention_count": 0,
+        "tags": [
+          "behavior",
+          "emotion",
+          "relationship",
+          "memory"
+        ]
+      },
+      {
+        "id": "si_054",
+        "text": "保护女儿的想法已经成为本能",
+        "domains": [
+          "family",
+          "psychology"
+        ],
+        "item_type": "cognitive",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:20.683875Z",
+        "last_referenced": "2026-03-13T17:14:20.683875Z",
+        "mention_count": 0,
+        "tags": [
+          "belief",
+          "emotion",
+          "relationship"
+        ]
+      },
+      {
+        "id": "si_055",
+        "text": "成为父亲之前决策很简单，想要什么就买什么",
+        "domains": [
+          "decision_making",
+          "past_self"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:46.311133Z",
+        "last_referenced": "2026-03-13T17:14:46.311133Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "behavior",
+          "fact"
+        ]
+      },
+      {
+        "id": "si_056",
+        "text": "以前的决策标准只是预算够就行",
+        "domains": [
+          "decision_making",
+          "past_self"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:46.311207Z",
+        "last_referenced": "2026-03-13T17:14:46.311207Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "behavior",
+          "belief"
+        ]
+      },
+      {
+        "id": "si_057",
+        "text": "刚工作那几年攒钱想买性能好的车",
+        "domains": [
+          "consumption",
+          "past_self"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:46.311229Z",
+        "last_referenced": "2026-03-13T17:14:46.311229Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "fact",
+          "preference"
+        ]
+      },
+      {
+        "id": "si_058",
+        "text": "以前希望车子能跑得快",
+        "domains": [
+          "consumption",
+          "preferences"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:46.311243Z",
+        "last_referenced": "2026-03-13T17:14:46.311243Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "preference",
+          "fact"
+        ]
+      },
+      {
+        "id": "si_059",
+        "text": "以前认为人生就是要体验各种刺激",
+        "domains": [
+          "values",
+          "past_self"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:46.311256Z",
+        "last_referenced": "2026-03-13T17:14:46.311256Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "belief",
+          "preference"
+        ]
+      },
+      {
+        "id": "si_060",
+        "text": "以前认为工作赚钱就是为了让自己过得爽",
+        "domains": [
+          "values",
+          "work"
+        ],
+        "item_type": "background",
+        "confidence": 0.9,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T17:14:46.311268Z",
+        "last_referenced": "2026-03-13T17:14:46.311268Z",
+        "mention_count": 0,
+        "tags": [
+          "memory",
+          "belief",
+          "intention"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from_id": "si_002",
+        "to_id": "si_003",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:10:59.990296Z"
+      },
+      {
+        "from_id": "si_004",
+        "to_id": "si_005",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:10:59.990305Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_003",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:10:59.990310Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_006",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:25.450138Z"
+      },
+      {
+        "from_id": "si_006",
+        "to_id": "si_005",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:11:25.450145Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_009",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:25.450150Z"
+      },
+      {
+        "from_id": "si_009",
+        "to_id": "si_010",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:25.450153Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_010",
+        "relation": "conflicts_with",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:25.450157Z"
+      },
+      {
+        "from_id": "si_010",
+        "to_id": "si_011",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:25.450160Z"
+      },
+      {
+        "from_id": "si_003",
+        "to_id": "si_011",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:11:25.450163Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_012",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475697Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_013",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475706Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_012",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475710Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_011",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:11:47.475714Z"
+      },
+      {
+        "from_id": "si_015",
+        "to_id": "si_016",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475718Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_016",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475722Z"
+      },
+      {
+        "from_id": "si_016",
+        "to_id": "si_006",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475726Z"
+      },
+      {
+        "from_id": "si_006",
+        "to_id": "si_013",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475729Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_006",
+        "relation": "conflicts_with",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:11:47.475733Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_017",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028117Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_018",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028165Z"
+      },
+      {
+        "from_id": "si_018",
+        "to_id": "si_017",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028177Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_019",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028188Z"
+      },
+      {
+        "from_id": "si_019",
+        "to_id": "si_020",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028197Z"
+      },
+      {
+        "from_id": "si_021",
+        "to_id": "si_017",
+        "relation": "constrains",
+        "strength": 0.7,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028205Z"
+      },
+      {
+        "from_id": "si_022",
+        "to_id": "si_017",
+        "relation": "constrains",
+        "strength": 0.6,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:11.028224Z"
+      },
+      {
+        "from_id": "si_015",
+        "to_id": "si_022",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028233Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_023",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:11.028241Z"
+      },
+      {
+        "from_id": "si_021",
+        "to_id": "si_023",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:11.028249Z"
+      },
+      {
+        "from_id": "si_022",
+        "to_id": "si_023",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:11.028258Z"
+      },
+      {
+        "from_id": "si_026",
+        "to_id": "si_024",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885911Z"
+      },
+      {
+        "from_id": "si_027",
+        "to_id": "si_029",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885920Z"
+      },
+      {
+        "from_id": "si_028",
+        "to_id": "si_029",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885925Z"
+      },
+      {
+        "from_id": "si_029",
+        "to_id": "si_023",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885929Z"
+      },
+      {
+        "from_id": "si_023",
+        "to_id": "si_024",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885934Z"
+      },
+      {
+        "from_id": "si_024",
+        "to_id": "si_023",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885938Z"
+      },
+      {
+        "from_id": "si_015",
+        "to_id": "si_028",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:32.885941Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_027",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:32.885945Z"
+      },
+      {
+        "from_id": "si_029",
+        "to_id": "si_030",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249714Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_031",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249724Z"
+      },
+      {
+        "from_id": "si_027",
+        "to_id": "si_031",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:58.249728Z"
+      },
+      {
+        "from_id": "si_033",
+        "to_id": "si_005",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249741Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_031",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249746Z"
+      },
+      {
+        "from_id": "si_035",
+        "to_id": "si_005",
+        "relation": "conflicts_with",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:58.249750Z"
+      },
+      {
+        "from_id": "si_021",
+        "to_id": "si_035",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249754Z"
+      },
+      {
+        "from_id": "si_010",
+        "to_id": "si_036",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249758Z"
+      },
+      {
+        "from_id": "si_035",
+        "to_id": "si_036",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:12:58.249761Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_019",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:12:58.249765Z"
+      },
+      {
+        "from_id": "si_037",
+        "to_id": "si_005",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057193Z"
+      },
+      {
+        "from_id": "si_037",
+        "to_id": "si_038",
+        "relation": "conflicts_with",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057207Z"
+      },
+      {
+        "from_id": "si_038",
+        "to_id": "si_031",
+        "relation": "enables",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:27.057212Z"
+      },
+      {
+        "from_id": "si_031",
+        "to_id": "si_040",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057217Z"
+      },
+      {
+        "from_id": "si_040",
+        "to_id": "si_005",
+        "relation": "constrains",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057221Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_041",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057226Z"
+      },
+      {
+        "from_id": "si_041",
+        "to_id": "si_042",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057230Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_042",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:27.057234Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_040",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:27.057237Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_041",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:27.057241Z"
+      },
+      {
+        "from_id": "si_042",
+        "to_id": "si_023",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:56.023441Z"
+      },
+      {
+        "from_id": "si_036",
+        "to_id": "si_036",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:56.023512Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_036",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:56.023525Z"
+      },
+      {
+        "from_id": "si_036",
+        "to_id": "si_045",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:56.023536Z"
+      },
+      {
+        "from_id": "si_046",
+        "to_id": "si_005",
+        "relation": "enables",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:56.023608Z"
+      },
+      {
+        "from_id": "si_047",
+        "to_id": "si_036",
+        "relation": "enables",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:56.023619Z"
+      },
+      {
+        "from_id": "si_019",
+        "to_id": "si_024",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:56.023629Z"
+      },
+      {
+        "from_id": "si_024",
+        "to_id": "si_049",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:56.023640Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_049",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:13:56.023649Z"
+      },
+      {
+        "from_id": "si_049",
+        "to_id": "si_045",
+        "relation": "constrains",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:13:56.023658Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_012",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.683969Z"
+      },
+      {
+        "from_id": "si_012",
+        "to_id": "si_051",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.683980Z"
+      },
+      {
+        "from_id": "si_045",
+        "to_id": "si_052",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.683985Z"
+      },
+      {
+        "from_id": "si_051",
+        "to_id": "si_053",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.683990Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_054",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.683994Z"
+      },
+      {
+        "from_id": "si_054",
+        "to_id": "si_012",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.683999Z"
+      },
+      {
+        "from_id": "si_003",
+        "to_id": "si_053",
+        "relation": "constrains",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:14:20.684003Z"
+      },
+      {
+        "from_id": "si_052",
+        "to_id": "si_053",
+        "relation": "constrains",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:14:20.684007Z"
+      },
+      {
+        "from_id": "si_012",
+        "to_id": "si_036",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:20.684011Z"
+      },
+      {
+        "from_id": "si_038",
+        "to_id": "si_053",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:14:20.684016Z"
+      },
+      {
+        "from_id": "si_055",
+        "to_id": "si_056",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311307Z"
+      },
+      {
+        "from_id": "si_057",
+        "to_id": "si_058",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311317Z"
+      },
+      {
+        "from_id": "si_059",
+        "to_id": "si_057",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311322Z"
+      },
+      {
+        "from_id": "si_059",
+        "to_id": "si_058",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311327Z"
+      },
+      {
+        "from_id": "si_060",
+        "to_id": "si_055",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311331Z"
+      },
+      {
+        "from_id": "si_058",
+        "to_id": "si_005",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:14:46.311336Z"
+      },
+      {
+        "from_id": "si_054",
+        "to_id": "si_005",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311341Z"
+      },
+      {
+        "from_id": "si_055",
+        "to_id": "si_012",
+        "relation": "conflicts_with",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311345Z"
+      },
+      {
+        "from_id": "si_060",
+        "to_id": "si_013",
+        "relation": "conflicts_with",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T17:14:46.311350Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_041",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T17:14:46.311357Z"
+      }
+    ]
+  },
+  "similarity": {
+    "hub_recall": {
+      "ground_truth_hubs": [
+        "si_001",
+        "si_006",
+        "si_002",
+        "si_005",
+        "si_012"
+      ],
+      "detected_hubs": [
+        "si_013",
+        "si_010",
+        "si_017",
+        "si_005",
+        "si_008"
+      ],
+      "recall": 1.0,
+      "semantic_threshold": 0.8
+    },
+    "local_similarities": [
+      {
+        "hub_id": "si_001",
+        "neighbor_recall": 0.3333333333333333,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 0.6
+      },
+      {
+        "hub_id": "si_006",
+        "neighbor_recall": 0.3333333333333333,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 0.6
+      },
+      {
+        "hub_id": "si_002",
+        "neighbor_recall": 0.5,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 0.7
+      },
+      {
+        "hub_id": "si_005",
+        "neighbor_recall": 1.0,
+        "edge_type_accuracy": 0.5,
+        "combined_score": 0.8
+      },
+      {
+        "hub_id": "si_012",
+        "neighbor_recall": 0.5,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 0.7
+      }
+    ],
+    "overall_score": 0.808
+  },
+  "turns": 10,
+  "embedding_scores": {
+    "node_recall": 1.0,
+    "node_precision": 0.235,
+    "hub_recall": 1.0,
+    "triple_recall": 1.0,
+    "triple_precision": 0.148,
+    "triple_f1": 0.257,
+    "overall": 0.629,
+    "matched_nodes": 12,
+    "gt_nodes": 12,
+    "det_nodes": 51,
+    "gt_edges": 13,
+    "det_edges": 88
+  },
+  "ranking_scores": {
+    "rank_correlation": 0.807,
+    "domain_ndcg": 0.896,
+    "absorption_rate": 1.0,
+    "intention_recall": 1.0,
+    "overall": 0.911,
+    "matched_items": 12,
+    "gt_items": 12,
+    "det_items": 51
+  }
+}
