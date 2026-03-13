@@ -6,13 +6,14 @@ from soulgraph.comparator.semantic import SemanticMatcher
 from soulgraph.graph.models import SoulGraph
 
 _EDGE_TYPE_GROUPS = {
-    "positive": {"drives", "causes", "enables", "motivates", "leads_to", "triggers"},
-    "negative": {"constrains", "limits", "restricts", "blocks"},
-    "conflict": {"conflicts_with", "contradicts", "opposes", "tension"},
-    "decompose": {"decomposes_to", "part_of", "includes"},
-    "manifest": {"manifests_as", "expresses_as", "shows_as"},
-    "sequence": {"next_step", "followed_by", "then"},
-    "compensate": {"compensates", "balances", "offsets"},
+    "positive": {"drives", "causes", "enables", "motivates", "leads_to", "triggers", "supports"},
+    "negative": {"constrains", "limits", "restricts", "blocks", "hinders"},
+    "conflict": {"conflicts_with", "contradicts", "opposes", "tension", "clashes_with"},
+    "decompose": {"decomposes_to", "part_of", "includes", "contains"},
+    "manifest": {"manifests_as", "expresses_as", "shows_as", "reflects"},
+    "sequence": {"next_step", "followed_by", "then", "precedes"},
+    "compensate": {"compensates", "balances", "offsets", "mitigates"},
+    "relate": {"relates_to", "connects_to", "associated_with", "linked_to"},
 }
 
 

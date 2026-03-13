@@ -96,6 +96,39 @@ class SoulGraph(BaseModel):
                 edge.strength = _clamp(edge.strength + delta)
                 return
 
+    def merge_items(self, keep_id: str, remove_id: str) -> None:
+        """Merge remove_id into keep_id: rewire edges and drop the duplicate."""
+        keep = next((i for i in self.items if i.id == keep_id), None)
+        remove = next((i for i in self.items if i.id == remove_id), None)
+        if not keep or not remove:
+            return
+        # Boost kept item
+        keep.confidence = _clamp(max(keep.confidence, remove.confidence))
+        keep.mention_count += remove.mention_count
+        # Merge domains
+        for d in remove.domains:
+            if d not in keep.domains:
+                keep.domains.append(d)
+        # Rewire edges
+        for edge in self.edges:
+            if edge.from_id == remove_id:
+                edge.from_id = keep_id
+            if edge.to_id == remove_id:
+                edge.to_id = keep_id
+        # Remove self-loops created by merge
+        self.edges = [e for e in self.edges if e.from_id != e.to_id]
+        # Remove duplicate edges (same from/to/relation)
+        seen: set[tuple[str, str, str]] = set()
+        deduped: list[SoulEdge] = []
+        for e in self.edges:
+            key = (e.from_id, e.to_id, e.relation)
+            if key not in seen:
+                seen.add(key)
+                deduped.append(e)
+        self.edges = deduped
+        # Remove the merged item
+        self.items = [i for i in self.items if i.id != remove_id]
+
     def get_hubs(self, top_k: int = 5) -> list[SoulItem]:
         edge_count: dict[str, int] = {}
         for edge in self.edges:

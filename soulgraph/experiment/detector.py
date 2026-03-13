@@ -8,6 +8,22 @@ import anthropic
 from soulgraph.experiment.models import Message
 from soulgraph.graph.models import SoulEdge, SoulGraph, SoulItem
 
+_CONSOLIDATE_PROMPT = """\
+You are deduplicating a list of soul items extracted from conversation. \
+Find items that describe the SAME underlying concept and should be merged.
+
+## Items
+{items_json}
+
+Return JSON:
+{{"merges": [{{"keep_id": "<id to keep>", "remove_id": "<id to merge into keep>"}}]}}
+
+Rules:
+- Only merge items that are truly about the same concept (not just related)
+- Keep the item with higher confidence or more specific text
+- If no duplicates exist, return {{"merges": []}}
+"""
+
 _DETECT_SYSTEM = """\
 You are a soul graph detector. You analyze conversation to extract the speaker's \
 inner world as a graph of soul items and their relationships.
@@ -22,8 +38,16 @@ inner world as a graph of soul items and their relationships.
 4. Each item should be distinct — do NOT create near-duplicates of existing items.
 5. Before adding a new item, check if an existing item already covers the same concept. \
 If so, add its ID to strengthen_ids instead.
-6. Relationships: causes, enables, compensates, manifests_as, drives, conflicts_with, \
-decomposes_to, next_step.
+6. Relationships MUST be one of these exact types:
+   - drives (A motivates/causes/leads to B)
+   - enables (A makes B possible/supports B)
+   - constrains (A limits/restricts/blocks B)
+   - conflicts_with (A contradicts/opposes B, internal tension)
+   - manifests_as (A expresses itself as B)
+   - decomposes_to (A breaks down into B, part-whole)
+   - compensates (A balances/offsets B)
+   - next_step (A leads to B sequentially)
+   Do NOT invent other relationship types. Choose the closest match from the list above.
 7. Assign confidence based on how explicitly the speaker expressed this (0.9 = stated directly, \
 0.5 = implied, 0.3 = weak inference).
 
@@ -39,20 +63,31 @@ IMPORTANT: Only return items with confidence >= 0.4. Max 3-5 new items per extra
 
 _QUESTION_SYSTEM = """\
 You are a skilled listener building a deep understanding of someone through conversation. \
-Based on what you've learned so far, ask the most valuable next question.
+You use motivational interviewing techniques: reflect back understanding, elicit discrepancy, \
+and explore connections between what someone values and how they act.
 
 ## What You Know So Far
 {current_graph_json}
 
-## Strategy
-1. If graph is empty or sparse: ask broad, warm questions to build rapport.
-2. If graph has items but few connections: explore relationships between known items.
-3. If graph has clusters: probe gaps between clusters or unexplored domains.
-4. Always ask naturally — like a curious, empathetic friend.
-5. One question only. Specific, not generic. Open-ended (not yes/no).
-6. Respond in the same language as the conversation.
+## Strategy (choose based on graph state)
+1. **Empty/sparse graph (0-3 items)**: Ask a broad, warm opening question. Build rapport.
+2. **Growing graph (4-7 items)**: Use REFLECTIVE SUMMARY + QUESTION. Summarize 2-3 things \
+you've noticed about them, then ask about the connection between two items. \
+Example: "听起来你一方面...另一方面...这两者之间是什么样的关系？"
+3. **Rich graph (8+ items)**: Look for MISSING CONNECTIONS. If two items seem related but \
+have no edge, ask directly about how they connect. Also look for UNEXPLORED DOMAINS \
+(items mentioned once with no connections).
+4. **Key technique — ELICIT DISCREPANCY**: When you see potential conflicts (e.g., wanting X \
+but fearing Y), reflect both sides back and ask the person to elaborate on the tension.
 
-Return ONLY the question text, nothing else.
+## Rules
+- One question only. Open-ended (not yes/no).
+- When graph has 4+ items, ALWAYS start with a brief reflection of what you understand \
+before asking the question. This validates the speaker and often triggers deeper disclosure.
+- Ask about CONNECTIONS between items, not just new topics.
+- Respond in the same language as the conversation.
+
+Return ONLY the question text (with optional reflection prefix), nothing else.
 """
 
 
@@ -77,6 +112,9 @@ class Detector:
         )
         raw = response.content[0].text
         self._apply_detection(raw)
+        # Consolidate if graph is getting large
+        if len(self.detected_graph.items) >= 8:
+            self._consolidate()
         return self.detected_graph
 
     def ask_next_question(self, conversation: list[Message]) -> str:
@@ -142,3 +180,38 @@ class Detector:
             )
         for sid in data.get("strengthen_ids", []):
             self.detected_graph.strengthen(sid, 0.1)
+
+    def _consolidate(self) -> None:
+        """Merge near-duplicate items using LLM."""
+        if len(self.detected_graph.items) < 6:
+            return
+        items_json = json.dumps(
+            [{"id": i.id, "text": i.text, "confidence": i.confidence} for i in self.detected_graph.items],
+            ensure_ascii=False,
+            indent=2,
+        )
+        prompt = _CONSOLIDATE_PROMPT.format(items_json=items_json)
+        response = self._client.messages.create(
+            model=self._model,
+            max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = response.content[0].text
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            start = raw.find("{")
+            last = raw.rfind("}")
+            if start == -1 or last == -1:
+                return
+            try:
+                data = json.loads(raw[start : last + 1])
+            except json.JSONDecodeError:
+                return
+        for merge in data.get("merges", []):
+            keep_id = merge.get("keep_id", "")
+            remove_id = merge.get("remove_id", "")
+            if keep_id and remove_id and keep_id != remove_id:
+                self.detected_graph.merge_items(keep_id, remove_id)
