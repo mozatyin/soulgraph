@@ -68,7 +68,8 @@ def _print_result(result) -> None:
     print(f"Overall Score:  {result.similarity.overall_score:.2f}")
     print(f"\n--- Detected Items ---")
     for item in result.detected_graph.items:
-        print(f"  {item.id}: {item.text[:60]}  conf={item.confidence:.1f}  domains={item.domains}")
+        type_tag = f"[{item.item_type.value}]" if hasattr(item, 'item_type') else ""
+        print(f"  {item.id}: {item.text[:55]}  {type_tag} conf={item.confidence:.1f}  domains={item.domains}")
     print(f"\n--- Conversation (last 4 messages) ---")
     for msg in result.conversation[-4:]:
         role = "Speaker" if msg.role == "speaker" else "Detector"

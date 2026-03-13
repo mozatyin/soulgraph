@@ -3,9 +3,17 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from enum import Enum
 from typing import Self
 
 from pydantic import BaseModel, field_validator, model_validator
+
+
+class ItemType(str, Enum):
+    """Type of soul item — determines how it appears in the star map."""
+    COGNITIVE = "cognitive"    # Self-understanding intention (认知型)
+    ACTION = "action"          # Real-world action intention (行动型)
+    BACKGROUND = "background"  # Background fact, value, or context
 
 
 def _clamp(v: float) -> float:
@@ -22,6 +30,7 @@ class SoulItem(BaseModel):
     id: str
     text: str
     domains: list[str]
+    item_type: ItemType = ItemType.BACKGROUND
     confidence: float = 0.5
     specificity: float = 0.5
     source_turn: int = 0

@@ -6,7 +6,7 @@ import json
 import anthropic
 
 from soulgraph.experiment.models import Message
-from soulgraph.graph.models import SoulEdge, SoulGraph, SoulItem
+from soulgraph.graph.models import ItemType, SoulEdge, SoulGraph, SoulItem
 
 _CONSOLIDATE_PROMPT = """\
 You are deduplicating a list of soul items extracted from conversation. \
@@ -29,16 +29,26 @@ Rules:
 """
 
 _DETECT_SYSTEM = """\
-You are a soul graph detector. You analyze conversation to extract the speaker's \
-inner world as a graph of soul items and their relationships.
+You are a soul graph detector for a self-discovery app. You analyze conversation to extract \
+the speaker's inner world as a graph of soul items — intentions, emotions, values, fears, \
+and background facts — and their relationships.
 
 ## Current Detected Graph
 {current_graph_json}
 
+## Item Types
+Each soul item has an item_type:
+- "cognitive": Self-understanding intention — insights about oneself (认知型)
+  Example: "说不清自己到底在焦虑什么" "害怕被别人看出自己不行"
+- "action": Real-world action intention — something the person wants to DO (行动型)
+  Example: "想试试冥想" "想找心理咨询师" "想多运动"
+- "background": Context, facts, experiences that shape the person
+  Example: "工作每天加班到很晚" "小时候父母要求很高"
+
 ## Rules
-1. Extract ONLY soul items that are clearly evidenced by the conversation. Do NOT infer or guess.
-2. A soul item is a meaningful unit: a value, intention, fact, experience, emotion, or personality trait.
-3. Prefer fewer, higher-confidence items over many low-confidence ones. Quality over quantity.
+1. Extract ONLY items clearly evidenced by the conversation. Do NOT infer or guess.
+2. Classify each item as cognitive, action, or background.
+3. Prefer fewer, higher-confidence items over many low-confidence ones.
 4. Each item should be distinct — do NOT create near-duplicates of existing items.
 5. Before adding a new item, check if an existing item already covers the same concept. \
 If so, add its ID to strengthen_ids instead.
@@ -51,13 +61,12 @@ If so, add its ID to strengthen_ids instead.
    - decomposes_to (A breaks down into B, part-whole)
    - compensates (A balances/offsets B)
    - next_step (A leads to B sequentially)
-   Do NOT invent other relationship types. Choose the closest match from the list above.
-7. Assign confidence based on how explicitly the speaker expressed this (0.9 = stated directly, \
-0.5 = implied, 0.3 = weak inference).
+   Do NOT invent other relationship types.
+7. Confidence: 0.9 = stated directly, 0.5 = implied, 0.3 = weak inference.
 
 Return JSON:
 {{
-  "new_items": [{{"id": "si_NNN", "text": "...", "domains": [...], "confidence": 0.0-1.0, "specificity": 0.0-1.0}}],
+  "new_items": [{{"id": "si_NNN", "text": "...", "domains": [...], "item_type": "cognitive|action|background", "confidence": 0.0-1.0, "specificity": 0.0-1.0}}],
   "new_edges": [{{"from_id": "...", "to_id": "...", "relation": "...", "strength": 0.0-1.0, "confidence": 0.0-1.0}}],
   "strengthen_ids": ["si_001", ...]
 }}
@@ -162,11 +171,17 @@ class Detector:
             if confidence < 0.4:
                 continue  # Skip low-confidence items
             item_id = item_data.get("id", f"si_{next_id:03d}")
+            item_type_str = item_data.get("item_type", "background")
+            try:
+                item_type = ItemType(item_type_str)
+            except ValueError:
+                item_type = ItemType.BACKGROUND
             self.detected_graph.add_item(
                 SoulItem(
                     id=item_id,
                     text=item_data["text"],
                     domains=item_data.get("domains", ["general"]),
+                    item_type=item_type,
                     confidence=item_data.get("confidence", 0.5),
                     specificity=item_data.get("specificity", 0.5),
                 )

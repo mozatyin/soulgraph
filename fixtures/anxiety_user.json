@@ -1,0 +1,32 @@
+{
+  "owner_id": "anxiety_user_001",
+  "items": [
+    {"id": "si_001", "text": "说不清自己到底在焦虑什么，但总感觉喘不过气", "domains": ["emotion", "anxiety"], "item_type": "cognitive", "confidence": 0.9, "specificity": 0.6, "mention_count": 4},
+    {"id": "si_002", "text": "工作压力很大，每天加班到很晚", "domains": ["career", "stress"], "item_type": "background", "confidence": 0.9, "specificity": 0.8, "mention_count": 3},
+    {"id": "si_003", "text": "和男朋友的关系最近变得很冷淡", "domains": ["relationship", "emotion"], "item_type": "cognitive", "confidence": 0.8, "specificity": 0.7, "mention_count": 3},
+    {"id": "si_004", "text": "想试试冥想或者瑜伽来放松", "domains": ["intention", "wellness"], "item_type": "action", "confidence": 0.7, "specificity": 0.7, "mention_count": 2},
+    {"id": "si_005", "text": "害怕被别人看出自己不行", "domains": ["fear", "identity"], "item_type": "cognitive", "confidence": 0.8, "specificity": 0.5, "mention_count": 3},
+    {"id": "si_006", "text": "小时候父母对成绩要求很高，养成了凡事追求完美的习惯", "domains": ["background", "family", "personality"], "item_type": "background", "confidence": 0.7, "specificity": 0.8, "mention_count": 1},
+    {"id": "si_007", "text": "觉得自己不配拥有好的东西", "domains": ["identity", "emotion"], "item_type": "cognitive", "confidence": 0.6, "specificity": 0.4, "mention_count": 2},
+    {"id": "si_008", "text": "想找一个心理咨询师聊聊", "domains": ["intention", "wellness", "action"], "item_type": "action", "confidence": 0.6, "specificity": 0.7, "mention_count": 1},
+    {"id": "si_009", "text": "以前有个闺蜜可以倾诉，但她搬走之后就没有了", "domains": ["social", "loss"], "item_type": "background", "confidence": 0.7, "specificity": 0.8, "mention_count": 1},
+    {"id": "si_010", "text": "运动的时候是唯一感觉轻松的时刻", "domains": ["wellness", "emotion"], "item_type": "action", "confidence": 0.8, "specificity": 0.6, "mention_count": 2},
+    {"id": "si_011", "text": "失眠越来越严重，每天凌晨三四点才能睡", "domains": ["health", "stress"], "item_type": "background", "confidence": 0.9, "specificity": 0.9, "mention_count": 2},
+    {"id": "si_012", "text": "其实内心知道需要改变，但不知道从哪里开始", "domains": ["intention", "identity"], "item_type": "cognitive", "confidence": 0.8, "specificity": 0.5, "mention_count": 3}
+  ],
+  "edges": [
+    {"from_id": "si_002", "to_id": "si_001", "relation": "drives", "strength": 0.8, "confidence": 0.9},
+    {"from_id": "si_003", "to_id": "si_001", "relation": "drives", "strength": 0.7, "confidence": 0.8},
+    {"from_id": "si_006", "to_id": "si_005", "relation": "drives", "strength": 0.7, "confidence": 0.7},
+    {"from_id": "si_005", "to_id": "si_007", "relation": "drives", "strength": 0.6, "confidence": 0.7},
+    {"from_id": "si_001", "to_id": "si_004", "relation": "drives", "strength": 0.6, "confidence": 0.7},
+    {"from_id": "si_001", "to_id": "si_008", "relation": "drives", "strength": 0.5, "confidence": 0.6},
+    {"from_id": "si_009", "to_id": "si_001", "relation": "enables", "strength": 0.5, "confidence": 0.6},
+    {"from_id": "si_002", "to_id": "si_011", "relation": "drives", "strength": 0.8, "confidence": 0.8},
+    {"from_id": "si_010", "to_id": "si_001", "relation": "constrains", "strength": 0.5, "confidence": 0.7},
+    {"from_id": "si_005", "to_id": "si_002", "relation": "drives", "strength": 0.6, "confidence": 0.7},
+    {"from_id": "si_012", "to_id": "si_004", "relation": "enables", "strength": 0.5, "confidence": 0.6},
+    {"from_id": "si_012", "to_id": "si_008", "relation": "enables", "strength": 0.5, "confidence": 0.6},
+    {"from_id": "si_011", "to_id": "si_001", "relation": "drives", "strength": 0.7, "confidence": 0.8}
+  ]
+}
