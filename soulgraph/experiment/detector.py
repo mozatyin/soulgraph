@@ -87,7 +87,11 @@ class Detector:
             system=system,
             messages=[{"role": "user", "content": user_msg}],
         )
-        return response.content[0].text.strip()
+        text = response.content[0].text.strip()
+        # Strip markdown code blocks if present
+        if text.startswith("```"):
+            text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+        return text
 
     def _apply_detection(self, raw: str) -> None:
         try:

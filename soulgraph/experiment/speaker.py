@@ -80,6 +80,9 @@ class Speaker:
             messages=messages,
         )
         raw = response.content[0].text
+        # Strip markdown code blocks if present
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
         try:
             data = json.loads(raw)
             text = data.get("response", raw)
@@ -87,4 +90,16 @@ class Speaker:
                 self.disclosed.add(sid)
             return text
         except json.JSONDecodeError:
+            # Try to find JSON object in the text
+            start = raw.find("{")
+            last = raw.rfind("}")
+            if start != -1 and last != -1:
+                try:
+                    data = json.loads(raw[start:last + 1])
+                    text = data.get("response", raw)
+                    for sid in data.get("disclosed_ids", []):
+                        self.disclosed.add(sid)
+                    return text
+                except json.JSONDecodeError:
+                    pass
             return raw

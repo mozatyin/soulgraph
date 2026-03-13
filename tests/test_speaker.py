@@ -49,3 +49,14 @@ class TestSpeaker:
         system_prompt = call_kwargs.kwargs.get("system", "") or call_kwargs[1].get("system", "")
         assert "重视家庭" in system_prompt
         assert "想买SUV" in system_prompt
+
+    def test_parses_code_block_wrapped_json(self):
+        graph = self._make_graph()
+        speaker = Speaker(soul_graph=graph, api_key="fake")
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text='```json\n{"response": "想买车", "disclosed_ids": ["si_001"]}\n```')]
+        speaker._client = MagicMock()
+        speaker._client.messages.create.return_value = mock_response
+        result = speaker.respond("你最近在想什么？", conversation=[])
+        assert result == "想买车"
+        assert "si_001" in speaker.disclosed
