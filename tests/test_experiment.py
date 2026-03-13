@@ -37,9 +37,12 @@ class TestExperimentRunner:
         g.add_edge(SoulEdge(from_id="si_001", to_id="si_002", relation="drives"))
         return g
 
+    @patch("soulgraph.experiment.runner.GraphComparator")
+    @patch("soulgraph.experiment.runner.SemanticMatcher")
+    @patch("soulgraph.experiment.runner.EmbeddingMatcher")
     @patch("soulgraph.experiment.runner.Speaker")
     @patch("soulgraph.experiment.runner.Detector")
-    def test_run_completes(self, MockDetector, MockSpeaker):
+    def test_run_completes(self, MockDetector, MockSpeaker, MockEmbMatcher, MockSemMatcher, MockGraphComp):
         mock_speaker = MockSpeaker.return_value
         mock_speaker.respond.return_value = "我最近在想买车"
 
@@ -47,6 +50,20 @@ class TestExperimentRunner:
         mock_detector.ask_next_question.return_value = "你最近在想什么？"
         mock_detector.listen_and_detect.return_value = SoulGraph(owner_id="det")
         mock_detector.detected_graph = SoulGraph(owner_id="det")
+
+        # Mock embedding matcher
+        MockEmbMatcher.return_value.compute_similarity.return_value = {
+            "node_recall": 0.5, "node_precision": 0.5, "hub_recall": 0.5,
+            "triple_recall": 0.0, "triple_precision": 0.0, "triple_f1": 0.0,
+            "overall": 0.25, "matched_nodes": 1, "gt_nodes": 2, "det_nodes": 0,
+            "gt_edges": 1, "det_edges": 0,
+        }
+
+        # Mock legacy comparator
+        MockGraphComp.return_value.compare.return_value = GraphSimilarity(
+            hub_recall=HubRecall(ground_truth_hubs=[], detected_hubs=[], recall=0.0),
+            local_similarities=[],
+        )
 
         runner = ExperimentRunner(api_key="fake")
         result = runner.run(self._make_gt_graph(), max_turns=3, verbose=False)

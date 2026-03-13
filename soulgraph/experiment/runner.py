@@ -1,6 +1,7 @@
 """Experiment runner: Speaker <-> Detector conversation loop + evaluation."""
 from __future__ import annotations
 
+from soulgraph.comparator.embedding import EmbeddingMatcher
 from soulgraph.comparator.semantic import SemanticMatcher
 from soulgraph.comparator.structural import GraphComparator
 from soulgraph.experiment.detector import Detector
@@ -64,16 +65,75 @@ class ExperimentRunner:
         if verbose:
             print(f"\nComparing graphs...")
 
+        # V3: Embedding-based comparison (deterministic)
+        emb_matcher = EmbeddingMatcher()
+        emb_scores = emb_matcher.compute_similarity(
+            ground_truth, detector.detected_graph, hub_top_k=hub_top_k
+        )
+
+        if verbose:
+            print(f"\n--- Embedding Comparison (V3) ---")
+            print(f"Node Recall:     {emb_scores['node_recall']:.3f}  (matched {emb_scores['matched_nodes']}/{emb_scores['gt_nodes']})")
+            print(f"Node Precision:  {emb_scores['node_precision']:.3f}")
+            print(f"Hub Recall:      {emb_scores['hub_recall']:.3f}")
+            print(f"Triple Recall:   {emb_scores['triple_recall']:.3f}")
+            print(f"Triple Precision:{emb_scores['triple_precision']:.3f}")
+            print(f"Triple F1:       {emb_scores['triple_f1']:.3f}")
+            print(f"Overall (V3):    {emb_scores['overall']:.3f}")
+
+        # Also run legacy comparison for backward compat
         matcher = SemanticMatcher(api_key=self._api_key, model=self._matcher_model)
         comparator = GraphComparator(matcher=matcher)
         similarity = comparator.compare(
             ground_truth, detector.detected_graph, hub_top_k=hub_top_k
         )
 
-        return ExperimentResult(
+        result = ExperimentResult(
             conversation=conversation,
             ground_truth=ground_truth,
             detected_graph=detector.detected_graph,
             similarity=similarity,
             turns=max_turns,
         )
+        # Attach V3 scores as extra data
+        result.embedding_scores = emb_scores  # type: ignore[attr-defined]
+        return result
+
+    def run_multi(
+        self,
+        ground_truth: SoulGraph,
+        max_turns: int = 20,
+        hub_top_k: int = 5,
+        num_runs: int = 3,
+        verbose: bool = True,
+    ) -> dict:
+        """Run multiple experiments and report mean±std for all metrics."""
+        import numpy as np
+
+        all_scores: list[dict] = []
+        for i in range(num_runs):
+            if verbose:
+                print(f"\n{'='*60}")
+                print(f"RUN {i + 1}/{num_runs}")
+                print(f"{'='*60}")
+            result = self.run(ground_truth, max_turns=max_turns, hub_top_k=hub_top_k, verbose=verbose)
+            all_scores.append(result.embedding_scores)  # type: ignore[attr-defined]
+
+        # Aggregate
+        metrics = ["node_recall", "node_precision", "hub_recall", "triple_recall", "triple_precision", "triple_f1", "overall"]
+        summary: dict = {}
+        for m in metrics:
+            values = [s[m] for s in all_scores]
+            summary[m] = {"mean": round(float(np.mean(values)), 3), "std": round(float(np.std(values)), 3)}
+
+        summary["num_runs"] = num_runs
+        summary["raw_scores"] = all_scores
+
+        if verbose:
+            print(f"\n{'='*60}")
+            print(f"MULTI-RUN SUMMARY ({num_runs} runs)")
+            print(f"{'='*60}")
+            for m in metrics:
+                print(f"  {m:20s}: {summary[m]['mean']:.3f} ± {summary[m]['std']:.3f}")
+
+        return summary

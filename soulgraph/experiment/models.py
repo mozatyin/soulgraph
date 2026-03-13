@@ -1,6 +1,8 @@
 """Experiment data models."""
 from __future__ import annotations
 
+from typing import Any
+
 from pydantic import BaseModel
 
 from soulgraph.comparator.models import GraphSimilarity
@@ -18,3 +20,4 @@ class ExperimentResult(BaseModel):
     detected_graph: SoulGraph
     similarity: GraphSimilarity
     turns: int
+    embedding_scores: dict[str, Any] | None = None

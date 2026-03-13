@@ -17,6 +17,7 @@ def main() -> None:
     parser.add_argument("--turns", type=int, default=20, help="Number of turns (default 20)")
     parser.add_argument("--hubs", type=int, default=5, help="Top-k hubs for comparison")
     parser.add_argument("--output", type=str, help="Path to save result JSON")
+    parser.add_argument("--runs", type=int, default=1, help="Number of runs for multi-run averaging (default 1)")
     args = parser.parse_args()
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
@@ -44,12 +45,20 @@ def main() -> None:
             sys.exit(1)
         gt = SoulGraph.load(gt_path)
         runner = ExperimentRunner(api_key=api_key)
-        print(f"Running experiment ({args.turns} turns) on {gt_path.name}...")
-        result = runner.run(gt, max_turns=args.turns, hub_top_k=args.hubs)
-        _print_result(result)
-        if args.output:
-            Path(args.output).write_text(result.model_dump_json(indent=2), encoding="utf-8")
-            print(f"\nResult saved to {args.output}")
+        if args.runs > 1:
+            print(f"Running multi-run experiment ({args.runs} runs, {args.turns} turns each) on {gt_path.name}...")
+            import json
+            summary = runner.run_multi(gt, max_turns=args.turns, hub_top_k=args.hubs, num_runs=args.runs)
+            if args.output:
+                Path(args.output).write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+                print(f"\nSummary saved to {args.output}")
+        else:
+            print(f"Running experiment ({args.turns} turns) on {gt_path.name}...")
+            result = runner.run(gt, max_turns=args.turns, hub_top_k=args.hubs)
+            _print_result(result)
+            if args.output:
+                Path(args.output).write_text(result.model_dump_json(indent=2), encoding="utf-8")
+                print(f"\nResult saved to {args.output}")
     else:
         parser.print_help()
 
