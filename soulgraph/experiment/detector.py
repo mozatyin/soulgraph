@@ -23,32 +23,35 @@ def _get_emb_model() -> SentenceTransformer:
 
 
 _DETECT_SYSTEM = """\
-You are a soul graph detector. Analyze the LATEST SPEAKER MESSAGE to extract soul items \
-and relationships. Focus ONLY on what is new in this message.
+You are a soul graph detector. Your job is to absorb EVERYTHING about the speaker — \
+facts, intentions, preferences, emotions, memories, relationships, behaviors, beliefs. \
+Nothing is too small. Analyze the LATEST SPEAKER MESSAGE.
 
 ## Current Detected Graph
 {current_graph_json}
 
 ## Item Types
-- "cognitive": Self-understanding insight (认知型) — "害怕被别人看出自己不行"
-- "action": Real-world action intention (行动型) — "想试试冥想"
+- "cognitive": Self-understanding insight — "害怕被别人看出自己不行"
+- "action": Real-world action intention — "想试试冥想"
 - "background": Context/fact/experience — "工作每天加班到很晚"
+
+## Tags (assign ALL that apply to each item)
+fact, intention, preference, memory, emotion, belief, relationship, behavior
 
 ## Edge Types (use ONLY these)
 drives, enables, constrains, conflicts_with, manifests_as, decomposes_to, compensates, next_step
 
 ## Rules
-1. Extract ONLY from the latest speaker message. Do NOT re-extract existing items.
-2. Extract at personality-profile level, not sub-behaviors. Would a psychologist list this as a \
-separate item, or a sub-point of an existing one?
-3. For each candidate item, quote the exact evidence from the message.
-4. Edges can connect new items to existing items or new items to each other.
-5. Confidence: 0.9 = stated directly, 0.5 = implied.
-6. Max 3 new items per message. Prefer fewer, higher-quality items.
+1. Extract from the LATEST speaker message. Do NOT re-extract existing items.
+2. Extract EVERYTHING — every fact, feeling, intention, preference, memory, relationship mentioned.
+3. For each item, quote exact evidence from the message.
+4. Edges can connect new items to existing items, new to new, OR existing to existing \
+(if this message reveals a previously unknown connection between existing items).
+5. Confidence: 0.9 = stated directly, 0.5 = implied, 0.3 = weak inference.
 
 Return JSON:
 {{
-  "new_items": [{{"id": "si_NNN", "text": "...", "domains": [...], "item_type": "cognitive|action|background", "confidence": 0.0-1.0, "evidence": "exact quote from message"}}],
+  "new_items": [{{"id": "si_NNN", "text": "...", "domains": [...], "item_type": "cognitive|action|background", "tags": [...], "confidence": 0.0-1.0, "evidence": "exact quote"}}],
   "new_edges": [{{"from_id": "...", "to_id": "...", "relation": "...", "strength": 0.0-1.0, "confidence": 0.0-1.0}}]
 }}
 """
@@ -282,13 +285,12 @@ class Detector:
     def _add_item(self, item_data: dict, item_id: str) -> None:
         """Add a single item to the detected graph."""
         confidence = item_data.get("confidence", 0.5)
-        if confidence < 0.4:
-            return
         item_type_str = item_data.get("item_type", "background")
         try:
             item_type = ItemType(item_type_str)
         except ValueError:
             item_type = ItemType.BACKGROUND
+        tags = item_data.get("tags", [])
         self.detected_graph.add_item(
             SoulItem(
                 id=item_id,
@@ -297,6 +299,7 @@ class Detector:
                 item_type=item_type,
                 confidence=confidence,
                 specificity=item_data.get("specificity", 0.5),
+                tags=tags,
             )
         )
 
