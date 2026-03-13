@@ -165,5 +165,22 @@
     {"from_id": "si_010", "to_id": "si_035", "relation": "manifests_as", "strength": 0.7, "confidence": 0.7},
     {"from_id": "si_028", "to_id": "si_022", "relation": "compensates", "strength": 0.6, "confidence": 0.6},
     {"from_id": "si_047", "to_id": "si_026", "relation": "manifests_as", "strength": 0.4, "confidence": 0.5}
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic_hints": ["career", "family", "finance"],
+      "description": "Career frustration, family responsibility, startup ambition"
+    },
+    {
+      "session": 2,
+      "topic_hints": ["identity", "social", "values"],
+      "description": "Deeper identity, social influences, value system"
+    },
+    {
+      "session": 3,
+      "topic_hints": ["health", "hobbies", "stories", "career"],
+      "description": "Health, hobbies, life stories, PLUS revisit career (mention reinforcement)"
+    }
   ]
 }

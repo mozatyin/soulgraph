@@ -306,3 +306,15 @@ class TestFixtures:
         # Verify domain PageRank works
         career_ranks = g.domain_pagerank("career")
         assert len(career_ranks) == len(g.items)
+
+    def test_zhang_wei_has_sessions(self):
+        import json
+        path = Path(__file__).parent.parent / "fixtures" / "zhang_wei.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        assert "sessions" in data
+        sessions = data["sessions"]
+        assert len(sessions) == 3
+        assert all("topic_hints" in s for s in sessions)
+        assert all("session" in s for s in sessions)
+        # Session 3 should revisit career
+        assert "career" in sessions[2]["topic_hints"]
