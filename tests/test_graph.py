@@ -200,6 +200,64 @@ class TestSoulItemTags:
             assert loaded.items[0].tags == ["fact", "preference"]
 
 
+class TestPageRank:
+    def _make_ranked_graph(self) -> SoulGraph:
+        """Graph where si_002 is a clear hub (many incoming edges)."""
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="重视家庭", domains=["family", "values"]))
+        g.add_item(SoulItem(id="si_002", text="想创业", domains=["career"],
+                            tags=["intention"]))
+        g.add_item(SoulItem(id="si_003", text="预算有限", domains=["finance"]))
+        g.add_item(SoulItem(id="si_004", text="妻子支持", domains=["family"]))
+        g.add_item(SoulItem(id="si_005", text="骑自行车", domains=["transport", "hobby"]))
+        # si_002 has 3 incoming edges — should rank highest
+        g.add_edge(SoulEdge(from_id="si_001", to_id="si_002", relation="drives", strength=0.8))
+        g.add_edge(SoulEdge(from_id="si_003", to_id="si_002", relation="constrains", strength=0.7))
+        g.add_edge(SoulEdge(from_id="si_004", to_id="si_002", relation="enables", strength=0.6))
+        # si_005 has 1 edge — should rank lowest
+        g.add_edge(SoulEdge(from_id="si_005", to_id="si_001", relation="enables", strength=0.3))
+        return g
+
+    def test_pagerank_returns_all_items(self):
+        g = self._make_ranked_graph()
+        ranks = g.pagerank()
+        assert len(ranks) == 5
+        assert all(isinstance(v, float) for v in ranks.values())
+
+    def test_pagerank_hub_ranks_highest(self):
+        g = self._make_ranked_graph()
+        ranks = g.pagerank()
+        sorted_ids = sorted(ranks, key=ranks.get, reverse=True)
+        assert sorted_ids[0] == "si_002"
+
+    def test_pagerank_leaf_ranks_lowest(self):
+        g = self._make_ranked_graph()
+        ranks = g.pagerank()
+        sorted_ids = sorted(ranks, key=ranks.get, reverse=True)
+        assert sorted_ids[-1] == "si_005"
+
+    def test_domain_pagerank_shifts_importance(self):
+        g = self._make_ranked_graph()
+        career_ranks = g.domain_pagerank("career")
+        transport_ranks = g.domain_pagerank("transport")
+        career_rank_005 = career_ranks.get("si_005", 0)
+        transport_rank_005 = transport_ranks.get("si_005", 0)
+        assert transport_rank_005 > career_rank_005
+
+    def test_pagerank_empty_graph(self):
+        g = SoulGraph(owner_id="test")
+        ranks = g.pagerank()
+        assert ranks == {}
+
+    def test_pagerank_no_edges(self):
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="a", domains=["x"]))
+        g.add_item(SoulItem(id="si_002", text="b", domains=["x"]))
+        ranks = g.pagerank()
+        assert len(ranks) == 2
+        assert abs(ranks["si_001"] - ranks["si_002"]) < 0.01
+
+
 class TestFixtures:
     def test_load_car_buyer(self):
         path = Path(__file__).parent.parent / "fixtures" / "car_buyer.json"

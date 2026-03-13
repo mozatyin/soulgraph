@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+
+import networkx as nx
 from datetime import datetime, timezone
 from pathlib import Path
 from enum import Enum
@@ -150,6 +152,51 @@ class SoulGraph(BaseModel):
         ]
         scored.sort(key=lambda x: x[1], reverse=True)
         return [item for item, _ in scored[:top_k]]
+
+    def _to_nx(self) -> nx.DiGraph:
+        """Convert to networkx directed graph for PageRank computation."""
+        G = nx.DiGraph()
+        for item in self.items:
+            G.add_node(item.id)
+        for edge in self.edges:
+            if G.has_node(edge.from_id) and G.has_node(edge.to_id):
+                weight = edge.strength * (1 + 0.1 * self._mention_count(edge.from_id))
+                G.add_edge(edge.from_id, edge.to_id, weight=weight)
+        return G
+
+    def _mention_count(self, item_id: str) -> int:
+        for item in self.items:
+            if item.id == item_id:
+                return item.mention_count
+        return 0
+
+    def pagerank(self, alpha: float = 0.85) -> dict[str, float]:
+        """Global PageRank. Returns {item_id: importance_score}."""
+        if not self.items:
+            return {}
+        G = self._to_nx()
+        try:
+            return nx.pagerank(G, alpha=alpha, weight="weight")
+        except nx.PowerIterationFailedConvergence:
+            return {item.id: 1.0 / len(self.items) for item in self.items}
+
+    def domain_pagerank(self, domain: str, alpha: float = 0.85) -> dict[str, float]:
+        """Topic-Sensitive PageRank biased toward nodes in the given domain."""
+        if not self.items:
+            return {}
+        G = self._to_nx()
+        domain_ids = {item.id for item in self.items if domain in item.domains}
+        if not domain_ids:
+            return self.pagerank(alpha=alpha)
+        personalization = {}
+        for item in self.items:
+            personalization[item.id] = 10.0 if item.id in domain_ids else 1.0
+        total = sum(personalization.values())
+        personalization = {k: v / total for k, v in personalization.items()}
+        try:
+            return nx.pagerank(G, alpha=alpha, personalization=personalization, weight="weight")
+        except nx.PowerIterationFailedConvergence:
+            return {item.id: 1.0 / len(self.items) for item in self.items}
 
     def save(self, path: Path) -> None:
         path.write_text(self.model_dump_json(indent=2), encoding="utf-8")
