@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from soulgraph.graph.models import SoulItem, SoulEdge, SoulGraph, _clamp
+from soulgraph.graph.filter import filter_by_domain, filter_by_time
 
 
 class TestSoulItem:
@@ -130,3 +131,46 @@ class TestSoulGraph:
             assert loaded.owner_id == "user_001"
             assert len(loaded.items) == 3
             assert len(loaded.edges) == 2
+
+
+class TestFilters:
+    def _make_multi_domain_graph(self) -> SoulGraph:
+        g = SoulGraph(owner_id="user_001")
+        g.add_item(SoulItem(id="si_001", text="重视家庭", domains=["family", "values"]))
+        g.add_item(SoulItem(id="si_002", text="想买SUV", domains=["purchase", "family"]))
+        g.add_item(SoulItem(id="si_003", text="预算有限", domains=["finance"]))
+        g.add_item(SoulItem(id="si_004", text="喜欢跑步", domains=["health"]))
+        g.add_edge(SoulEdge(from_id="si_001", to_id="si_002", relation="drives"))
+        g.add_edge(SoulEdge(from_id="si_003", to_id="si_002", relation="constrains"))
+        g.add_edge(SoulEdge(from_id="si_004", to_id="si_001", relation="enables"))
+        return g
+
+    def test_filter_by_domain_nodes(self):
+        g = self._make_multi_domain_graph()
+        sub = filter_by_domain(g, "family")
+        ids = {item.id for item in sub.items}
+        assert ids == {"si_001", "si_002"}
+
+    def test_filter_by_domain_edges(self):
+        g = self._make_multi_domain_graph()
+        sub = filter_by_domain(g, "family")
+        assert len(sub.edges) == 1
+        assert sub.edges[0].from_id == "si_001"
+        assert sub.edges[0].to_id == "si_002"
+
+    def test_filter_by_domain_empty(self):
+        g = self._make_multi_domain_graph()
+        sub = filter_by_domain(g, "career")
+        assert len(sub.items) == 0
+        assert len(sub.edges) == 0
+
+    def test_filter_by_time(self):
+        g = SoulGraph(owner_id="user_001")
+        g.add_item(SoulItem(id="si_001", text="old", domains=["x"],
+                            created_at=datetime(2026, 1, 1, tzinfo=timezone.utc)))
+        g.add_item(SoulItem(id="si_002", text="new", domains=["x"],
+                            created_at=datetime(2026, 3, 1, tzinfo=timezone.utc)))
+        sub = filter_by_time(g, start=datetime(2026, 2, 1, tzinfo=timezone.utc),
+                             end=datetime(2026, 4, 1, tzinfo=timezone.utc))
+        assert len(sub.items) == 1
+        assert sub.items[0].id == "si_002"
