@@ -1,0 +1,32 @@
+{
+  "owner_id": "career_changer_001",
+  "items": [
+    {"id": "si_001", "text": "在大厂做了8年程序员，技术能力强但感觉到了天花板", "domains": ["career", "identity"], "confidence": 0.9, "specificity": 0.7, "mention_count": 4},
+    {"id": "si_002", "text": "内心一直想创业做自己的产品", "domains": ["ambition", "career"], "confidence": 0.8, "specificity": 0.5, "mention_count": 3},
+    {"id": "si_003", "text": "妻子是老师，收入稳定但不高，家庭经济压力主要靠自己", "domains": ["family", "finance"], "confidence": 0.9, "specificity": 0.8, "mention_count": 2},
+    {"id": "si_004", "text": "有两个孩子，大的7岁小的3岁", "domains": ["family"], "confidence": 0.9, "specificity": 0.9, "mention_count": 3},
+    {"id": "si_005", "text": "大学时做过一个小项目赚了第一桶金，那种成就感至今难忘", "domains": ["experience", "ambition"], "confidence": 0.7, "specificity": 0.7, "mention_count": 1},
+    {"id": "si_006", "text": "害怕创业失败后无法养家", "domains": ["fear", "family", "finance"], "confidence": 0.9, "specificity": 0.6, "mention_count": 4},
+    {"id": "si_007", "text": "同事老王去年辞职创业，现在做得风生水起", "domains": ["social", "career"], "confidence": 0.6, "specificity": 0.8, "mention_count": 1},
+    {"id": "si_008", "text": "看到AI时代的机会，觉得现在是创业的好时机", "domains": ["opportunity", "career", "technology"], "confidence": 0.7, "specificity": 0.5, "mention_count": 2},
+    {"id": "si_009", "text": "性格偏内向，不擅长社交和销售", "domains": ["personality", "concern"], "confidence": 0.8, "specificity": 0.5, "mention_count": 2},
+    {"id": "si_010", "text": "妻子支持但希望有退路计划", "domains": ["family", "career"], "confidence": 0.8, "specificity": 0.6, "mention_count": 2},
+    {"id": "si_011", "text": "存款够一家四口生活18个月", "domains": ["finance", "facts"], "confidence": 0.9, "specificity": 0.9, "mention_count": 1},
+    {"id": "si_012", "text": "想做一个面向中小企业的AI工具", "domains": ["ambition", "technology", "career"], "confidence": 0.7, "specificity": 0.7, "mention_count": 2}
+  ],
+  "edges": [
+    {"from_id": "si_001", "to_id": "si_002", "relation": "drives", "strength": 0.8, "confidence": 0.9},
+    {"from_id": "si_003", "to_id": "si_006", "relation": "causes", "strength": 0.8, "confidence": 0.9},
+    {"from_id": "si_004", "to_id": "si_006", "relation": "drives", "strength": 0.9, "confidence": 0.9},
+    {"from_id": "si_005", "to_id": "si_002", "relation": "enables", "strength": 0.6, "confidence": 0.7},
+    {"from_id": "si_006", "to_id": "si_002", "relation": "conflicts_with", "strength": 0.7, "confidence": 0.8},
+    {"from_id": "si_007", "to_id": "si_002", "relation": "enables", "strength": 0.5, "confidence": 0.6},
+    {"from_id": "si_008", "to_id": "si_002", "relation": "drives", "strength": 0.7, "confidence": 0.7},
+    {"from_id": "si_009", "to_id": "si_006", "relation": "drives", "strength": 0.6, "confidence": 0.7},
+    {"from_id": "si_010", "to_id": "si_002", "relation": "enables", "strength": 0.6, "confidence": 0.8},
+    {"from_id": "si_010", "to_id": "si_011", "relation": "enables", "strength": 0.5, "confidence": 0.7},
+    {"from_id": "si_011", "to_id": "si_006", "relation": "constrains", "strength": 0.5, "confidence": 0.7},
+    {"from_id": "si_008", "to_id": "si_012", "relation": "drives", "strength": 0.8, "confidence": 0.8},
+    {"from_id": "si_001", "to_id": "si_012", "relation": "enables", "strength": 0.7, "confidence": 0.8}
+  ]
+}
