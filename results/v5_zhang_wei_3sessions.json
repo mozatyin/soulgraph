@@ -1,0 +1,51 @@
+{
+  "session_scores": [
+    {
+      "rank_correlation": 0.597,
+      "domain_ndcg": 0.698,
+      "absorption_rate": 0.902,
+      "intention_recall": 0.6,
+      "overall": 0.689,
+      "matched_items": 55,
+      "gt_items": 61,
+      "det_items": 57
+    },
+    {
+      "rank_correlation": 0.58,
+      "domain_ndcg": 0.878,
+      "absorption_rate": 0.967,
+      "intention_recall": 1.0,
+      "overall": 0.831,
+      "matched_items": 59,
+      "gt_items": 61,
+      "det_items": 91
+    },
+    {
+      "rank_correlation": 0.565,
+      "domain_ndcg": 0.878,
+      "absorption_rate": 0.984,
+      "intention_recall": 1.0,
+      "overall": 0.829,
+      "matched_items": 60,
+      "gt_items": 61,
+      "det_items": 106
+    }
+  ],
+  "rank_improvement": -0.032,
+  "final_scores": {
+    "rank_correlation": 0.565,
+    "domain_ndcg": 0.878,
+    "absorption_rate": 0.984,
+    "intention_recall": 1.0,
+    "overall": 0.829,
+    "matched_items": 60,
+    "gt_items": 61,
+    "det_items": 106
+  },
+  "num_sessions": 3,
+  "turns_per_session": [
+    10,
+    10,
+    10
+  ]
+}

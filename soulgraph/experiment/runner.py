@@ -210,18 +210,32 @@ class ExperimentRunner:
                     print(f"\n--- Session {si + 1}, Turn {turn + 1}/{turns} ---")
                     print(f"Detector asks: {question[:80]}...")
 
-                response = speaker.respond(question, conversation)
+                try:
+                    response = speaker.respond(question, conversation)
+                except Exception as e:
+                    if verbose:
+                        print(f"  [WARN] Speaker API error: {e}, skipping turn")
+                    conversation.append(Message(role="speaker", content="..."))
+                    continue
                 conversation.append(Message(role="speaker", content=response))
 
                 if verbose:
                     print(f"Speaker says: {response[:80]}...")
 
-                detector.listen_and_detect(conversation)
+                try:
+                    detector.listen_and_detect(conversation)
+                except Exception as e:
+                    if verbose:
+                        print(f"  [WARN] Detector API error: {e}, skipping detection")
 
                 if verbose:
                     print(f"Detected so far: {len(detector.detected_graph.items)} items, {len(detector.detected_graph.edges)} edges")
 
-                question = detector.ask_next_question(conversation)
+                try:
+                    question = detector.ask_next_question(conversation)
+                except Exception as e:
+                    if verbose:
+                        print(f"  [WARN] Detector question API error: {e}, reusing last question")
                 conversation.append(Message(role="detector", content=question))
 
             # Evaluate after this session
