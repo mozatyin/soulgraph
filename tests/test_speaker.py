@@ -50,6 +50,12 @@ class TestSpeaker:
         assert "重视家庭" in system_prompt
         assert "想买SUV" in system_prompt
 
+    def test_topic_hints_in_system_prompt(self):
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="test", domains=["x"]))
+        speaker = Speaker(soul_graph=g, api_key="fake", topic_hints=["career", "family"])
+        assert speaker.topic_hints == ["career", "family"]
+
     def test_parses_code_block_wrapped_json(self):
         graph = self._make_graph()
         speaker = Speaker(soul_graph=graph, api_key="fake")

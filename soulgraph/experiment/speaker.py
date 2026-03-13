@@ -50,9 +50,11 @@ class Speaker:
         soul_graph: SoulGraph,
         api_key: str,
         model: str = "claude-sonnet-4-20250514",
+        topic_hints: list[str] | None = None,
     ):
         self.soul = soul_graph
         self.disclosed: set[str] = set()
+        self.topic_hints = topic_hints or []
         kwargs: dict = {"api_key": api_key}
         if api_key.startswith("sk-or-"):
             kwargs["base_url"] = "https://openrouter.ai/api"
@@ -76,6 +78,13 @@ class Speaker:
             edges_json=edges_json,
             disclosed_json=disclosed_json,
         )
+        if self.topic_hints:
+            system += (
+                f"\n\n## Session Focus\n"
+                f"This session focuses on: {', '.join(self.topic_hints)}.\n"
+                f"Steer the conversation naturally toward these topics. "
+                f"You may touch on other topics if they come up naturally, but prioritize these areas."
+            )
         messages = [
             {"role": "assistant" if m.role == "speaker" else "user", "content": m.content}
             for m in conversation
