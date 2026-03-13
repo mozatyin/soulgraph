@@ -28,10 +28,12 @@ Return JSON:
 }}
 
 Rules:
-- Only include matches with similarity >= 0.6
+- Only include matches with similarity >= 0.5
 - Each detected item can only match ONE ground truth item
 - If no good match exists for a ground truth item, omit it
-- Be generous with matching — if the core meaning is the same, it's a match even if wording differs
+- Be generous: if the core meaning is the same, it's a match even if wording differs
+- Domain overlap is a strong signal — items with shared domains are more likely to match
+- Consider the INTENT behind each item, not just surface wording
 """
 
 
@@ -40,7 +42,7 @@ class SemanticMatcher:
         self,
         api_key: str,
         model: str = "claude-haiku-4-5-20251001",
-        threshold: float = 0.6,
+        threshold: float = 0.5,
     ):
         kwargs: dict = {"api_key": api_key}
         if api_key.startswith("sk-or-"):
@@ -84,12 +86,12 @@ class SemanticMatcher:
             return {}
 
         gt_json = json.dumps(
-            [{"id": i.id, "text": i.text} for i in ground_truth],
+            [{"id": i.id, "text": i.text, "domains": i.domains} for i in ground_truth],
             ensure_ascii=False,
             indent=2,
         )
         det_json = json.dumps(
-            [{"id": i.id, "text": i.text} for i in detected],
+            [{"id": i.id, "text": i.text, "domains": i.domains} for i in detected],
             ensure_ascii=False,
             indent=2,
         )

@@ -79,18 +79,25 @@ class GraphComparator:
 
             type_matches = 0
             type_total = 0
-            for gt_n_id, gt_rel in gt_edge_types.items():
+            for gt_n_id, gt_rels in gt_edge_types.items():
                 if gt_n_id in item_mapping:
                     det_n_id = item_mapping[gt_n_id]
                     if det_n_id in det_edge_types:
                         type_total += 1
-                        if _edge_types_similar(det_edge_types[det_n_id], gt_rel):
+                        det_rels = det_edge_types[det_n_id]
+                        # Check if ANY gt edge type matches ANY detected edge type
+                        if any(
+                            _edge_types_similar(dr, gr)
+                            for dr in det_rels
+                            for gr in gt_rels
+                        ):
                             type_matches += 1
 
             edge_accuracy = type_matches / type_total if type_total else 0.0
-            # Partial credit: if we found the neighbor but edge type differs
-            if type_total > 0 and edge_accuracy == 0:
-                edge_accuracy = 0.3  # at least the connection exists
+            # Partial credit: if we found neighbors but edge types don't match
+            if type_total > 0 and edge_accuracy < 1.0:
+                # Give 0.3 base credit for finding the connection + actual matches
+                edge_accuracy = max(edge_accuracy, 0.3 * (matched_neighbors / max(len(gt_neighbors), 1)))
 
             combined = neighbor_recall * 0.6 + edge_accuracy * 0.4
             local_sims.append(
@@ -115,11 +122,12 @@ class GraphComparator:
         return neighbors
 
     @staticmethod
-    def _get_edge_types(graph: SoulGraph, node_id: str) -> dict[str, str]:
-        types: dict[str, str] = {}
+    def _get_edge_types(graph: SoulGraph, node_id: str) -> dict[str, set[str]]:
+        """Returns {neighbor_id: set of edge types} for all edges touching node_id."""
+        types: dict[str, set[str]] = {}
         for edge in graph.edges:
             if edge.from_id == node_id:
-                types[edge.to_id] = edge.relation
+                types.setdefault(edge.to_id, set()).add(edge.relation)
             elif edge.to_id == node_id:
-                types[edge.from_id] = edge.relation
+                types.setdefault(edge.from_id, set()).add(edge.relation)
         return types

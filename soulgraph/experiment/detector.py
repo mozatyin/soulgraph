@@ -10,7 +10,7 @@ from soulgraph.graph.models import SoulEdge, SoulGraph, SoulItem
 
 _CONSOLIDATE_PROMPT = """\
 You are deduplicating a list of soul items extracted from conversation. \
-Find items that describe the SAME underlying concept and should be merged.
+Find items that describe EXACTLY the same concept and should be merged.
 
 ## Items
 {items_json}
@@ -19,9 +19,13 @@ Return JSON:
 {{"merges": [{{"keep_id": "<id to keep>", "remove_id": "<id to merge into keep>"}}]}}
 
 Rules:
-- Only merge items that are truly about the same concept (not just related)
+- ONLY merge items that say the SAME thing in different words (true duplicates)
+- Do NOT merge items that are merely RELATED or CONNECTED — those are different nodes
+- Example of a merge: "想买SUV" and "考虑换一辆SUV" → same concept
+- Example of NOT merging: "想买SUV" and "家庭需要大空间" → related but distinct
 - Keep the item with higher confidence or more specific text
-- If no duplicates exist, return {{"merges": []}}
+- When in doubt, do NOT merge. Prefer keeping items separate.
+- If no true duplicates exist, return {{"merges": []}}
 """
 
 _DETECT_SYSTEM = """\
@@ -112,8 +116,8 @@ class Detector:
         )
         raw = response.content[0].text
         self._apply_detection(raw)
-        # Consolidate if graph is getting large
-        if len(self.detected_graph.items) >= 8:
+        # Consolidate if graph is getting large (conservative — only true dupes)
+        if len(self.detected_graph.items) >= 12:
             self._consolidate()
         return self.detected_graph
 
