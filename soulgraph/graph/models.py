@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Self
 
 from pydantic import BaseModel, field_validator, model_validator
@@ -63,3 +65,53 @@ class SoulEdge(BaseModel):
         if self.created_at is None:
             self.created_at = _utcnow()
         return self
+
+
+class SoulGraph(BaseModel):
+    """Append-only graph of soul items. No delete operations."""
+
+    owner_id: str
+    items: list[SoulItem] = []
+    edges: list[SoulEdge] = []
+
+    def add_item(self, item: SoulItem) -> None:
+        if any(existing.id == item.id for existing in self.items):
+            return
+        self.items.append(item)
+
+    def add_edge(self, edge: SoulEdge) -> None:
+        self.edges.append(edge)
+
+    def strengthen(self, item_id: str, delta: float) -> None:
+        for item in self.items:
+            if item.id == item_id:
+                item.confidence = _clamp(item.confidence + delta)
+                item.mention_count += 1
+                item.last_referenced = _utcnow()
+                return
+
+    def strengthen_edge(self, from_id: str, to_id: str, delta: float) -> None:
+        for edge in self.edges:
+            if edge.from_id == from_id and edge.to_id == to_id:
+                edge.strength = _clamp(edge.strength + delta)
+                return
+
+    def get_hubs(self, top_k: int = 5) -> list[SoulItem]:
+        edge_count: dict[str, int] = {}
+        for edge in self.edges:
+            edge_count[edge.to_id] = edge_count.get(edge.to_id, 0) + 1
+            edge_count[edge.from_id] = edge_count.get(edge.from_id, 0) + 1
+        scored = [
+            (item, item.mention_count + edge_count.get(item.id, 0))
+            for item in self.items
+        ]
+        scored.sort(key=lambda x: x[1], reverse=True)
+        return [item for item, _ in scored[:top_k]]
+
+    def save(self, path: Path) -> None:
+        path.write_text(self.model_dump_json(indent=2), encoding="utf-8")
+
+    @classmethod
+    def load(cls, path: Path) -> SoulGraph:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return cls.model_validate(data)
