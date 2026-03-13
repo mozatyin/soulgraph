@@ -38,6 +38,7 @@ class SoulItem(BaseModel):
     created_at: datetime | None = None
     last_referenced: datetime | None = None
     mention_count: int = 0
+    tags: list[str] = []
 
     @field_validator("confidence", "specificity", mode="before")
     @classmethod

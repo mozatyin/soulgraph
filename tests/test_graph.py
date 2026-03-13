@@ -176,6 +176,30 @@ class TestFilters:
         assert sub.items[0].id == "si_002"
 
 
+class TestSoulItemTags:
+    def test_tags_default_empty(self):
+        item = SoulItem(id="si_001", text="test", domains=["x"])
+        assert item.tags == []
+
+    def test_tags_assigned(self):
+        item = SoulItem(id="si_001", text="想创业", domains=["career"],
+                        tags=["intention", "goal"])
+        assert "intention" in item.tags
+        assert "goal" in item.tags
+
+    def test_tags_survive_json_roundtrip(self):
+        import tempfile
+        from pathlib import Path
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="test", domains=["x"],
+                            tags=["fact", "preference"]))
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "test.json"
+            g.save(path)
+            loaded = SoulGraph.load(path)
+            assert loaded.items[0].tags == ["fact", "preference"]
+
+
 class TestFixtures:
     def test_load_car_buyer(self):
         path = Path(__file__).parent.parent / "fixtures" / "car_buyer.json"
