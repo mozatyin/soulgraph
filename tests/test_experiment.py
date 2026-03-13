@@ -82,6 +82,25 @@ class TestExperimentRunner:
         assert mock_detector.listen_and_detect.call_count == 3
 
 
+class TestMultiSessionResult:
+    def test_multi_session_result(self):
+        from soulgraph.experiment.models import MultiSessionResult
+        result = MultiSessionResult(
+            session_scores=[
+                {"rank_correlation": 0.4, "absorption_rate": 0.3},
+                {"rank_correlation": 0.5, "absorption_rate": 0.6},
+                {"rank_correlation": 0.7, "absorption_rate": 0.9},
+            ],
+            rank_improvement=0.3,
+            final_scores={"rank_correlation": 0.7, "absorption_rate": 0.9, "overall": 0.8},
+            num_sessions=3,
+            turns_per_session=10,
+        )
+        assert result.num_sessions == 3
+        assert result.rank_improvement == 0.3
+        assert len(result.session_scores) == 3
+
+
 class TestDetectorSession:
     def test_detector_session_number(self):
         from soulgraph.experiment.detector import Detector
