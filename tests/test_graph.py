@@ -268,3 +268,20 @@ class TestFixtures:
         hubs = g.get_hubs(top_k=3)
         hub_ids = {h.id for h in hubs}
         assert "si_002" in hub_ids or "si_001" in hub_ids
+
+    def test_load_zhang_wei(self):
+        path = Path(__file__).parent.parent / "fixtures" / "zhang_wei.json"
+        g = SoulGraph.load(path)
+        assert g.owner_id == "zhang_wei"
+        assert len(g.items) >= 50
+        assert len(g.edges) >= 70
+        # Verify PageRank works on this graph
+        ranks = g.pagerank()
+        assert len(ranks) == len(g.items)
+        # Top-ranked item should be an intention
+        top_id = max(ranks, key=ranks.get)
+        top_item = next(i for i in g.items if i.id == top_id)
+        assert "intention" in top_item.tags
+        # Verify domain PageRank works
+        career_ranks = g.domain_pagerank("career")
+        assert len(career_ranks) == len(g.items)
