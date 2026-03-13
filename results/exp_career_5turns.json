@@ -1,0 +1,887 @@
+{
+  "conversation": [
+    {
+      "role": "speaker",
+      "content": "嗯...最近真的有个事情一直在我脑子里转啊。你知道那种感觉吗，就是心里有个声音一直在说'也许是时候了'，但又有另一个声音在说'你疯了吗'？哈哈，可能听起来很抽象，就是关于要不要跳出现在的舒适圈，做点自己真正想做的事情。"
+    },
+    {
+      "role": "detector",
+      "content": "那个\"自己真正想做的事情\"是什么样的呢？哪怕只是一个模糊的轮廓也好，能跟我说说吗？"
+    },
+    {
+      "role": "speaker",
+      "content": "其实...我一直想做一个AI工具，专门给中小企业用的那种。你知道吗，现在这些大的AI产品都挺贵的，小公司根本用不起，但他们其实也有很多重复性工作可以用AI来提效。我在大厂这些年，技术积累应该是够了，就是...嗯，说实话我不太确定自己能不能搞定销售这块，我这人比较内向，跟客户打交道不是我的强项。"
+    },
+    {
+      "role": "detector",
+      "content": "那种内向的感觉，是觉得自己不善于跟陌生人建立联系，还是更多担心在销售过程中需要\"推销\"自己不够相信的东西？"
+    },
+    {
+      "role": "speaker",
+      "content": "哎，你说得很准。其实两种都有吧...我是真的不太会跟陌生人聊天，尤其是那种要主动去'推'什么东西的时候，总感觉很不自在。但更深层的，可能还是你说的第二点——我怕万一产品做出来不够好，或者解决不了客户的实际问题，那我不就是在忽悠人家吗？我记得大学时候做过一个小项目，那时候特别有成就感，因为真的帮用户解决了问题，他们会主动来找我。现在想想，也许好产品是会自己说话的？"
+    },
+    {
+      "role": "detector",
+      "content": "当时大学那个项目，是什么让用户主动找到你的？是产品本身的某个特点，还是你用了什么特别的方式让他们知道这个东西的存在？"
+    },
+    {
+      "role": "speaker",
+      "content": "哈哈，那时候其实挺简单的，就是做了个小工具帮同学们自动排课表，解决选课冲突的问题。我记得第一个用户是我室友，他用了之后觉得特别好用，然后就在宿舍群里推荐，接着就是口口相传...那时候也没想过要赚钱，就是看到大家每学期都为排课头疼，我就想能不能写个程序解决这事儿。\n\n真正让我印象深刻的是，后来有些我完全不认识的同学会主动找到我，说听说我有个排课神器。那种感觉...就是你做的东西真的在帮到别人，而且他们愿意主动传播，这比任何推销都管用啊。现在想想，可能好的产品确实不需要太多花哨的营销？"
+    },
+    {
+      "role": "detector",
+      "content": "从那个排课工具到现在想做的AI工具，中间这些年你有没有再遇到过类似的时刻——看到一个问题就忍不住想\"我能不能也做个工具解决这个\"？"
+    },
+    {
+      "role": "speaker",
+      "content": "有啊，工作这些年经常会有这种冲动。比如看到我们公司那些运营同事每天要手动整理各种报表，我就会想能不能写个脚本自动化；或者看到我妻子她们学校老师批改作业特别辛苦，我也琢磨过能不能做点什么...但是嗯，大部分时候都只是想想，因为在公司嘛，时间都被各种需求和会议占满了。而且说实话，家里两个孩子，老大7岁小的才3岁，回家之后基本就是陪娃时间，哪还有精力搞副业啊。现在想想，可能就是因为一直被这些事情绊着，那种创造的冲动反而越来越强烈了？"
+    },
+    {
+      "role": "detector",
+      "content": "那种\"被绑着手脚却又想创造\"的感觉，会让你在深夜或者某些安静时刻特别强烈地想象——如果真的有时间和空间去做，你会从哪里开始？"
+    }
+  ],
+  "ground_truth": {
+    "owner_id": "career_changer_001",
+    "items": [
+      {
+        "id": "si_001",
+        "text": "在大厂做了8年程序员，技术能力强但感觉到了天花板",
+        "domains": [
+          "career",
+          "identity"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.391933Z",
+        "last_referenced": "2026-03-13T08:09:14.391933Z",
+        "mention_count": 4
+      },
+      {
+        "id": "si_002",
+        "text": "内心一直想创业做自己的产品",
+        "domains": [
+          "ambition",
+          "career"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392564Z",
+        "last_referenced": "2026-03-13T08:09:14.392564Z",
+        "mention_count": 3
+      },
+      {
+        "id": "si_003",
+        "text": "妻子是老师，收入稳定但不高，家庭经济压力主要靠自己",
+        "domains": [
+          "family",
+          "finance"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392569Z",
+        "last_referenced": "2026-03-13T08:09:14.392569Z",
+        "mention_count": 2
+      },
+      {
+        "id": "si_004",
+        "text": "有两个孩子，大的7岁小的3岁",
+        "domains": [
+          "family"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392572Z",
+        "last_referenced": "2026-03-13T08:09:14.392572Z",
+        "mention_count": 3
+      },
+      {
+        "id": "si_005",
+        "text": "大学时做过一个小项目赚了第一桶金，那种成就感至今难忘",
+        "domains": [
+          "experience",
+          "ambition"
+        ],
+        "confidence": 0.7,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392575Z",
+        "last_referenced": "2026-03-13T08:09:14.392575Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_006",
+        "text": "害怕创业失败后无法养家",
+        "domains": [
+          "fear",
+          "family",
+          "finance"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.6,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392578Z",
+        "last_referenced": "2026-03-13T08:09:14.392578Z",
+        "mention_count": 4
+      },
+      {
+        "id": "si_007",
+        "text": "同事老王去年辞职创业，现在做得风生水起",
+        "domains": [
+          "social",
+          "career"
+        ],
+        "confidence": 0.6,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392580Z",
+        "last_referenced": "2026-03-13T08:09:14.392580Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_008",
+        "text": "看到AI时代的机会，觉得现在是创业的好时机",
+        "domains": [
+          "opportunity",
+          "career",
+          "technology"
+        ],
+        "confidence": 0.7,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392583Z",
+        "last_referenced": "2026-03-13T08:09:14.392583Z",
+        "mention_count": 2
+      },
+      {
+        "id": "si_009",
+        "text": "性格偏内向，不擅长社交和销售",
+        "domains": [
+          "personality",
+          "concern"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.5,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392585Z",
+        "last_referenced": "2026-03-13T08:09:14.392585Z",
+        "mention_count": 2
+      },
+      {
+        "id": "si_010",
+        "text": "妻子支持但希望有退路计划",
+        "domains": [
+          "family",
+          "career"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.6,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392587Z",
+        "last_referenced": "2026-03-13T08:09:14.392587Z",
+        "mention_count": 2
+      },
+      {
+        "id": "si_011",
+        "text": "存款够一家四口生活18个月",
+        "domains": [
+          "finance",
+          "facts"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392589Z",
+        "last_referenced": "2026-03-13T08:09:14.392589Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_012",
+        "text": "想做一个面向中小企业的AI工具",
+        "domains": [
+          "ambition",
+          "technology",
+          "career"
+        ],
+        "confidence": 0.7,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:14.392592Z",
+        "last_referenced": "2026-03-13T08:09:14.392592Z",
+        "mention_count": 2
+      }
+    ],
+    "edges": [
+      {
+        "from_id": "si_001",
+        "to_id": "si_002",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T08:09:14.392598Z"
+      },
+      {
+        "from_id": "si_003",
+        "to_id": "si_006",
+        "relation": "causes",
+        "strength": 0.8,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T08:09:14.392607Z"
+      },
+      {
+        "from_id": "si_004",
+        "to_id": "si_006",
+        "relation": "drives",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T08:09:14.392610Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_002",
+        "relation": "enables",
+        "strength": 0.6,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:14.392612Z"
+      },
+      {
+        "from_id": "si_006",
+        "to_id": "si_002",
+        "relation": "conflicts_with",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:14.392614Z"
+      },
+      {
+        "from_id": "si_007",
+        "to_id": "si_002",
+        "relation": "enables",
+        "strength": 0.5,
+        "confidence": 0.6,
+        "created_at": "2026-03-13T08:09:14.392616Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_002",
+        "relation": "drives",
+        "strength": 0.7,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:14.392617Z"
+      },
+      {
+        "from_id": "si_009",
+        "to_id": "si_006",
+        "relation": "drives",
+        "strength": 0.6,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:14.392619Z"
+      },
+      {
+        "from_id": "si_010",
+        "to_id": "si_002",
+        "relation": "enables",
+        "strength": 0.6,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:14.392621Z"
+      },
+      {
+        "from_id": "si_010",
+        "to_id": "si_011",
+        "relation": "enables",
+        "strength": 0.5,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:14.392623Z"
+      },
+      {
+        "from_id": "si_011",
+        "to_id": "si_006",
+        "relation": "constrains",
+        "strength": 0.5,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:14.392625Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_012",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:14.392626Z"
+      },
+      {
+        "from_id": "si_001",
+        "to_id": "si_012",
+        "relation": "enables",
+        "strength": 0.7,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:14.392628Z"
+      }
+    ]
+  },
+  "detected_graph": {
+    "owner_id": "unknown",
+    "items": [
+      {
+        "id": "si_001",
+        "text": "内心冲突：一部分想要改变，一部分害怕风险",
+        "domains": [
+          "emotional",
+          "decision_making"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:30.243249Z",
+        "last_referenced": "2026-03-13T08:09:30.243249Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_002",
+        "text": "想要跳出舒适圈",
+        "domains": [
+          "intentions",
+          "personal_growth"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:30.243289Z",
+        "last_referenced": "2026-03-13T08:09:30.243289Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_003",
+        "text": "有真正想做的事情（但还未具体化）",
+        "domains": [
+          "aspirations",
+          "values"
+        ],
+        "confidence": 0.7999999999999999,
+        "specificity": 0.6,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:30.243298Z",
+        "last_referenced": "2026-03-13T08:09:47.783803Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_004",
+        "text": "这个想法最近一直在脑海中盘旋",
+        "domains": [
+          "thoughts",
+          "current_state"
+        ],
+        "confidence": 1.0,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:30.243304Z",
+        "last_referenced": "2026-03-13T08:09:47.783810Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_005",
+        "text": "想做一个AI工具，专门给中小企业用",
+        "domains": [
+          "aspirations",
+          "career",
+          "entrepreneurship"
+        ],
+        "confidence": 1.0,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:47.783178Z",
+        "last_referenced": "2026-03-13T08:10:56.463430Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_006",
+        "text": "认为现有AI产品对小公司来说太贵了",
+        "domains": [
+          "market_insight",
+          "values"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:47.783543Z",
+        "last_referenced": "2026-03-13T08:09:47.783543Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_007",
+        "text": "在大厂工作多年，有技术积累",
+        "domains": [
+          "professional_background",
+          "strengths"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:47.783552Z",
+        "last_referenced": "2026-03-13T08:09:47.783552Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_008",
+        "text": "担心自己搞不定销售，因为比较内向",
+        "domains": [
+          "concerns",
+          "self_perception",
+          "personality"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:09:47.783559Z",
+        "last_referenced": "2026-03-13T08:09:47.783559Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_009",
+        "text": "不善于与陌生人聊天，主动推销时感到不自在",
+        "domains": [
+          "personality",
+          "social_skills",
+          "self_perception"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:10.282282Z",
+        "last_referenced": "2026-03-13T08:10:10.282282Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_010",
+        "text": "担心产品不够好会误导客户，有道德顾虑",
+        "domains": [
+          "values",
+          "concerns",
+          "ethics"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:10.282331Z",
+        "last_referenced": "2026-03-13T08:10:10.282331Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_011",
+        "text": "大学时做过让用户主动找来的成功项目，获得成就感",
+        "domains": [
+          "past_experience",
+          "achievements",
+          "validation"
+        ],
+        "confidence": 1.0,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:10.282338Z",
+        "last_referenced": "2026-03-13T08:10:34.283921Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_012",
+        "text": "相信好产品会自己说话，用户会主动找来",
+        "domains": [
+          "beliefs",
+          "product_philosophy"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:10.282345Z",
+        "last_referenced": "2026-03-13T08:10:34.283923Z",
+        "mention_count": 1
+      },
+      {
+        "id": "si_013",
+        "text": "大学做排课工具帮同学解决选课冲突问题",
+        "domains": [
+          "past_experience",
+          "problem_solving",
+          "technical_skills"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:34.283775Z",
+        "last_referenced": "2026-03-13T08:10:34.283775Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_014",
+        "text": "通过室友推荐实现口口相传的自然传播",
+        "domains": [
+          "past_experience",
+          "growth_strategy",
+          "validation"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:34.283812Z",
+        "last_referenced": "2026-03-13T08:10:34.283812Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_015",
+        "text": "享受陌生用户主动找来的成就感和认可",
+        "domains": [
+          "emotional",
+          "validation",
+          "motivation"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:34.283819Z",
+        "last_referenced": "2026-03-13T08:10:34.283819Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_016",
+        "text": "当时没有商业目的，纯粹为了解决大家的痛点",
+        "domains": [
+          "values",
+          "motivation",
+          "past_experience"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:34.283824Z",
+        "last_referenced": "2026-03-13T08:10:34.283824Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_017",
+        "text": "认为好产品不需要花哨营销，会自然传播",
+        "domains": [
+          "beliefs",
+          "product_philosophy",
+          "marketing_approach"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:34.283829Z",
+        "last_referenced": "2026-03-13T08:10:34.283829Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_018",
+        "text": "工作中经常有做工具解决问题的冲动，但被现实约束",
+        "domains": [
+          "aspirations",
+          "constraints",
+          "work_life"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:56.463322Z",
+        "last_referenced": "2026-03-13T08:10:56.463322Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_019",
+        "text": "家庭责任重：妻子、7岁和3岁两个孩子",
+        "domains": [
+          "family",
+          "responsibilities",
+          "constraints"
+        ],
+        "confidence": 1.0,
+        "specificity": 0.9,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:56.463363Z",
+        "last_referenced": "2026-03-13T08:10:56.463363Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_020",
+        "text": "在公司时间被需求和会议占满，缺乏自主时间",
+        "domains": [
+          "work_life",
+          "time_constraints",
+          "current_state"
+        ],
+        "confidence": 0.9,
+        "specificity": 0.8,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:56.463370Z",
+        "last_referenced": "2026-03-13T08:10:56.463370Z",
+        "mention_count": 0
+      },
+      {
+        "id": "si_021",
+        "text": "被现实约束越多，创造冲动反而越强烈",
+        "domains": [
+          "emotional",
+          "motivation",
+          "psychological_pattern"
+        ],
+        "confidence": 0.8,
+        "specificity": 0.7,
+        "source_turn": 0,
+        "source_session": "",
+        "created_at": "2026-03-13T08:10:56.463377Z",
+        "last_referenced": "2026-03-13T08:10:56.463377Z",
+        "mention_count": 0
+      }
+    ],
+    "edges": [
+      {
+        "from_id": "si_003",
+        "to_id": "si_002",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:30.243328Z"
+      },
+      {
+        "from_id": "si_002",
+        "to_id": "si_001",
+        "relation": "causes",
+        "strength": 0.9,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:30.243335Z"
+      },
+      {
+        "from_id": "si_005",
+        "to_id": "si_003",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T08:09:47.783619Z"
+      },
+      {
+        "from_id": "si_006",
+        "to_id": "si_005",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:09:47.783625Z"
+      },
+      {
+        "from_id": "si_007",
+        "to_id": "si_005",
+        "relation": "enables",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:47.783629Z"
+      },
+      {
+        "from_id": "si_008",
+        "to_id": "si_001",
+        "relation": "causes",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:09:47.783631Z"
+      },
+      {
+        "from_id": "si_009",
+        "to_id": "si_008",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T08:10:10.282365Z"
+      },
+      {
+        "from_id": "si_010",
+        "to_id": "si_008",
+        "relation": "causes",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:10:10.282379Z"
+      },
+      {
+        "from_id": "si_011",
+        "to_id": "si_012",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:10:10.282383Z"
+      },
+      {
+        "from_id": "si_012",
+        "to_id": "si_008",
+        "relation": "compensates",
+        "strength": 0.7,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:10:10.282387Z"
+      },
+      {
+        "from_id": "si_013",
+        "to_id": "si_011",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.9,
+        "created_at": "2026-03-13T08:10:34.283883Z"
+      },
+      {
+        "from_id": "si_014",
+        "to_id": "si_015",
+        "relation": "causes",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:10:34.283899Z"
+      },
+      {
+        "from_id": "si_016",
+        "to_id": "si_014",
+        "relation": "enables",
+        "strength": 0.7,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:10:34.283908Z"
+      },
+      {
+        "from_id": "si_015",
+        "to_id": "si_017",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:10:34.283912Z"
+      },
+      {
+        "from_id": "si_017",
+        "to_id": "si_012",
+        "relation": "manifests_as",
+        "strength": 0.9,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:10:34.283915Z"
+      },
+      {
+        "from_id": "si_018",
+        "to_id": "si_005",
+        "relation": "drives",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:10:56.463404Z"
+      },
+      {
+        "from_id": "si_019",
+        "to_id": "si_020",
+        "relation": "causes",
+        "strength": 0.7,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:10:56.463409Z"
+      },
+      {
+        "from_id": "si_020",
+        "to_id": "si_018",
+        "relation": "conflicts_with",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "created_at": "2026-03-13T08:10:56.463413Z"
+      },
+      {
+        "from_id": "si_019",
+        "to_id": "si_001",
+        "relation": "causes",
+        "strength": 0.7,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:10:56.463421Z"
+      },
+      {
+        "from_id": "si_021",
+        "to_id": "si_004",
+        "relation": "manifests_as",
+        "strength": 0.8,
+        "confidence": 0.7,
+        "created_at": "2026-03-13T08:10:56.463425Z"
+      }
+    ]
+  },
+  "similarity": {
+    "hub_recall": {
+      "ground_truth_hubs": [
+        "si_002",
+        "si_006",
+        "si_001",
+        "si_004",
+        "si_008"
+      ],
+      "detected_hubs": [
+        "si_003",
+        "si_001",
+        "si_007",
+        "si_019",
+        "si_004"
+      ],
+      "recall": 1.0,
+      "semantic_threshold": 0.8
+    },
+    "local_similarities": [
+      {
+        "hub_id": "si_002",
+        "neighbor_recall": 0.0,
+        "edge_type_accuracy": 0.0,
+        "combined_score": 0.0
+      },
+      {
+        "hub_id": "si_006",
+        "neighbor_recall": 0.4,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 0.64
+      },
+      {
+        "hub_id": "si_001",
+        "neighbor_recall": 0.5,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 0.7
+      },
+      {
+        "hub_id": "si_004",
+        "neighbor_recall": 1.0,
+        "edge_type_accuracy": 1.0,
+        "combined_score": 1.0
+      },
+      {
+        "hub_id": "si_008",
+        "neighbor_recall": 0.0,
+        "edge_type_accuracy": 0.0,
+        "combined_score": 0.0
+      }
+    ],
+    "overall_score": 0.6808000000000001
+  },
+  "turns": 5
+}
