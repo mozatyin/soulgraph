@@ -1,0 +1,32 @@
+{
+  "owner_id": "car_buyer_001",
+  "items": [
+    {"id": "si_001", "text": "重视家庭，家人的需求排在第一位", "domains": ["family", "values"], "confidence": 0.9, "specificity": 0.3, "mention_count": 5},
+    {"id": "si_002", "text": "想买一辆SUV，空间大适合全家出行", "domains": ["purchase", "family"], "confidence": 0.8, "specificity": 0.7, "mention_count": 3},
+    {"id": "si_003", "text": "预算在30万以内", "domains": ["finance", "purchase"], "confidence": 0.9, "specificity": 0.9, "mention_count": 2},
+    {"id": "si_004", "text": "小时候坐过邻居的跑车，对速度有情结", "domains": ["experience", "lifestyle"], "confidence": 0.7, "specificity": 0.6, "mention_count": 1},
+    {"id": "si_005", "text": "对速度和驾驶快感有向往", "domains": ["lifestyle", "values"], "confidence": 0.6, "specificity": 0.4, "mention_count": 2},
+    {"id": "si_006", "text": "家庭安全是第一优先级，不能为了速度牺牲安全", "domains": ["family", "values", "purchase"], "confidence": 0.9, "specificity": 0.5, "mention_count": 4},
+    {"id": "si_007", "text": "同事最近买了特斯拉，开始关注电车", "domains": ["purchase", "social"], "confidence": 0.6, "specificity": 0.8, "mention_count": 1},
+    {"id": "si_008", "text": "担心电车续航不够长途自驾", "domains": ["purchase", "concern"], "confidence": 0.7, "specificity": 0.7, "mention_count": 1},
+    {"id": "si_009", "text": "每年带家人自驾游2-3次，单程500km以上", "domains": ["family", "lifestyle", "purchase"], "confidence": 0.8, "specificity": 0.9, "mention_count": 2},
+    {"id": "si_010", "text": "妻子更在意车的外观和内饰品质", "domains": ["family", "purchase"], "confidence": 0.7, "specificity": 0.7, "mention_count": 1},
+    {"id": "si_011", "text": "在IT行业工作，收入稳定但不算富裕", "domains": ["career", "finance"], "confidence": 0.8, "specificity": 0.7, "mention_count": 1},
+    {"id": "si_012", "text": "有一个5岁的女儿，是所有决策的核心考量", "domains": ["family"], "confidence": 0.9, "specificity": 0.8, "mention_count": 3}
+  ],
+  "edges": [
+    {"from_id": "si_001", "to_id": "si_002", "relation": "drives", "strength": 0.8, "confidence": 0.9},
+    {"from_id": "si_003", "to_id": "si_002", "relation": "constrains", "strength": 0.7, "confidence": 0.9},
+    {"from_id": "si_004", "to_id": "si_005", "relation": "causes", "strength": 0.7, "confidence": 0.7},
+    {"from_id": "si_005", "to_id": "si_006", "relation": "conflicts_with", "strength": 0.6, "confidence": 0.8},
+    {"from_id": "si_007", "to_id": "si_008", "relation": "enables", "strength": 0.5, "confidence": 0.6},
+    {"from_id": "si_008", "to_id": "si_009", "relation": "conflicts_with", "strength": 0.6, "confidence": 0.7},
+    {"from_id": "si_009", "to_id": "si_002", "relation": "drives", "strength": 0.7, "confidence": 0.8},
+    {"from_id": "si_010", "to_id": "si_002", "relation": "constrains", "strength": 0.5, "confidence": 0.7},
+    {"from_id": "si_011", "to_id": "si_003", "relation": "causes", "strength": 0.8, "confidence": 0.8},
+    {"from_id": "si_012", "to_id": "si_001", "relation": "drives", "strength": 0.9, "confidence": 0.9},
+    {"from_id": "si_012", "to_id": "si_006", "relation": "drives", "strength": 0.9, "confidence": 0.9},
+    {"from_id": "si_001", "to_id": "si_006", "relation": "enables", "strength": 0.8, "confidence": 0.8},
+    {"from_id": "si_006", "to_id": "si_005", "relation": "constrains", "strength": 0.7, "confidence": 0.8}
+  ]
+}

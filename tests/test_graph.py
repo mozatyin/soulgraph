@@ -174,3 +174,15 @@ class TestFilters:
                              end=datetime(2026, 4, 1, tzinfo=timezone.utc))
         assert len(sub.items) == 1
         assert sub.items[0].id == "si_002"
+
+
+class TestFixtures:
+    def test_load_car_buyer(self):
+        path = Path(__file__).parent.parent / "fixtures" / "car_buyer.json"
+        g = SoulGraph.load(path)
+        assert g.owner_id == "car_buyer_001"
+        assert len(g.items) == 12
+        assert len(g.edges) == 13
+        hubs = g.get_hubs(top_k=3)
+        hub_ids = {h.id for h in hubs}
+        assert "si_002" in hub_ids or "si_001" in hub_ids
