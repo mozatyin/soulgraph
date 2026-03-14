@@ -91,5 +91,192 @@ class DualSoul:
         return max(0.40, 0.82 - 0.06 * math.log(n))
 
     def consolidate(self) -> dict:
-        """Stub — will be implemented in Task 4."""
-        return {"merged": 0, "added": 0, "decayed": 0}
+        """Consolidate Surface → Deep. The 'sleep phase'."""
+        surface_items = self.surface.items
+        if not surface_items:
+            return {"merged": 0, "added": 0, "decayed": 0}
+
+        threshold = self._adaptive_merge_threshold()
+        self._consolidation_count += 1
+
+        # Embedding similarity: Surface × Deep
+        model = _get_emb_model()
+        surface_texts = [i.text for i in surface_items]
+        surface_embs = model.encode(surface_texts, normalize_embeddings=True)
+
+        merge_pairs: list[tuple[SoulItem, SoulItem]] = []  # (surface, deep)
+        new_items: list[SoulItem] = []
+        id_remap: dict[str, str] = {}  # surface_id → deep_id
+
+        if self._deep.items:
+            deep_texts = [i.text for i in self._deep.items]
+            deep_embs = model.encode(deep_texts, normalize_embeddings=True)
+            sim_matrix = surface_embs @ deep_embs.T
+
+            for si, s_item in enumerate(surface_items):
+                max_sim = float(np.max(sim_matrix[si]))
+                best_di = int(np.argmax(sim_matrix[si]))
+                if max_sim >= threshold:
+                    merge_pairs.append((s_item, self._deep.items[best_di]))
+                    id_remap[s_item.id] = self._deep.items[best_di].id
+                else:
+                    new_items.append(s_item)
+                    new_id = f"di_{len(self._deep.items) + len(new_items):04d}"
+                    id_remap[s_item.id] = new_id
+        else:
+            new_items = list(surface_items)
+            for idx, item in enumerate(new_items):
+                new_id = f"di_{idx + 1:04d}"
+                id_remap[item.id] = new_id
+
+        # Batch LLM merge for matched pairs
+        merged_count = 0
+        if merge_pairs:
+            merged_texts = self._batch_merge(merge_pairs)
+            for (s_item, d_item), merged_text in zip(merge_pairs, merged_texts):
+                if merged_text:
+                    d_item.text = merged_text
+                d_item.mention_count += s_item.mention_count + 1
+                d_item.confidence = min(1.0, d_item.confidence + 0.05)
+                d_item.last_reinforced_cycle = self._consolidation_count
+                for dom in s_item.domains:
+                    if dom not in d_item.domains:
+                        d_item.domains.append(dom)
+                merged_count += 1
+
+        # Add new items to Deep
+        added_count = 0
+        for item in new_items:
+            new_id = id_remap[item.id]
+            deep_item = SoulItem(
+                id=new_id,
+                text=item.text,
+                domains=item.domains,
+                item_type=item.item_type,
+                confidence=item.confidence,
+                specificity=item.specificity,
+                tags=item.tags,
+                mention_count=item.mention_count + 1,
+                last_reinforced_cycle=self._consolidation_count,
+            )
+            self._deep.add_item(deep_item)
+            added_count += 1
+
+        # Migrate edges
+        self._migrate_edges(id_remap)
+
+        # Decay unreinforced Deep nodes
+        decayed = self._apply_decay()
+
+        # Carry forward top-K and reset Surface
+        self._carry_forward_and_reset()
+
+        return {"merged": merged_count, "added": added_count, "decayed": decayed}
+
+    _MERGE_PROMPT = """\
+You are consolidating a knowledge graph. For each pair, merge the "new observation" \
+into the "existing concept" to create a single updated description.
+
+{pairs_text}
+
+Return JSON array only:
+[
+  {{"deep_id": "...", "merged_text": "one concise sentence"}},
+  ...
+]"""
+
+    def _batch_merge(self, pairs: list[tuple[SoulItem, SoulItem]]) -> list[str]:
+        """Batch LLM call to merge Surface texts into Deep texts."""
+        if not pairs:
+            return []
+
+        pairs_text = "\n".join(
+            f'- deep_id: "{d.id}", existing: "{d.text}", new observation: "{s.text}"'
+            for s, d in pairs
+        )
+        prompt = self._MERGE_PROMPT.format(pairs_text=pairs_text)
+
+        try:
+            response = self._client.messages.create(
+                model=self._model,
+                max_tokens=2048,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            raw = response.content[0].text
+            if raw.startswith("```"):
+                raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
+            start = raw.find("[")
+            end = raw.rfind("]")
+            if start >= 0 and end >= 0:
+                results = json.loads(raw[start:end + 1])
+                id_to_text = {r["deep_id"]: r["merged_text"] for r in results}
+                return [id_to_text.get(d.id, d.text) for _, d in pairs]
+        except Exception:
+            pass
+
+        # Fallback: keep existing deep texts
+        return [d.text for _, d in pairs]
+
+    def _migrate_edges(self, id_remap: dict[str, str]) -> None:
+        """Migrate Surface edges to Deep, remapping IDs."""
+        deep_ids = {item.id for item in self._deep.items}
+        for edge in self.surface.edges:
+            deep_from = id_remap.get(edge.from_id)
+            deep_to = id_remap.get(edge.to_id)
+            if not deep_from or not deep_to:
+                continue
+            if deep_from not in deep_ids or deep_to not in deep_ids:
+                continue
+            if deep_from == deep_to:
+                continue
+            existing = any(
+                e.from_id == deep_from and e.to_id == deep_to and e.relation == edge.relation
+                for e in self._deep.edges
+            )
+            if existing:
+                self._deep.strengthen_edge(deep_from, deep_to, 0.1)
+            else:
+                self._deep.add_edge(SoulEdge(
+                    from_id=deep_from,
+                    to_id=deep_to,
+                    relation=edge.relation,
+                    strength=edge.strength,
+                    confidence=edge.confidence,
+                ))
+
+    def _apply_decay(self) -> int:
+        """Decay unreinforced Deep nodes. Returns count of decayed nodes."""
+        decayed = 0
+        for item in self._deep.items:
+            if item.last_reinforced_cycle < self._consolidation_count:
+                cycles_since = self._consolidation_count - item.last_reinforced_cycle
+                decay_amount = 0.02 * cycles_since
+                item.confidence = max(0.05, item.confidence - decay_amount)
+                decayed += 1
+        return decayed
+
+    def _carry_forward_and_reset(self) -> None:
+        """Keep top-K Surface nodes by PageRank, reset the rest."""
+        if not self.surface.items:
+            return
+
+        pr = self.surface.pagerank()
+        if not pr:
+            self._detector.detected_graph = SoulGraph(owner_id=self.surface.owner_id)
+            return
+
+        sorted_ids = sorted(pr, key=pr.get, reverse=True)[:self.carry_forward_k]
+        selected = set(sorted_ids)
+
+        carry_items = [i for i in self.surface.items if i.id in selected]
+        carry_edges = [
+            e for e in self.surface.edges
+            if e.from_id in selected and e.to_id in selected
+        ]
+
+        new_surface = SoulGraph(
+            owner_id=self.surface.owner_id,
+            items=carry_items,
+            edges=carry_edges,
+        )
+        self._detector.detected_graph = new_surface

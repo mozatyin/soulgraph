@@ -94,3 +94,117 @@ class TestAdaptiveThreshold:
                 id=f"si_{i:05d}", text=f"item {i}", domains=["test"]
             ))
         assert ds._adaptive_merge_threshold() >= 0.40
+
+
+class TestConsolidation:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_consolidate_empty_surface(self, MockDetector):
+        """Consolidation with empty Surface should be a no-op."""
+        mock_det = MockDetector.return_value
+        mock_det.detected_graph = SoulGraph(owner_id="test")
+        ds = DualSoul(api_key="fake")
+        result = ds.consolidate()
+        assert result["merged"] == 0
+        assert result["added"] == 0
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_consolidate_adds_new_to_deep(self, MockDetector):
+        """Surface nodes with no Deep match should be added as new."""
+        mock_det = MockDetector.return_value
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="loves hiking", domains=["hobby"], confidence=0.8))
+        g.add_item(SoulItem(id="si_002", text="fears poverty", domains=["emotion"], confidence=0.9))
+        mock_det.detected_graph = g
+
+        ds = DualSoul(api_key="fake")
+        result = ds.consolidate()
+
+        assert result["added"] == 2
+        assert len(ds.deep.items) == 2
+
+
+class TestBatchMerge:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_batch_merge_returns_texts(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        # Mock the LLM client
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text='[{"deep_id": "di_001", "merged_text": "merged concept A and B"}]')]
+        ds._client = MagicMock()
+        ds._client.messages.create.return_value = mock_response
+
+        s_item = SoulItem(id="si_001", text="concept A", domains=["test"])
+        d_item = SoulItem(id="di_001", text="concept B", domains=["test"])
+        pairs = [(s_item, d_item)]
+
+        result = ds._batch_merge(pairs)
+        assert len(result) == 1
+        assert "merged" in result[0].lower()
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_batch_merge_empty(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        result = ds._batch_merge([])
+        assert result == []
+
+
+class TestEdgeMigration:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_edges_remapped_to_deep(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        remap = {"si_001": "di_001", "si_002": "di_002"}
+        ds._detector.detected_graph = SoulGraph(owner_id="test")
+        ds.surface.add_item(SoulItem(id="si_001", text="a", domains=["x"]))
+        ds.surface.add_item(SoulItem(id="si_002", text="b", domains=["x"]))
+        ds.surface.add_edge(SoulEdge(from_id="si_001", to_id="si_002", relation="drives"))
+        ds._deep.add_item(SoulItem(id="di_001", text="a", domains=["x"]))
+        ds._deep.add_item(SoulItem(id="di_002", text="b", domains=["x"]))
+
+        ds._migrate_edges(remap)
+
+        assert len(ds._deep.edges) >= 1
+        e = ds._deep.edges[0]
+        assert e.from_id == "di_001"
+        assert e.to_id == "di_002"
+
+
+class TestDecay:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_unreinforced_nodes_decay(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        ds._consolidation_count = 5
+        ds._deep.add_item(SoulItem(
+            id="di_001", text="old item", domains=["x"],
+            confidence=0.8, last_reinforced_cycle=1
+        ))
+        ds._deep.add_item(SoulItem(
+            id="di_002", text="recent item", domains=["x"],
+            confidence=0.8, last_reinforced_cycle=5
+        ))
+
+        decayed = ds._apply_decay()
+
+        old = next(i for i in ds._deep.items if i.id == "di_001")
+        recent = next(i for i in ds._deep.items if i.id == "di_002")
+        assert old.confidence < 0.8
+        assert recent.confidence == 0.8
+        assert decayed >= 1
+
+
+class TestCarryForward:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_carry_forward_keeps_top_k(self, MockDetector):
+        mock_det = MockDetector.return_value
+        g = SoulGraph(owner_id="test")
+        for i in range(20):
+            g.add_item(SoulItem(id=f"si_{i:03d}", text=f"item {i}", domains=["x"]))
+        for i in range(1, 15):
+            g.add_edge(SoulEdge(from_id=f"si_{i:03d}", to_id="si_000", relation="drives"))
+        mock_det.detected_graph = g
+
+        ds = DualSoul(api_key="fake", carry_forward_k=5)
+        ds._carry_forward_and_reset()
+
+        assert len(ds.surface.items) <= 5
+        carried_ids = {i.id for i in ds.surface.items}
+        assert "si_000" in carried_ids
