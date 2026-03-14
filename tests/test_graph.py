@@ -378,3 +378,13 @@ class TestFixtures:
         assert all("session" in s for s in sessions)
         # Session 3 should revisit career
         assert "career" in sessions[2]["topic_hints"]
+
+    def test_zhang_wei_has_queries(self):
+        import json
+        path = Path(__file__).parent.parent / "fixtures" / "zhang_wei.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        assert "queries" in data
+        queries = data["queries"]
+        assert len(queries) >= 5
+        assert all("query" in q for q in queries)
+        assert all("expected_domains" in q for q in queries)

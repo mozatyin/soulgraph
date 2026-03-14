@@ -182,5 +182,32 @@
       "topic_hints": ["health", "hobbies", "stories", "career"],
       "description": "Health, hobbies, life stories, PLUS revisit career (mention reinforcement)"
     }
+  ],
+  "queries": [
+    {
+      "query": "创业",
+      "description": "Startup ambition — should pull career + finance + family + identity",
+      "expected_domains": ["career", "finance", "family", "identity"]
+    },
+    {
+      "query": "家庭责任",
+      "description": "Family responsibility — should pull family + finance + values",
+      "expected_domains": ["family", "finance", "values"]
+    },
+    {
+      "query": "健康",
+      "description": "Health concerns — should pull health + career stress + hobbies",
+      "expected_domains": ["health", "career", "hobbies"]
+    },
+    {
+      "query": "人生意义",
+      "description": "Life meaning — should pull values + identity + stories",
+      "expected_domains": ["values", "identity", "stories"]
+    },
+    {
+      "query": "si_002",
+      "description": "Direct node query — 想创业做AI工具, the top hub",
+      "expected_domains": ["career", "identity", "finance"]
+    }
   ]
 }
