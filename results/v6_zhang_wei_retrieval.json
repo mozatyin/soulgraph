@@ -1,0 +1,119 @@
+{
+  "session_scores": [
+    {
+      "rank_correlation": 0.483,
+      "domain_ndcg": 0.959,
+      "absorption_rate": 0.967,
+      "intention_recall": 1.0,
+      "overall": 0.826,
+      "matched_items": 59,
+      "gt_items": 61,
+      "det_items": 69
+    },
+    {
+      "rank_correlation": 0.602,
+      "domain_ndcg": 0.905,
+      "absorption_rate": 0.984,
+      "intention_recall": 1.0,
+      "overall": 0.849,
+      "matched_items": 60,
+      "gt_items": 61,
+      "det_items": 113
+    },
+    {
+      "rank_correlation": 0.587,
+      "domain_ndcg": 0.907,
+      "absorption_rate": 1.0,
+      "intention_recall": 1.0,
+      "overall": 0.848,
+      "matched_items": 61,
+      "gt_items": 61,
+      "det_items": 141
+    }
+  ],
+  "rank_improvement": 0.104,
+  "final_scores": {
+    "rank_correlation": 0.587,
+    "domain_ndcg": 0.907,
+    "absorption_rate": 1.0,
+    "intention_recall": 1.0,
+    "overall": 0.848,
+    "matched_items": 61,
+    "gt_items": 61,
+    "det_items": 141
+  },
+  "num_sessions": 3,
+  "turns_per_session": [
+    10,
+    10,
+    10
+  ],
+  "query_scores": [
+    {
+      "query": "创业",
+      "node_count": 15,
+      "edge_count": 43,
+      "cross_domain_coverage": 13,
+      "is_connected": false,
+      "density": 0.167,
+      "faithfulness": 1.0,
+      "comprehensiveness": 0.8,
+      "diversity": 1.0,
+      "structural_score": 0.411,
+      "retrieval_score": 0.822
+    },
+    {
+      "query": "家庭责任",
+      "node_count": 15,
+      "edge_count": 36,
+      "cross_domain_coverage": 11,
+      "is_connected": true,
+      "density": 0.138,
+      "faithfulness": 0.87,
+      "comprehensiveness": 0.9,
+      "diversity": 1.0,
+      "structural_score": 0.892,
+      "retrieval_score": 0.909
+    },
+    {
+      "query": "健康",
+      "node_count": 15,
+      "edge_count": 28,
+      "cross_domain_coverage": 15,
+      "is_connected": false,
+      "density": 0.114,
+      "faithfulness": 0.93,
+      "comprehensiveness": 0.2,
+      "diversity": 0.5,
+      "structural_score": 0.376,
+      "retrieval_score": 0.514
+    },
+    {
+      "query": "人生意义",
+      "node_count": 15,
+      "edge_count": 40,
+      "cross_domain_coverage": 11,
+      "is_connected": true,
+      "density": 0.143,
+      "faithfulness": 1.0,
+      "comprehensiveness": 0.9,
+      "diversity": 1.0,
+      "structural_score": 0.895,
+      "retrieval_score": 0.949
+    },
+    {
+      "query": "si_002",
+      "node_count": 15,
+      "edge_count": 43,
+      "cross_domain_coverage": 12,
+      "is_connected": true,
+      "density": 0.162,
+      "faithfulness": 1.0,
+      "comprehensiveness": 0.7,
+      "diversity": 1.0,
+      "structural_score": 0.908,
+      "retrieval_score": 0.892
+    }
+  ],
+  "mean_retrieval_score": 0.817
+}
