@@ -20,12 +20,18 @@ def main() -> None:
     parser.add_argument("--runs", type=int, default=1, help="Number of runs for multi-run averaging (default 1)")
     parser.add_argument("--sessions", type=int, default=0, help="Number of sessions for multi-session experiment (reads session configs from fixture)")
     parser.add_argument("--queries", action="store_true", default=False, help="Run query evaluation phase after multi-session (reads queries from fixture)")
+    parser.add_argument("--interact", action="store_true", help="Interactive mode: chat to build a soul graph, then query it")
+    parser.add_argument("--load", type=str, help="Load a saved graph before entering interactive mode")
     args = parser.parse_args()
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         print("Error: ANTHROPIC_API_KEY environment variable not set", file=sys.stderr)
         sys.exit(1)
+
+    if args.interact:
+        _interactive(api_key, load_path=args.load, save_path=args.output)
+        return
 
     if args.smoke:
         fixture_path = Path(__file__).parent.parent / "fixtures" / "car_buyer.json"
@@ -83,6 +89,94 @@ def main() -> None:
                 print(f"\nResult saved to {args.output}")
     else:
         parser.print_help()
+
+
+def _interactive(api_key: str, load_path: str | None = None, save_path: str | None = None) -> None:
+    """Interactive REPL: chat to build a soul graph, then query it."""
+    from soulgraph.engine import SoulEngine
+
+    engine = SoulEngine(api_key=api_key)
+    if load_path:
+        engine.load(load_path)
+        g = engine.graph
+        print(f"Loaded graph: {len(g.items)} items, {len(g.edges)} edges")
+
+    print("SoulGraph Interactive Mode")
+    print("=" * 40)
+    print("Commands:")
+    print("  (type text)     → ingest as conversation")
+    print("  /query <text>   → query the soul graph")
+    print("  /graph          → show current graph summary")
+    print("  /items          → list all items")
+    print("  /save [path]    → save graph to file")
+    print("  /quit           → exit")
+    print()
+
+    while True:
+        try:
+            line = input("you> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            break
+
+        if not line:
+            continue
+
+        if line == "/quit":
+            break
+
+        if line == "/graph":
+            g = engine.graph
+            print(f"\n  {len(g.items)} items, {len(g.edges)} edges")
+            if g.items:
+                domains: set[str] = set()
+                for item in g.items:
+                    domains.update(item.domains)
+                print(f"  Domains: {', '.join(sorted(domains))}")
+            print()
+            continue
+
+        if line == "/items":
+            g = engine.graph
+            if not g.items:
+                print("  (empty graph)")
+            else:
+                for item in g.items:
+                    print(f"  {item.id}: {item.text[:60]}  [{item.item_type.value}] domains={item.domains}")
+            print()
+            continue
+
+        if line.startswith("/save"):
+            parts = line.split(maxsplit=1)
+            path = parts[1] if len(parts) > 1 else (save_path or "soulgraph_saved.json")
+            engine.save(path)
+            print(f"  Saved to {path}")
+            print()
+            continue
+
+        if line.startswith("/query "):
+            question = line[7:].strip()
+            if not question:
+                print("  Usage: /query <your question>")
+                continue
+            if not engine.graph.items:
+                print("  Graph is empty — chat first to build it.")
+                continue
+            print("  thinking...")
+            answer = engine.query(question)
+            print(f"\n  {answer}\n")
+            continue
+
+        # Default: ingest as conversation
+        print("  ingesting...")
+        engine.ingest(line)
+        g = engine.graph
+        print(f"  [{len(g.items)} items, {len(g.edges)} edges]\n")
+
+    # Auto-save on exit if output path specified
+    if save_path and engine.graph.items:
+        engine.save(save_path)
+        print(f"Graph saved to {save_path}")
 
 
 def _print_result(result) -> None:
