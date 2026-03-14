@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 
+import numpy as np
 import networkx as nx
 from datetime import datetime, timezone
 from pathlib import Path
@@ -9,6 +10,16 @@ from enum import Enum
 from typing import Self
 
 from pydantic import BaseModel, field_validator, model_validator
+from sentence_transformers import SentenceTransformer
+
+_embedding_model: SentenceTransformer | None = None
+
+
+def _get_embedding_model() -> SentenceTransformer:
+    global _embedding_model
+    if _embedding_model is None:
+        _embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _embedding_model
 
 
 class ItemType(str, Enum):
@@ -198,6 +209,42 @@ class SoulGraph(BaseModel):
             return nx.pagerank(G, alpha=alpha, personalization=personalization, weight="weight")
         except nx.PowerIterationFailedConvergence:
             return {item.id: 1.0 / len(self.items) for item in self.items}
+
+    def query_subgraph(self, query: str, top_k: int = 15, alpha: float = 0.85, seed_k: int = 5) -> SoulGraph:
+        if not self.items:
+            return SoulGraph(owner_id=self.owner_id)
+        seed_ids = self._resolve_seeds(query, seed_k)
+        if not seed_ids:
+            return SoulGraph(owner_id=self.owner_id)
+        G = self._to_nx()
+        personalization = {item.id: 0.0 for item in self.items}
+        for sid in seed_ids:
+            personalization[sid] = 1.0 / len(seed_ids)
+        try:
+            ppr = nx.pagerank(G, alpha=alpha, personalization=personalization, weight="weight")
+        except nx.PowerIterationFailedConvergence:
+            ppr = {item.id: 1.0 / len(self.items) for item in self.items}
+        sorted_ids = sorted(ppr, key=ppr.get, reverse=True)[:top_k]
+        selected = set(sorted_ids)
+        items = [i for i in self.items if i.id in selected]
+        edges = [e for e in self.edges if e.from_id in selected and e.to_id in selected]
+        return SoulGraph(owner_id=self.owner_id, items=items, edges=edges)
+
+    def _resolve_seeds(self, query: str, seed_k: int) -> list[str]:
+        item_ids = {i.id for i in self.items}
+        if query in item_ids:
+            return [query]
+        model = _get_embedding_model()
+        query_emb = model.encode([query], normalize_embeddings=True)
+        item_texts = [i.text for i in self.items]
+        item_embs = model.encode(item_texts, normalize_embeddings=True)
+        sims = (query_emb @ item_embs.T)[0]
+        top_indices = np.argsort(sims)[::-1][:seed_k]
+        seeds = []
+        for idx in top_indices:
+            if sims[idx] >= 0.3:
+                seeds.append(self.items[idx].id)
+        return seeds if seeds else [self.items[top_indices[0]].id]
 
     def save(self, path: Path) -> None:
         path.write_text(self.model_dump_json(indent=2), encoding="utf-8")

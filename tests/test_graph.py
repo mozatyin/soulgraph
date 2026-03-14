@@ -279,6 +279,66 @@ class TestSessionAwareness:
         assert ranks["si_001"] > ranks["si_002"]
 
 
+class TestQuerySubgraph:
+    def _make_graph(self) -> SoulGraph:
+        g = SoulGraph(owner_id="test")
+        g.add_item(SoulItem(id="si_001", text="想创业做AI工具", domains=["career", "identity"], mention_count=5, tags=["intention"]))
+        g.add_item(SoulItem(id="si_002", text="8年程序员", domains=["career"], mention_count=3))
+        g.add_item(SoulItem(id="si_003", text="技术到了天花板", domains=["career"], mention_count=2))
+        g.add_item(SoulItem(id="si_004", text="女儿5岁", domains=["family"], mention_count=4))
+        g.add_item(SoulItem(id="si_005", text="害怕创业失败养不了家", domains=["career", "family", "finance"], mention_count=6, tags=["intention"]))
+        g.add_item(SoulItem(id="si_006", text="房贷压力大", domains=["finance"], mention_count=3))
+        g.add_item(SoulItem(id="si_007", text="存款够18个月", domains=["finance"], mention_count=2))
+        g.add_item(SoulItem(id="si_008", text="喜欢骑自行车", domains=["hobbies"], mention_count=1))
+        g.add_edge(SoulEdge(from_id="si_002", to_id="si_001", relation="drives", strength=0.8))
+        g.add_edge(SoulEdge(from_id="si_003", to_id="si_001", relation="drives", strength=0.7))
+        g.add_edge(SoulEdge(from_id="si_006", to_id="si_005", relation="drives", strength=0.9))
+        g.add_edge(SoulEdge(from_id="si_004", to_id="si_005", relation="drives", strength=0.8))
+        g.add_edge(SoulEdge(from_id="si_005", to_id="si_001", relation="conflicts_with", strength=0.9))
+        g.add_edge(SoulEdge(from_id="si_007", to_id="si_001", relation="enables", strength=0.7))
+        return g
+
+    def test_query_by_node_id(self):
+        g = self._make_graph()
+        sub = g.query_subgraph("si_001", top_k=5)
+        assert len(sub.items) <= 5
+        assert any(i.id == "si_001" for i in sub.items)
+
+    def test_query_by_text(self):
+        g = self._make_graph()
+        sub = g.query_subgraph("创业", top_k=5)
+        assert len(sub.items) >= 1
+        sub_ids = {i.id for i in sub.items}
+        assert "si_001" in sub_ids
+
+    def test_query_cross_domain(self):
+        g = self._make_graph()
+        sub = g.query_subgraph("创业", top_k=7)
+        domains = set()
+        for item in sub.items:
+            domains.update(item.domains)
+        assert len(domains) >= 2
+
+    def test_query_returns_subgraph_with_edges(self):
+        g = self._make_graph()
+        sub = g.query_subgraph("创业", top_k=5)
+        sub_ids = {i.id for i in sub.items}
+        for edge in sub.edges:
+            assert edge.from_id in sub_ids
+            assert edge.to_id in sub_ids
+
+    def test_query_empty_graph(self):
+        g = SoulGraph(owner_id="empty")
+        sub = g.query_subgraph("anything", top_k=5)
+        assert len(sub.items) == 0
+        assert len(sub.edges) == 0
+
+    def test_query_top_k_limits(self):
+        g = self._make_graph()
+        sub = g.query_subgraph("创业", top_k=3)
+        assert len(sub.items) <= 3
+
+
 class TestFixtures:
     def test_load_car_buyer(self):
         path = Path(__file__).parent.parent / "fixtures" / "car_buyer.json"
