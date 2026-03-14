@@ -176,6 +176,16 @@ class TestFilters:
         assert sub.items[0].id == "si_002"
 
 
+class TestSoulItemReinforcedCycle:
+    def test_default_last_reinforced_cycle(self):
+        item = SoulItem(id="si_001", text="test", domains=["x"])
+        assert item.last_reinforced_cycle == 0
+
+    def test_set_last_reinforced_cycle(self):
+        item = SoulItem(id="si_001", text="test", domains=["x"], last_reinforced_cycle=5)
+        assert item.last_reinforced_cycle == 5
+
+
 class TestSoulItemTags:
     def test_tags_default_empty(self):
         item = SoulItem(id="si_001", text="test", domains=["x"])

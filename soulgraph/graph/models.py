@@ -52,6 +52,7 @@ class SoulItem(BaseModel):
     last_referenced: datetime | None = None
     mention_count: int = 0
     tags: list[str] = []
+    last_reinforced_cycle: int = 0
 
     @field_validator("confidence", "specificity", mode="before")
     @classmethod
