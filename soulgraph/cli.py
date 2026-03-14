@@ -21,6 +21,7 @@ def main() -> None:
     parser.add_argument("--sessions", type=int, default=0, help="Number of sessions for multi-session experiment (reads session configs from fixture)")
     parser.add_argument("--queries", action="store_true", default=False, help="Run query evaluation phase after multi-session (reads queries from fixture)")
     parser.add_argument("--interact", action="store_true", help="Interactive mode: chat to build a soul graph, then query it")
+    parser.add_argument("--dual", action="store_true", help="Use DualSoul (Deep + Surface) architecture in interactive mode")
     parser.add_argument("--load", type=str, help="Load a saved graph before entering interactive mode")
     args = parser.parse_args()
 
@@ -29,6 +30,9 @@ def main() -> None:
         print("Error: ANTHROPIC_API_KEY environment variable not set", file=sys.stderr)
         sys.exit(1)
 
+    if args.interact and args.dual:
+        _interactive_dual(api_key, load_path=args.load, save_path=args.output)
+        return
     if args.interact:
         _interactive(api_key, load_path=args.load, save_path=args.output)
         return
@@ -177,6 +181,88 @@ def _interactive(api_key: str, load_path: str | None = None, save_path: str | No
     if save_path and engine.graph.items:
         engine.save(save_path)
         print(f"Graph saved to {save_path}")
+
+
+def _interactive_dual(api_key: str, load_path: str | None = None, save_path: str | None = None) -> None:
+    """Interactive REPL using DualSoul architecture."""
+    from soulgraph.dual_soul import DualSoul
+
+    ds = DualSoul(api_key=api_key)
+    if load_path:
+        ds.load(load_path)
+        s = ds.stats
+        print(f"Loaded: Surface={s['surface_items']} items, Deep={s['deep_items']} items")
+
+    print("SoulGraph DualSoul Interactive Mode")
+    print("=" * 40)
+    print("Commands:")
+    print("  (type text)       → ingest as conversation")
+    print("  /query <text>     → query both souls")
+    print("  /stats            → show Surface + Deep stats")
+    print("  /consolidate      → force consolidation (Surface→Deep)")
+    print("  /save [path]      → save to file")
+    print("  /quit             → exit")
+    print()
+
+    while True:
+        try:
+            line = input("you> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            break
+
+        if not line:
+            continue
+
+        if line == "/quit":
+            break
+
+        if line == "/stats":
+            s = ds.stats
+            print(f"\n  Utterances: {s['total_utterances']}, Consolidations: {s['consolidation_count']}")
+            print(f"  Surface: {s['surface_items']} items, {s['surface_edges']} edges")
+            print(f"  Deep:    {s['deep_items']} items, {s['deep_edges']} edges")
+            print(f"  Merge threshold: {ds._adaptive_merge_threshold():.3f}")
+            print()
+            continue
+
+        if line == "/consolidate":
+            print("  consolidating...")
+            result = ds.consolidate()
+            print(f"  Done: merged={result['merged']}, added={result['added']}, decayed={result['decayed']}")
+            print()
+            continue
+
+        if line.startswith("/save"):
+            parts = line.split(maxsplit=1)
+            path = parts[1] if len(parts) > 1 else (save_path or "dual_soul_saved.json")
+            ds.save(path)
+            print(f"  Saved to {path}")
+            print()
+            continue
+
+        if line.startswith("/query "):
+            question = line[7:].strip()
+            if not question:
+                print("  Usage: /query <your question>")
+                continue
+            if not ds.surface.items and not ds.deep.items:
+                print("  Both graphs empty — chat first.")
+                continue
+            print("  thinking...")
+            answer = ds.query(question)
+            print(f"\n  {answer}\n")
+            continue
+
+        # Default: ingest
+        print("  ingesting...")
+        ds.ingest(line)
+        s = ds.stats
+        print(f"  [Surface: {s['surface_items']} items | Deep: {s['deep_items']} items]\n")
+
+    if save_path:
+        ds.save(save_path)
+        print(f"Saved to {save_path}")
 
 
 def _print_result(result) -> None:
