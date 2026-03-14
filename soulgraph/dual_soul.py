@@ -280,3 +280,116 @@ Return JSON array only:
             edges=carry_edges,
         )
         self._detector.detected_graph = new_surface
+
+    # ── Query routing ──────────────────────────────────────────────
+
+    _RECENCY_KEYWORDS = {"now", "right now", "currently", "today", "lately", "recent", "这会", "现在", "最近", "当下"}
+    _ENDURING_KEYWORDS = {"always", "kind of person", "generally", "core", "deep", "usually", "personality", "一直", "本质", "性格", "一般", "通常"}
+
+    _DUAL_QUERY_SYSTEM = """\
+You are answering a question about a person based on two layers of their soul graph.
+
+## Surface Soul (current state, recent observations)
+{surface_nodes}
+
+## Deep Soul (enduring personality, long-term patterns)
+{deep_nodes}
+
+## Rules
+1. Surface items reflect what the person is thinking/doing NOW.
+2. Deep items reflect WHO the person IS at a fundamental level.
+3. Weigh Surface vs Deep based on the question type.
+4. Be concise: 2-4 sentences.
+5. Respond in the same language as the query."""
+
+    def _route_query(self, question: str) -> tuple[float, float]:
+        """Returns (surface_weight, deep_weight) based on keywords."""
+        q_lower = question.lower()
+        has_recency = any(kw in q_lower for kw in self._RECENCY_KEYWORDS)
+        has_enduring = any(kw in q_lower for kw in self._ENDURING_KEYWORDS)
+
+        if has_recency and not has_enduring:
+            return (0.7, 0.3)
+        elif has_enduring and not has_recency:
+            return (0.3, 0.7)
+        return (0.5, 0.5)
+
+    def query(self, question: str, top_k: int = 10) -> str:
+        """Query both souls, route by keywords, synthesize answer."""
+        if not self.surface.items and not self._deep.items:
+            return "Both graphs are empty — ingest some conversation first."
+
+        sw, dw = self._route_query(question)
+        surface_k = max(1, int(top_k * sw))
+        deep_k = max(1, int(top_k * dw))
+
+        surface_sub = (
+            self.surface.query_subgraph(question, top_k=surface_k)
+            if self.surface.items else SoulGraph(owner_id="")
+        )
+        deep_sub = (
+            self._deep.query_subgraph(question, top_k=deep_k)
+            if self._deep.items else SoulGraph(owner_id="")
+        )
+
+        surface_nodes = "\n".join(
+            f"- [recent] {i.text} (domains: {', '.join(i.domains)}, confidence: {i.confidence:.1f})"
+            for i in surface_sub.items
+        ) or "(empty)"
+        deep_nodes = "\n".join(
+            f"- [enduring] {i.text} (domains: {', '.join(i.domains)}, confidence: {i.confidence:.1f}, mentions: {i.mention_count})"
+            for i in deep_sub.items
+        ) or "(empty)"
+
+        system = self._DUAL_QUERY_SYSTEM.format(
+            surface_nodes=surface_nodes,
+            deep_nodes=deep_nodes,
+        )
+
+        try:
+            response = self._client.messages.create(
+                model=self._model,
+                max_tokens=1024,
+                system=system,
+                messages=[{"role": "user", "content": question}],
+            )
+            if response.content:
+                return response.content[0].text
+        except Exception:
+            pass
+        return ""
+
+    # ── Persistence ────────────────────────────────────────────────
+
+    def save(self, path: str) -> None:
+        """Save both graphs + state to JSON."""
+        from pathlib import Path
+        data = {
+            "owner_id": self.surface.owner_id,
+            "total_utterances": self.total_utterances,
+            "consolidation_count": self._consolidation_count,
+            "surface": json.loads(self.surface.model_dump_json()),
+            "deep": json.loads(self._deep.model_dump_json()),
+            "config": {
+                "deep_cycle": self.deep_cycle,
+                "max_surface_nodes": self.max_surface_nodes,
+                "carry_forward_k": self.carry_forward_k,
+            },
+        }
+        Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    def load(self, path: str) -> None:
+        """Load both graphs + state from JSON."""
+        from pathlib import Path
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        self._deep = SoulGraph.model_validate(data["deep"])
+        self._detector.detected_graph = SoulGraph.model_validate(data["surface"])
+        self.total_utterances = data.get("total_utterances", 0)
+        self._consolidation_count = data.get("consolidation_count", 0)
+        config = data.get("config", {})
+        if "deep_cycle" in config:
+            self.deep_cycle = config["deep_cycle"]
+        if "max_surface_nodes" in config:
+            self.max_surface_nodes = config["max_surface_nodes"]
+        if "carry_forward_k" in config:
+            self.carry_forward_k = config["carry_forward_k"]

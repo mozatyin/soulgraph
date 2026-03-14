@@ -208,3 +208,90 @@ class TestCarryForward:
         assert len(ds.surface.items) <= 5
         carried_ids = {i.id for i in ds.surface.items}
         assert "si_000" in carried_ids
+
+
+class TestQueryRouting:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_recency_keywords(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        sw, dw = ds._route_query("What is she thinking right now?")
+        assert sw > dw
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_enduring_keywords(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        sw, dw = ds._route_query("What kind of person is she generally?")
+        assert dw > sw
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_default_routing(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        sw, dw = ds._route_query("Tell me about her")
+        assert sw == dw == 0.5
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_chinese_recency(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        sw, dw = ds._route_query("她现在在想什么？")
+        assert sw > dw
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_chinese_enduring(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        sw, dw = ds._route_query("她的性格是怎样的？")
+        assert dw > sw
+
+
+class TestDualQuery:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_query_empty_graphs(self, MockDetector):
+        mock_det = MockDetector.return_value
+        mock_det.detected_graph = SoulGraph(owner_id="test")
+        ds = DualSoul(api_key="fake")
+        result = ds.query("What drives this person?")
+        assert "empty" in result.lower()
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_query_with_items(self, MockDetector):
+        mock_det = MockDetector.return_value
+        surface = SoulGraph(owner_id="test")
+        surface.add_item(SoulItem(id="si_001", text="thinking about dinner", domains=["daily"]))
+        mock_det.detected_graph = surface
+
+        ds = DualSoul(api_key="fake")
+        ds._deep.add_item(SoulItem(id="di_001", text="core belief in family", domains=["values"]))
+
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text="She is currently thinking about dinner but deeply values family.")]
+        ds._client = MagicMock()
+        ds._client.messages.create.return_value = mock_response
+
+        result = ds.query("What is she thinking?")
+        assert len(result) > 0
+
+
+class TestDualSoulPersistence:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_save_and_load(self, MockDetector, tmp_path):
+        mock_det = MockDetector.return_value
+        surface = SoulGraph(owner_id="test")
+        surface.add_item(SoulItem(id="si_001", text="surface item", domains=["x"]))
+        mock_det.detected_graph = surface
+
+        ds = DualSoul(api_key="fake")
+        ds._deep.add_item(SoulItem(id="di_001", text="deep item", domains=["y"]))
+        ds.total_utterances = 50
+        ds._consolidation_count = 2
+
+        path = str(tmp_path / "dual_soul.json")
+        ds.save(path)
+
+        # Load into new instance
+        ds2 = DualSoul(api_key="fake")
+        ds2.load(path)
+
+        assert len(ds2.deep.items) == 1
+        assert ds2.deep.items[0].text == "deep item"
+        assert len(ds2.surface.items) == 1
+        assert ds2.total_utterances == 50
+        assert ds2._consolidation_count == 2
