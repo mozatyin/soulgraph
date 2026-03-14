@@ -43,13 +43,13 @@ def build_graph(
 
         # Only extract when the target speaker just spoke
         if line["speaker"] == target_speaker:
-            print(f"  [{i+1}/{len(dialogue)}] {target_speaker}: {line['text'][:60]}...")
+            print(f"  [{i+1}/{len(dialogue)}] {target_speaker}: {line['text'][:60]}...", flush=True)
             try:
                 detector.listen_and_detect(conversation)
                 g = detector.detected_graph
-                print(f"    → {len(g.items)} items, {len(g.edges)} edges")
+                print(f"    → {len(g.items)} items, {len(g.edges)} edges", flush=True)
             except Exception as e:
-                print(f"    → ERROR: {e}")
+                print(f"    → ERROR: {e}", flush=True)
 
     return detector.detected_graph, conversation
 

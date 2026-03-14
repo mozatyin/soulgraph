@@ -106,6 +106,7 @@ class Detector:
         kwargs: dict = {"api_key": api_key}
         if api_key.startswith("sk-or-"):
             kwargs["base_url"] = "https://openrouter.ai/api"
+        kwargs["timeout"] = 60.0
         self._client = anthropic.Anthropic(**kwargs)
         self._model = model
 
@@ -117,7 +118,7 @@ class Detector:
                 if response.content:
                     return response.content[0].text
                 return ""
-            except (anthropic.APIError, anthropic.APIConnectionError) as e:
+            except (anthropic.APIError, anthropic.APIConnectionError, anthropic.APITimeoutError) as e:
                 if attempt < 2:
                     time.sleep(2 ** attempt)
                     continue
