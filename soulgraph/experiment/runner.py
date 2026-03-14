@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from soulgraph.comparator.embedding import EmbeddingMatcher
 from soulgraph.comparator.ranking import RankingComparator
+from soulgraph.comparator.retrieval import RetrievalEvaluator
 from soulgraph.comparator.semantic import SemanticMatcher
 from soulgraph.comparator.structural import GraphComparator
 from soulgraph.experiment.detector import Detector
@@ -176,13 +177,15 @@ class ExperimentRunner:
         self,
         ground_truth: SoulGraph,
         session_configs: list[dict],
+        queries: list[dict] | None = None,
         hub_top_k: int = 5,
         verbose: bool = True,
     ) -> dict:
-        """Run multiple sessions with persistent detector graph."""
+        """Run multiple sessions with persistent detector graph, optional query eval."""
         detector = Detector(api_key=self._api_key, model=self._detector_model, session_number=0)
         session_scores: list[dict] = []
         ranking_comp = RankingComparator()
+        all_messages: list[Message] = []
 
         for si, config in enumerate(session_configs):
             turns = config.get("turns", 10)
@@ -238,6 +241,8 @@ class ExperimentRunner:
                         print(f"  [WARN] Detector question API error: {e}, reusing last question")
                 conversation.append(Message(role="detector", content=question))
 
+            all_messages.extend(conversation)
+
             # Evaluate after this session
             scores = ranking_comp.compare(ground_truth, detector.detected_graph)
             session_scores.append(scores)
@@ -271,5 +276,41 @@ class ExperimentRunner:
             for si, scores in enumerate(session_scores):
                 print(f"  Session {si + 1}: rank_corr={scores['rank_correlation']:.3f}  absorption={scores['absorption_rate']:.3f}  overall={scores['overall']:.3f}")
             print(f"  Rank Improvement: {rank_improvement:+.3f}")
+
+        # Phase 2: Query evaluation (V6)
+        if queries:
+            transcript = "\n".join(f"[{m.role}]: {m.content}" for m in all_messages)
+            ret_evaluator = RetrievalEvaluator(api_key=self._api_key)
+            query_scores = []
+
+            if verbose:
+                print(f"\n{'='*60}")
+                print(f"QUERY EVALUATION ({len(queries)} queries)")
+                print(f"{'='*60}")
+
+            for q in queries:
+                subgraph = detector.detected_graph.query_subgraph(q["query"])
+                scores = ret_evaluator.evaluate(
+                    full_graph=detector.detected_graph,
+                    subgraph=subgraph,
+                    query=q["query"],
+                    conversation_transcript=transcript,
+                )
+                query_scores.append({"query": q["query"], **scores})
+
+                if verbose:
+                    print(f"\n  Query '{q['query']}': retrieval={scores['retrieval_score']:.3f}  "
+                          f"faith={scores.get('faithfulness', 0):.3f}  "
+                          f"comp={scores.get('comprehensiveness', 0):.3f}  "
+                          f"div={scores.get('diversity', 0):.3f}  "
+                          f"domains={scores['cross_domain_coverage']}  "
+                          f"nodes={scores['node_count']}")
+
+            mean_ret = sum(s["retrieval_score"] for s in query_scores) / len(query_scores)
+            result["query_scores"] = query_scores
+            result["mean_retrieval_score"] = round(mean_ret, 3)
+
+            if verbose:
+                print(f"\n  Mean Retrieval Score: {mean_ret:.3f}")
 
         return result

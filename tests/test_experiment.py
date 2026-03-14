@@ -141,6 +141,55 @@ class TestMultiSessionRunner:
         assert "rank_improvement" in result
 
 
+class TestQueryEvalPhase:
+    def _make_gt_graph(self) -> SoulGraph:
+        g = SoulGraph(owner_id="gt")
+        g.add_item(SoulItem(id="si_001", text="想创业", domains=["career"], tags=["intention"]))
+        g.add_item(SoulItem(id="si_002", text="房贷压力", domains=["finance"]))
+        g.add_edge(SoulEdge(from_id="si_002", to_id="si_001", relation="constrains"))
+        return g
+
+    @patch("soulgraph.experiment.runner.RetrievalEvaluator")
+    @patch("soulgraph.experiment.runner.RankingComparator")
+    @patch("soulgraph.experiment.runner.Speaker")
+    @patch("soulgraph.experiment.runner.Detector")
+    def test_multi_session_with_queries(self, MockDetector, MockSpeaker, MockRankComp, MockRetEval):
+        mock_speaker = MockSpeaker.return_value
+        mock_speaker.respond.return_value = "我想创业"
+
+        mock_detector = MockDetector.return_value
+        mock_detector.ask_next_question.return_value = "你在想什么？"
+        mock_detector.listen_and_detect.return_value = SoulGraph(owner_id="det")
+        mock_detector.detected_graph = SoulGraph(owner_id="det")
+        mock_detector.detected_graph.add_item(SoulItem(id="d1", text="创业", domains=["career"]))
+        mock_detector.session_number = 0
+
+        MockRankComp.return_value.compare.return_value = {
+            "rank_correlation": 0.5, "domain_ndcg": 0.5,
+            "absorption_rate": 0.5, "intention_recall": 0.5,
+            "overall": 0.5, "matched_items": 1, "gt_items": 2, "det_items": 1,
+        }
+
+        MockRetEval.return_value.evaluate.return_value = {
+            "node_count": 1, "edge_count": 0, "cross_domain_coverage": 1,
+            "is_connected": True, "density": 0.0,
+            "faithfulness": 0.8, "comprehensiveness": 0.7, "diversity": 0.5,
+            "structural_score": 0.5, "retrieval_score": 0.65,
+        }
+
+        runner = ExperimentRunner(api_key="fake")
+        queries = [{"query": "创业", "expected_domains": ["career"]}]
+        result = runner.run_multi_session(
+            self._make_gt_graph(),
+            session_configs=[{"turns": 2, "topic_hints": ["career"]}],
+            queries=queries,
+            verbose=False,
+        )
+        assert "query_scores" in result
+        assert len(result["query_scores"]) == 1
+        assert "mean_retrieval_score" in result
+
+
 class TestDetectorSession:
     def test_detector_session_number(self):
         from soulgraph.experiment.detector import Detector
