@@ -19,6 +19,7 @@ def main() -> None:
     parser.add_argument("--output", type=str, help="Path to save result JSON")
     parser.add_argument("--runs", type=int, default=1, help="Number of runs for multi-run averaging (default 1)")
     parser.add_argument("--sessions", type=int, default=0, help="Number of sessions for multi-session experiment (reads session configs from fixture)")
+    parser.add_argument("--queries", action="store_true", default=False, help="Run query evaluation phase after multi-session (reads queries from fixture)")
     args = parser.parse_args()
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
@@ -55,8 +56,14 @@ def main() -> None:
                 sys.exit(1)
             for sc in session_configs:
                 sc["turns"] = args.turns
+            queries = None
+            if args.queries:
+                queries = fixture_data.get("queries", [])
+                if not queries:
+                    print("Warning: --queries flag set but fixture has no 'queries' field", file=sys.stderr)
+                    queries = None
             print(f"Running multi-session experiment ({args.sessions} sessions, {args.turns} turns each) on {gt_path.name}...")
-            summary = runner.run_multi_session(gt, session_configs=session_configs)
+            summary = runner.run_multi_session(gt, session_configs=session_configs, queries=queries)
             if args.output:
                 Path(args.output).write_text(json_mod.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
                 print(f"\nSummary saved to {args.output}")
