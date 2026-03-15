@@ -457,7 +457,10 @@ Return JSON array only:
     _ENDURING_KEYWORDS = {"always", "kind of person", "generally", "core", "deep", "usually", "personality", "一直", "本质", "性格", "一般", "通常"}
 
     _DUAL_QUERY_SYSTEM = """\
-You are answering a question about a person based on two layers of their soul graph.
+You are answering a question about a person based on three layers of their soul graph.
+
+## Root Motivations (deepest psychological drivers)
+{root_nodes}
 
 ## Surface Soul (current state, recent observations)
 {surface_nodes}
@@ -466,11 +469,12 @@ You are answering a question about a person based on two layers of their soul gr
 {deep_nodes}
 
 ## Rules
-1. Surface items reflect what the person is thinking/doing NOW.
+1. Root motivations are the person's deepest psychological drivers.
 2. Deep items reflect WHO the person IS at a fundamental level.
-3. Weigh Surface vs Deep based on the question type.
-4. Be concise: 2-4 sentences.
-5. Respond in the same language as the query."""
+3. Surface items reflect what the person is thinking/doing NOW.
+4. Show how surface behaviors connect to root motivations when relevant.
+5. Be concise: 2-4 sentences.
+6. Respond in the same language as the query."""
 
     def _route_query(self, question: str) -> tuple[float, float]:
         """Returns (surface_weight, deep_weight) based on keywords."""
@@ -502,6 +506,12 @@ You are answering a question about a person based on two layers of their soul gr
             if self._deep.items else SoulGraph(owner_id="")
         )
 
+        root_items = [i for i in self._deep.items if i.abstraction_level == 1]
+        root_nodes = "\n".join(
+            f"- {i.text} (tags: {i.motivation_tags}, mentions: {i.mention_count})"
+            for i in sorted(root_items, key=lambda x: x.mention_count, reverse=True)[:5]
+        ) or "(not yet discovered)"
+
         surface_nodes = "\n".join(
             f"- [recent] {i.text} (domains: {', '.join(i.domains)}, confidence: {i.confidence:.1f})"
             for i in surface_sub.items
@@ -512,6 +522,7 @@ You are answering a question about a person based on two layers of their soul gr
         ) or "(empty)"
 
         system = self._DUAL_QUERY_SYSTEM.format(
+            root_nodes=root_nodes,
             surface_nodes=surface_nodes,
             deep_nodes=deep_nodes,
         )

@@ -440,6 +440,36 @@ class TestMetaConsolidation:
         assert maslow_set == {"love", "safety", "esteem"}
 
 
+class TestQueryWithRoots:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_query_system_prompt_includes_roots(self, MockDetector):
+        mock_det = MockDetector.return_value
+        mock_det.detected_graph = SoulGraph(owner_id="test")
+
+        ds = DualSoul(api_key="fake")
+        ds._deep.add_item(SoulItem(
+            id="ri_0001", text="survival security need", domains=["survival"],
+            abstraction_level=1, motivation_tags={"maslow": "safety"},
+            confidence=0.9, mention_count=10,
+        ))
+        ds._deep.add_item(SoulItem(
+            id="di_0001", text="fears hunger", domains=["survival"],
+            confidence=0.8, mention_count=5,
+        ))
+
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text="Driven by survival need.")]
+        ds._client = MagicMock()
+        ds._client.messages.create.return_value = mock_response
+
+        ds.query("What drives her?")
+
+        call_args = ds._client.messages.create.call_args
+        system_prompt = call_args.kwargs.get("system", "")
+        assert "Root Motivation" in system_prompt
+        assert "safety" in system_prompt
+
+
 class TestMetaConsolidationTrigger:
     @patch("soulgraph.dual_soul.Detector")
     def test_meta_triggers_every_n_consolidations(self, MockDetector):
