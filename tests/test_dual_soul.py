@@ -1,4 +1,5 @@
 """Tests for DualSoul — Dual Soul architecture."""
+import json
 import math
 from unittest.mock import MagicMock, patch
 
@@ -295,3 +296,145 @@ class TestDualSoulPersistence:
         assert len(ds2.surface.items) == 1
         assert ds2.total_utterances == 50
         assert ds2._consolidation_count == 2
+
+
+class TestMetaConsolidation:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_meta_consolidate_empty_deep_is_noop(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        result = ds.meta_consolidate()
+        assert result["roots_created"] == 0
+        assert result["roots_updated"] == 0
+        assert result["edges_created"] == 0
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_meta_consolidate_creates_root_with_multi_framework_tags(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        for i, text in enumerate([
+            "wants a pretty dress to impress",
+            "needs to marry a wealthy man",
+            "will fight to keep Tara land",
+            "runs lumber mill for money",
+            "fears going hungry again",
+        ]):
+            ds._deep.add_item(SoulItem(
+                id=f"di_{i:04d}", text=text, domains=["survival"],
+                confidence=0.8, mention_count=3,
+            ))
+
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text=json.dumps([
+            {
+                "root_text": "Survival and material security — must never be vulnerable",
+                "motivation_tags": {
+                    "maslow": "safety",
+                    "sdt": "autonomy",
+                    "reiss": "tranquility",
+                },
+                "concrete_ids": ["di_0000", "di_0001", "di_0002", "di_0003", "di_0004"],
+                "confidence": 0.95,
+            }
+        ]))]
+        ds._client = MagicMock()
+        ds._client.messages.create.return_value = mock_response
+
+        result = ds.meta_consolidate()
+
+        assert result["roots_created"] >= 1
+        assert result["edges_created"] >= 5
+        roots = [i for i in ds._deep.items if i.abstraction_level == 1]
+        assert len(roots) >= 1
+        assert roots[0].motivation_tags["maslow"] == "safety"
+        assert roots[0].motivation_tags["sdt"] == "autonomy"
+        manifest_edges = [e for e in ds._deep.edges if e.relation == "manifests-as"]
+        assert len(manifest_edges) >= 5
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_meta_consolidate_updates_existing_roots(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        ds._deep.add_item(SoulItem(
+            id="ri_0001", text="survival security need", domains=["survival"],
+            abstraction_level=1, motivation_tags={"maslow": "safety"},
+            confidence=0.8, mention_count=3,
+        ))
+        ds._deep.add_item(SoulItem(
+            id="di_0010", text="must earn money through lumber business",
+            domains=["business"], confidence=0.7, mention_count=2,
+        ))
+        ds._deep.add_item(SoulItem(
+            id="di_0011", text="fears going hungry again",
+            domains=["survival"], confidence=0.8, mention_count=3,
+        ))
+        ds._deep.add_item(SoulItem(
+            id="di_0012", text="will fight to protect the land",
+            domains=["survival"], confidence=0.7, mention_count=2,
+        ))
+
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text=json.dumps([
+            {
+                "root_id": "ri_0001",
+                "root_text": "Survival and material security — must never be vulnerable",
+                "motivation_tags": {"maslow": "safety", "sdt": "autonomy"},
+                "concrete_ids": ["di_0010"],
+                "confidence": 0.9,
+            }
+        ]))]
+        ds._client = MagicMock()
+        ds._client.messages.create.return_value = mock_response
+
+        result = ds.meta_consolidate()
+
+        assert result["roots_updated"] >= 1
+        root = next(i for i in ds._deep.items if i.id == "ri_0001")
+        assert root.mention_count > 3
+        assert root.motivation_tags["sdt"] == "autonomy"
+        manifest_edges = [e for e in ds._deep.edges
+                          if e.relation == "manifests-as" and e.to_id == "di_0010"]
+        assert len(manifest_edges) == 1
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_meta_consolidate_discovers_multiple_roots(self, MockDetector):
+        ds = DualSoul(api_key="fake")
+        for i, (text, domain) in enumerate([
+            ("wants Ashley's love", "romance"),
+            ("needs to be most admired", "esteem"),
+            ("fears hunger and poverty", "survival"),
+            ("will fight to keep Tara", "survival"),
+            ("wants Rhett's attention", "romance"),
+        ]):
+            ds._deep.add_item(SoulItem(
+                id=f"di_{i:04d}", text=text, domains=[domain],
+                confidence=0.8, mention_count=2,
+            ))
+
+        mock_response = MagicMock()
+        mock_response.content = [MagicMock(text=json.dumps([
+            {
+                "root_text": "Deep need for love and emotional connection",
+                "motivation_tags": {"maslow": "love", "sdt": "relatedness", "attachment": "anxious"},
+                "concrete_ids": ["di_0000", "di_0004"],
+                "confidence": 0.85,
+            },
+            {
+                "root_text": "Survival and material security",
+                "motivation_tags": {"maslow": "safety", "reiss": "tranquility"},
+                "concrete_ids": ["di_0002", "di_0003"],
+                "confidence": 0.9,
+            },
+            {
+                "root_text": "Need for recognition and social status",
+                "motivation_tags": {"maslow": "esteem", "reiss": "status", "sdt": "competence"},
+                "concrete_ids": ["di_0001"],
+                "confidence": 0.75,
+            },
+        ]))]
+        ds._client = MagicMock()
+        ds._client.messages.create.return_value = mock_response
+
+        result = ds.meta_consolidate()
+
+        roots = [i for i in ds._deep.items if i.abstraction_level == 1]
+        assert len(roots) == 3
+        maslow_set = {r.motivation_tags.get("maslow") for r in roots}
+        assert maslow_set == {"love", "safety", "esteem"}

@@ -16,6 +16,7 @@ from sentence_transformers import SentenceTransformer
 
 from soulgraph.experiment.detector import Detector
 from soulgraph.experiment.models import Message
+from soulgraph.frameworks import DEFAULT_FRAMEWORKS, framework_prompt_section
 from soulgraph.graph.models import SoulGraph, SoulItem, SoulEdge
 
 _EMB_MODEL: SentenceTransformer | None = None
@@ -172,6 +173,165 @@ class DualSoul:
         self._carry_forward_and_reset()
 
         return {"merged": merged_count, "added": added_count, "decayed": decayed}
+
+    _ROOT_DISCOVERY_PROMPT = """\
+You are analyzing a person's soul graph to discover their deepest root motivations.
+
+Below are the person's detected intentions/beliefs/values from conversation analysis.
+Your task: discover the ABSTRACT ROOT MOTIVATIONS that drive clusters of these concrete intentions.
+
+## Available Psychological Frameworks
+{frameworks_section}
+
+## Concrete Intentions (from Deep Soul graph)
+{items_text}
+
+## Existing Root Intentions (already discovered)
+{existing_roots_text}
+
+## Rules
+1. Group concrete intentions that serve the SAME underlying need, even if surface text is very different.
+   Example: "wants pretty dress" and "runs lumber mill for money" both serve safety/survival.
+2. For each group, name the abstract root motivation in one sentence.
+3. Tag each root with classifications from ALL applicable frameworks above.
+4. If a concrete intention maps to an EXISTING root, reference it by root_id instead of creating a new one.
+5. A concrete intention can map to MULTIPLE roots (multifinality).
+6. Only create roots backed by 2+ concrete intentions (equifinality signal).
+7. For Maslow: prefer lower layers when ambiguous (prepotency principle).
+
+Return JSON array:
+[
+  {{
+    "root_id": "ri_XXXX" or null (null = create new root),
+    "root_text": "one sentence describing the root motivation",
+    "motivation_tags": {{"maslow": "safety", "sdt": "autonomy", ...}},
+    "concrete_ids": ["di_0001", "di_0002", ...],
+    "confidence": 0.0-1.0
+  }}
+]"""
+
+    def meta_consolidate(self, frameworks: list[str] | None = None) -> dict:
+        """Discover abstract root intentions from Deep graph. The 'dream phase'."""
+        concrete_items = [
+            i for i in self._deep.items
+            if i.abstraction_level == 0 and i.confidence > 0.3
+        ]
+        if len(concrete_items) < 3:
+            return {"roots_created": 0, "roots_updated": 0, "edges_created": 0}
+
+        fw_names = frameworks or DEFAULT_FRAMEWORKS
+        frameworks_section = framework_prompt_section(fw_names)
+
+        # Sort by importance
+        concrete_items.sort(
+            key=lambda i: i.mention_count * i.confidence, reverse=True
+        )
+        top_items = concrete_items[:40]
+
+        existing_roots = [i for i in self._deep.items if i.abstraction_level == 1]
+
+        items_text = "\n".join(
+            f'- id: "{i.id}", text: "{i.text}", domains: {i.domains}, '
+            f'mentions: {i.mention_count}, confidence: {i.confidence:.2f}'
+            for i in top_items
+        )
+        existing_roots_text = "\n".join(
+            f'- root_id: "{r.id}", text: "{r.text}", tags: {r.motivation_tags}, '
+            f'mentions: {r.mention_count}'
+            for r in existing_roots
+        ) or "(none yet)"
+
+        prompt = self._ROOT_DISCOVERY_PROMPT.format(
+            frameworks_section=frameworks_section,
+            items_text=items_text,
+            existing_roots_text=existing_roots_text,
+        )
+
+        try:
+            response = self._client.messages.create(
+                model=self._model,
+                max_tokens=4096,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            raw = response.content[0].text
+            if raw.startswith("```"):
+                raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
+            start = raw.find("[")
+            end = raw.rfind("]")
+            if start < 0 or end < 0:
+                return {"roots_created": 0, "roots_updated": 0, "edges_created": 0}
+            discoveries = json.loads(raw[start:end + 1])
+        except Exception:
+            return {"roots_created": 0, "roots_updated": 0, "edges_created": 0}
+
+        roots_created = 0
+        roots_updated = 0
+        edges_created = 0
+        deep_ids = {i.id for i in self._deep.items}
+
+        for disc in discoveries:
+            root_id = disc.get("root_id")
+            root_text = disc.get("root_text", "")
+            tags = disc.get("motivation_tags", {})
+            concrete_ids = disc.get("concrete_ids", [])
+            conf = float(disc.get("confidence", 0.7))
+
+            if not root_text or not concrete_ids:
+                continue
+            concrete_ids = [cid for cid in concrete_ids if cid in deep_ids]
+            if not concrete_ids:
+                continue
+
+            existing_root = None
+            if root_id:
+                existing_root = next(
+                    (i for i in self._deep.items if i.id == root_id), None
+                )
+
+            if existing_root:
+                existing_root.text = root_text
+                existing_root.mention_count += len(concrete_ids)
+                existing_root.confidence = min(1.0, existing_root.confidence + 0.05)
+                existing_root.last_reinforced_cycle = self._consolidation_count
+                existing_root.motivation_tags.update(tags)
+                roots_updated += 1
+                actual_root_id = existing_root.id
+            else:
+                ri_idx = len([i for i in self._deep.items if i.abstraction_level == 1]) + 1
+                actual_root_id = f"ri_{ri_idx:04d}"
+                root_item = SoulItem(
+                    id=actual_root_id,
+                    text=root_text,
+                    domains=list({d for cid in concrete_ids
+                                  for i in self._deep.items if i.id == cid
+                                  for d in i.domains}),
+                    confidence=conf,
+                    abstraction_level=1,
+                    motivation_tags=tags,
+                    mention_count=len(concrete_ids),
+                    last_reinforced_cycle=self._consolidation_count,
+                )
+                self._deep.add_item(root_item)
+                roots_created += 1
+
+            for cid in concrete_ids:
+                already = any(
+                    e.from_id == actual_root_id and e.to_id == cid
+                    and e.relation == "manifests-as"
+                    for e in self._deep.edges
+                )
+                if not already:
+                    self._deep.add_edge(SoulEdge(
+                        from_id=actual_root_id, to_id=cid,
+                        relation="manifests-as", strength=conf, confidence=conf,
+                    ))
+                    edges_created += 1
+
+        return {
+            "roots_created": roots_created,
+            "roots_updated": roots_updated,
+            "edges_created": edges_created,
+        }
 
     _MERGE_PROMPT = """\
 You are consolidating a knowledge graph. For each pair, merge the "new observation" \
