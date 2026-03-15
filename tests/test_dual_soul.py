@@ -438,3 +438,59 @@ class TestMetaConsolidation:
         assert len(roots) == 3
         maslow_set = {r.motivation_tags.get("maslow") for r in roots}
         assert maslow_set == {"love", "safety", "esteem"}
+
+
+class TestMetaConsolidationTrigger:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_meta_triggers_every_n_consolidations(self, MockDetector):
+        mock_det = MockDetector.return_value
+        g = SoulGraph(owner_id="test")
+        for i in range(5):
+            g.add_item(SoulItem(id=f"si_{i:03d}", text=f"item {i}", domains=["x"]))
+        mock_det.detected_graph = g
+        mock_det.listen_and_detect.return_value = g
+
+        ds = DualSoul(api_key="fake", deep_cycle=1, meta_cycle=2)
+        ds._client = MagicMock()
+
+        meta_calls = []
+        def mock_meta(**kwargs):
+            meta_calls.append(1)
+            return {"roots_created": 0, "roots_updated": 0, "edges_created": 0}
+        ds.meta_consolidate = mock_meta
+
+        for i in range(4):
+            ds.ingest(f"utterance {i}")
+
+        assert len(meta_calls) == 2
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_meta_cycle_persisted_in_save_load(self, MockDetector, tmp_path):
+        MockDetector.return_value.detected_graph = SoulGraph(owner_id="test")
+        ds = DualSoul(api_key="fake", meta_cycle=5)
+        ds._consolidation_count = 3
+        path = str(tmp_path / "test.json")
+        ds.save(path)
+
+        ds2 = DualSoul(api_key="fake")
+        ds2.load(path)
+        assert ds2.meta_cycle == 5
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_root_items_survive_save_load(self, MockDetector, tmp_path):
+        MockDetector.return_value.detected_graph = SoulGraph(owner_id="test")
+        ds = DualSoul(api_key="fake")
+        ds._deep.add_item(SoulItem(
+            id="ri_0001", text="survival need", domains=["survival"],
+            abstraction_level=1, motivation_tags={"maslow": "safety", "sdt": "autonomy"},
+            confidence=0.9, mention_count=10,
+        ))
+        path = str(tmp_path / "test.json")
+        ds.save(path)
+
+        ds2 = DualSoul(api_key="fake")
+        ds2.load(path)
+        root = next(i for i in ds2._deep.items if i.id == "ri_0001")
+        assert root.abstraction_level == 1
+        assert root.motivation_tags["maslow"] == "safety"
+        assert root.motivation_tags["sdt"] == "autonomy"

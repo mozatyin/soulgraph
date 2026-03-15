@@ -38,12 +38,14 @@ class DualSoul:
         deep_cycle: int = 100,
         max_surface_nodes: int = 200,
         carry_forward_k: int = 10,
+        meta_cycle: int = 3,
     ):
         self._api_key = api_key
         self._model = model
         self.deep_cycle = deep_cycle
         self.max_surface_nodes = max_surface_nodes
         self.carry_forward_k = carry_forward_k
+        self.meta_cycle = meta_cycle
 
         self._detector = Detector(api_key=api_key, model=model)
         self._messages: list[Message] = []
@@ -171,6 +173,14 @@ class DualSoul:
 
         # Carry forward top-K and reset Surface
         self._carry_forward_and_reset()
+
+        # Trigger meta-consolidation periodically
+        if self._consolidation_count % self.meta_cycle == 0:
+            meta_result = self.meta_consolidate()
+            return {
+                "merged": merged_count, "added": added_count,
+                "decayed": decayed, **meta_result,
+            }
 
         return {"merged": merged_count, "added": added_count, "decayed": decayed}
 
@@ -534,6 +544,7 @@ You are answering a question about a person based on two layers of their soul gr
                 "deep_cycle": self.deep_cycle,
                 "max_surface_nodes": self.max_surface_nodes,
                 "carry_forward_k": self.carry_forward_k,
+                "meta_cycle": self.meta_cycle,
             },
         }
         Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -553,3 +564,5 @@ You are answering a question about a person based on two layers of their soul gr
             self.max_surface_nodes = config["max_surface_nodes"]
         if "carry_forward_k" in config:
             self.carry_forward_k = config["carry_forward_k"]
+        if "meta_cycle" in config:
+            self.meta_cycle = config["meta_cycle"]
