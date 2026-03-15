@@ -1,0 +1,1205 @@
+{
+  "meta": {
+    "character": "Scarlett O'Hara",
+    "source": "Gone with the Wind by Margaret Mitchell (1936)",
+    "total_chapters": 63,
+    "novel_parts": {
+      "part_1": "Chapters 1-7",
+      "part_2": "Chapters 8-16",
+      "part_3": "Chapters 17-30",
+      "part_4": "Chapters 31-47",
+      "part_5": "Chapters 48-63"
+    },
+    "timeline": "1861-1873 (age 16 to 28)",
+    "note": "Intentions marked 'conscious' are what Scarlett believes she wants; 'unconscious' are the deeper drivers she cannot articulate until the final chapters."
+  },
+  "persistent_intentions": [
+    {
+      "id": "P1",
+      "text": "I must never be vulnerable or dependent on others",
+      "type": "fear",
+      "layer": "unconscious",
+      "active_phases": "all",
+      "note": "Root driver. Stems from insufficient mirroring by distant mother Ellen and overidealization of Ellen's unattainable womanhood. Never consciously articulated until the very end."
+    },
+    {
+      "id": "P2",
+      "text": "I will think about that tomorrow — defer emotional reckoning indefinitely",
+      "type": "strategy",
+      "layer": "conscious",
+      "active_phases": "all",
+      "note": "Her signature coping mechanism. Appears as literal dialogue dozens of times. Functions as repression of guilt, grief, and self-knowledge."
+    },
+    {
+      "id": "P3",
+      "text": "I am Ellen's daughter and must live up to her image of a great lady",
+      "type": "belief",
+      "layer": "unconscious",
+      "active_phases": "all",
+      "note": "Paradox: she constantly violates the code she unconsciously measures herself against. Source of chronic guilt she represses via P2."
+    }
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Pre-War Belle",
+      "chapter_range": "1-7 (Part One)",
+      "timeline": "April 1861",
+      "emotional_state": "Restless vanity masked as vivacity. Entitled confidence. Boredom with what she has, obsession with what she cannot have.",
+      "soul_quality": "Unformed — raw charisma and willfulness without depth or self-knowledge",
+      "core_intentions": [
+        {
+          "id": "1A",
+          "text": "I must win Ashley Wilkes's love away from Melanie",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "1D",
+            "P1"
+          ],
+          "note": "Ashley represents the ideal Southern gentleman she has been raised to value. But the real driver is that he is the one man who does NOT pursue her — making him a narcissistic wound."
+        },
+        {
+          "id": "1B",
+          "text": "I must be the most admired and desired woman at every gathering",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.9,
+          "connections": [
+            "P1",
+            "P3"
+          ],
+          "note": "Opens the novel: she is furious that the Tarleton twins are discussing the war instead of flattering her."
+        },
+        {
+          "id": "1C",
+          "text": "Other women are rivals to be defeated, not friends to be cherished",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.8,
+          "connections": [
+            "1B",
+            "1A"
+          ],
+          "note": "She views Melanie as a rival and cannot understand why Ashley chose someone so plain and quiet."
+        },
+        {
+          "id": "1D",
+          "text": "If a man does not want me, something is fundamentally wrong — I must fix it",
+          "type": "belief",
+          "layer": "unconscious",
+          "strength": 0.85,
+          "connections": [
+            "P1",
+            "1A"
+          ],
+          "note": "Ashley's rejection at the barbecue is the inciting wound of the entire novel."
+        },
+        {
+          "id": "1E",
+          "text": "The world is stable and will always provide for me",
+          "type": "belief",
+          "layer": "unconscious",
+          "strength": 0.7,
+          "connections": [],
+          "note": "Inherited assumption from plantation privilege. Dies in Phase 3."
+        }
+      ],
+      "new_intentions": [
+        "1A",
+        "1B",
+        "1C",
+        "1D",
+        "1E"
+      ],
+      "shifted_intentions": [],
+      "died_intentions": [],
+      "key_dialogue_moments": [
+        {
+          "chapter": 1,
+          "quote_paraphrase": "Scarlett reacts with fury when told Ashley will marry Melanie: 'It can't be true!'",
+          "reveals": "1A, 1D — Ashley as narcissistic wound, not genuine love"
+        },
+        {
+          "chapter": 4,
+          "quote_paraphrase": "At the barbecue, Scarlett deliberately flirts with every man to make Ashley jealous",
+          "reveals": "1B, 1C — social competition as core strategy"
+        },
+        {
+          "chapter": 6,
+          "quote_paraphrase": "Scarlett confesses love to Ashley in the library; he says he loves her but will marry Melanie. She throws a vase.",
+          "reveals": "1A, 1D — rage at rejection, not grief at lost love"
+        },
+        {
+          "chapter": 6,
+          "quote_paraphrase": "Rhett reveals he overheard the confession: 'The privilege of seeing a lady throwing things is rare.'",
+          "reveals": "Seeds of Rhett as the one person who sees through her masks"
+        },
+        {
+          "chapter": 7,
+          "quote_paraphrase": "Scarlett impulsively marries Charles Hamilton to spite Ashley",
+          "reveals": "1A — marriage as weapon, not commitment. First use of marriage as tactical tool."
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "War Begins — Widowhood and Atlanta",
+      "chapter_range": "8-16 (Part Two)",
+      "timeline": "1861-1863",
+      "emotional_state": "Boredom, restlessness, resentment of mourning conventions. Slow awakening of pragmatism.",
+      "soul_quality": "Chrysalis — the belle costume is chafing but nothing has replaced it yet",
+      "core_intentions": [
+        {
+          "id": "1A",
+          "text": "I must win Ashley Wilkes's love",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.85,
+          "connections": [
+            "1D"
+          ],
+          "note": "Persists but now romanticized by distance. Ashley at war becomes idealized."
+        },
+        {
+          "id": "2A",
+          "text": "I refuse to be bound by social rules that bring me no advantage",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.7,
+          "connections": [
+            "P1",
+            "1B"
+          ],
+          "note": "Emerges from resentment of widowhood conventions. She dances with Rhett at the charity ball in her mourning dress."
+        },
+        {
+          "id": "2B",
+          "text": "Rhett Butler is dangerously attractive but not a serious prospect",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.6,
+          "connections": [
+            "1A"
+          ],
+          "note": "She is drawn to Rhett but files him under 'not a gentleman' — he does not fit her conscious model of what she wants."
+        },
+        {
+          "id": "2C",
+          "text": "War is an inconvenience that disrupts my plans, not a moral crisis",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.75,
+          "connections": [
+            "1E"
+          ],
+          "note": "She is bored by war talk, irritated by sacrifice expectations. The war is happening TO her, not around her."
+        },
+        {
+          "id": "2D",
+          "text": "I must escape the suffocation of Aunt Pittypat's house and mourning rituals",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.65,
+          "connections": [
+            "2A",
+            "P1"
+          ],
+          "note": "Drives her toward independence — Atlanta begins her separation from Old South norms."
+        }
+      ],
+      "new_intentions": [
+        "2A",
+        "2B",
+        "2C",
+        "2D"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "1A",
+          "change": "Reduced from 0.95 to 0.85; idealized by distance but less immediately actionable"
+        }
+      ],
+      "died_intentions": [],
+      "key_dialogue_moments": [
+        {
+          "chapter": 9,
+          "quote_paraphrase": "Scarlett resents wearing black and being expected to mourn Charles, whom she never loved",
+          "reveals": "2A — social norms as prison, first signs of rebellion"
+        },
+        {
+          "chapter": 9,
+          "quote_paraphrase": "Scarlett dances with Rhett at the charity bazaar, scandalizing Atlanta society",
+          "reveals": "2A, 2B — Rhett as enabler of her rebellion; their chemistry is rooted in mutual defiance of convention"
+        },
+        {
+          "chapter": 12,
+          "quote_paraphrase": "Rhett tells Scarlett she is not a lady: 'You are no more a lady than I am a gentleman.' She is furious but also thrilled.",
+          "reveals": "2B, P1 — Rhett sees through her; she is both threatened and magnetized by this"
+        },
+        {
+          "chapter": 14,
+          "quote_paraphrase": "Ashley on leave; Scarlett renews her pursuit, believing Melanie is not enough for him",
+          "reveals": "1A — the fantasy persists because it was never about Ashley the person"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Siege of Atlanta — Primal Survival",
+      "chapter_range": "17-23 (Part Three, first half)",
+      "timeline": "Summer 1864",
+      "emotional_state": "Terror. Desperation. The comfortable world is literally burning. First encounter with death, starvation, and total responsibility.",
+      "soul_quality": "Crucible — everything inessential is burned away. The survival self emerges.",
+      "core_intentions": [
+        {
+          "id": "3A",
+          "text": "I must survive — physically, immediately, at any cost",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "P1"
+          ],
+          "note": "Becomes the dominant intention. All others subordinated. She delivers Melanie's baby during the siege with no help."
+        },
+        {
+          "id": "3B",
+          "text": "I must get home to Tara — Tara is safety",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "3A",
+            "P3"
+          ],
+          "note": "Tara = mother (Ellen) = safety. This is the first time land/home becomes a conscious value."
+        },
+        {
+          "id": "3C",
+          "text": "I am responsible for these helpless people whether I want to be or not",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.7,
+          "connections": [
+            "3A",
+            "P3"
+          ],
+          "note": "Melanie, the baby, Prissy, Wade — she resents the burden but carries it. Forced maturity."
+        },
+        {
+          "id": "3D",
+          "text": "Men are unreliable — Rhett abandoned me, Ashley is captured, Charles is dead",
+          "type": "belief",
+          "layer": "unconscious",
+          "strength": 0.8,
+          "connections": [
+            "P1",
+            "2B"
+          ],
+          "note": "Rhett dumps her on the road to Tara and goes to join the army. This betrayal deepens her self-reliance doctrine."
+        }
+      ],
+      "new_intentions": [
+        "3A",
+        "3B",
+        "3C",
+        "3D"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "1A",
+          "change": "Drops to 0.3 — Ashley is a distant abstraction during survival crisis"
+        },
+        {
+          "id": "1B",
+          "change": "Drops to 0.1 — vanity is irrelevant when starving"
+        }
+      ],
+      "died_intentions": [
+        {
+          "id": "1E",
+          "death_moment": "Chapter 17-19 — watching Atlanta burn, the belief that the world is stable dies permanently"
+        },
+        {
+          "id": "2C",
+          "death_moment": "War is no longer an inconvenience — it is existential threat"
+        }
+      ],
+      "key_dialogue_moments": [
+        {
+          "chapter": 19,
+          "quote_paraphrase": "Scarlett slaps Prissy: 'You said you knew all about birthing babies!' then delivers Melanie's child alone",
+          "reveals": "3A, 3C — she rises to the occasion through fury and necessity, not compassion"
+        },
+        {
+          "chapter": 22,
+          "quote_paraphrase": "Rhett kisses her, then tells her he is leaving to join the Confederate army. 'You're a fool, Rhett Butler, and I don't care if I never see you again.'",
+          "reveals": "3D — abandonment rage masking attraction. Seeds of the central tragedy."
+        },
+        {
+          "chapter": 23,
+          "quote_paraphrase": "Scarlett kills a Yankee deserter at Tara by shooting him in the face as he climbs the stairs",
+          "reveals": "3A — she has crossed into a new moral territory. The belle is gone."
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Rebuilding Tara — 'I'll Never Be Hungry Again'",
+      "chapter_range": "24-30 (Part Three, second half)",
+      "timeline": "Late 1864 - 1865",
+      "emotional_state": "Grim determination. Grief suppressed. Hardness crystallizing. Brief moments of despair immediately walled off.",
+      "soul_quality": "Forged steel — capable but calcified. Emotional numbness as survival adaptation.",
+      "core_intentions": [
+        {
+          "id": "4A",
+          "text": "I will never be hungry again — no, nor any of my folk. If I have to lie, steal, cheat, or kill.",
+          "type": "value",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "3A",
+            "P1"
+          ],
+          "note": "THE defining vow. Spoken to God with a raised fist in a scorched field. This intention drives everything from here to the end."
+        },
+        {
+          "id": "4B",
+          "text": "Tara is the only thing that matters — land is the only thing that lasts",
+          "type": "value",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "3B",
+            "4A"
+          ],
+          "note": "Gerald O'Hara's lesson, now internalized through trauma. 'Land is the only thing worth working for, worth fighting for, worth dying for.'"
+        },
+        {
+          "id": "4C",
+          "text": "The old rules are dead — only results matter now",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.9,
+          "connections": [
+            "2A",
+            "4A"
+          ],
+          "note": "She picks cotton with her own hands, steals food, lies to soldiers. Class/gender norms are discarded."
+        },
+        {
+          "id": "4D",
+          "text": "I must carry everyone — no one else is strong enough",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.85,
+          "connections": [
+            "3C",
+            "3D"
+          ],
+          "note": "Her father is broken, sisters useless, Ashley defeated. She is the only functional adult."
+        },
+        {
+          "id": "4E",
+          "text": "I must not feel — feeling will destroy me",
+          "type": "strategy",
+          "layer": "unconscious",
+          "strength": 0.9,
+          "connections": [
+            "P2",
+            "P1"
+          ],
+          "note": "Ellen's death, Gerald's madness, starvation — she walls it all off. 'What was past was past. Those who were dead were dead.'"
+        }
+      ],
+      "new_intentions": [
+        "4A",
+        "4B",
+        "4C",
+        "4D",
+        "4E"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "3C",
+          "change": "Evolves from reluctant burden (0.7) to grim duty as identity (0.85 as 4D)"
+        }
+      ],
+      "died_intentions": [],
+      "key_dialogue_moments": [
+        {
+          "chapter": 25,
+          "quote_paraphrase": "'As God is my witness, as God is my witness, they're not going to lick me. I'm going to live through this, and when it's all over, I'll never be hungry again — no, nor any of my folk — if I have to lie, steal, cheat, or kill!'",
+          "reveals": "4A — the foundational vow. Conscious and explicit. Replaces all pre-war values."
+        },
+        {
+          "chapter": 25,
+          "quote_paraphrase": "She eats a radish pulled from the destroyed garden and vomits, then vows again",
+          "reveals": "4A — physical extremity as spiritual transformation"
+        },
+        {
+          "chapter": 28,
+          "quote_paraphrase": "She works in the fields, hands bleeding, driving the remaining servants and her sisters",
+          "reveals": "4D — leadership through force, not inspiration"
+        },
+        {
+          "chapter": 30,
+          "quote_paraphrase": "When Tara faces a massive tax bill, Scarlett resolves to get money from Rhett by any means — she makes curtains into a dress to look prosperous",
+          "reveals": "4A, 4C — using feminine appearance as tactical weapon. Marriage-as-tool strategy emerges."
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "Reconstruction — Pragmatic Ruthlessness",
+      "chapter_range": "31-37 (Part Four, first section)",
+      "timeline": "1866-1867",
+      "emotional_state": "Cold calculation. Anger at the world's unfairness channeled into relentless acquisition. Contempt for those who cling to old ways.",
+      "soul_quality": "Armored — effective but increasingly isolated from her own feelings and from others",
+      "core_intentions": [
+        {
+          "id": "4A",
+          "text": "I will never be hungry again",
+          "type": "value",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "5A"
+          ],
+          "note": "Still the master intention, now expressed through money accumulation"
+        },
+        {
+          "id": "5A",
+          "text": "Money is the only real security — I must accumulate as much as possible",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "4A",
+            "4B"
+          ],
+          "note": "Land-obsession evolves into money-obsession. Money = never hungry = safe."
+        },
+        {
+          "id": "5B",
+          "text": "Marriage is a business transaction — I will marry Frank Kennedy for his money to save Tara",
+          "type": "strategy",
+          "layer": "conscious",
+          "strength": 0.9,
+          "connections": [
+            "5A",
+            "4A",
+            "4C"
+          ],
+          "note": "She steals her sister Suellen's fiance. No guilt — only results matter. Second use of marriage as weapon."
+        },
+        {
+          "id": "5C",
+          "text": "People who cling to the old ways are fools — I will work with Yankees, freedmen, anyone who is useful",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.8,
+          "connections": [
+            "4C"
+          ],
+          "note": "She scandalizes Atlanta by doing business with carpetbaggers and Republicans."
+        },
+        {
+          "id": "5D",
+          "text": "I am secretly ashamed of what I've become but I cannot stop",
+          "type": "fear",
+          "layer": "unconscious",
+          "strength": 0.6,
+          "connections": [
+            "P3",
+            "P2",
+            "4E"
+          ],
+          "note": "Manifests in nightmares about fog and running — her recurring dream of searching for something she cannot name."
+        },
+        {
+          "id": "1A",
+          "text": "I still love Ashley — he represents everything beautiful that was lost",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.6,
+          "connections": [
+            "P1"
+          ],
+          "note": "Ashley returns from war broken. Her 'love' is now nostalgia for the pre-war world itself, projected onto him."
+        }
+      ],
+      "new_intentions": [
+        "5A",
+        "5B",
+        "5C",
+        "5D"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "1A",
+          "change": "Morphs from romantic desire to nostalgic projection — she loves what Ashley represents, not who he is"
+        }
+      ],
+      "died_intentions": [],
+      "key_dialogue_moments": [
+        {
+          "chapter": 31,
+          "quote_paraphrase": "Scarlett visits Rhett in jail hoping to seduce money from him. He sees through her curtain dress immediately. She fails.",
+          "reveals": "5A, 4C — willingness to prostitute herself for money; Rhett's ability to see through her"
+        },
+        {
+          "chapter": 33,
+          "quote_paraphrase": "Scarlett marries Frank Kennedy within two weeks of stealing him from Suellen",
+          "reveals": "5B — marriage as pure transaction. She feels mild guilt, immediately suppresses it (P2)"
+        },
+        {
+          "chapter": 35,
+          "quote_paraphrase": "Scarlett drives the lumber business, cheating customers and using convict labor",
+          "reveals": "5A, 5C — moral boundaries continue eroding in service of security"
+        },
+        {
+          "chapter": 36,
+          "quote_paraphrase": "She has recurring nightmares of running through fog, searching for something she cannot find",
+          "reveals": "5D — the unconscious knows she has lost something essential (her capacity for love/connection) but consciousness refuses to process it"
+        }
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "Marriage to Frank — Business Ambition and Loss",
+      "chapter_range": "38-42 (Part Four, middle section)",
+      "timeline": "1867-1868",
+      "emotional_state": "Driven, aggressive, increasingly alienated from Atlanta society. Brief vulnerability after Frank's death, immediately armored over.",
+      "soul_quality": "Peak hardness — she is maximally effective and maximally disconnected from her emotional self",
+      "core_intentions": [
+        {
+          "id": "5A",
+          "text": "Money is the only real security",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "4A",
+            "6A"
+          ],
+          "note": "Now expressed through the sawmill — she runs it better than any man in Atlanta"
+        },
+        {
+          "id": "6A",
+          "text": "I am smarter than the men around me and I will prove it through business success",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.85,
+          "connections": [
+            "5A",
+            "P1"
+          ],
+          "note": "A new facet: not just survival-money but competence-pride. She discovers she is genuinely talented at business."
+        },
+        {
+          "id": "6B",
+          "text": "I don't need anyone's approval — their contempt proves I'm winning",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.7,
+          "connections": [
+            "5C",
+            "P1"
+          ],
+          "note": "Defensive rationalization. She does care — Melanie's continued loyalty is a lifeline she won't acknowledge."
+        },
+        {
+          "id": "6C",
+          "text": "Frank is weak and in my way — I married a tool, not a partner",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.75,
+          "connections": [
+            "5B",
+            "3D"
+          ],
+          "note": "She openly overrides and humiliates Frank. He is miserable."
+        },
+        {
+          "id": "6D",
+          "text": "I am terrified by the attack on the road but I will not show it",
+          "type": "fear",
+          "layer": "unconscious",
+          "strength": 0.8,
+          "connections": [
+            "P1",
+            "4E"
+          ],
+          "note": "She is nearly killed/assaulted. This triggers the KKK raid that kills Frank. She suppresses the trauma."
+        }
+      ],
+      "new_intentions": [
+        "6A",
+        "6B",
+        "6C",
+        "6D"
+      ],
+      "shifted_intentions": [],
+      "died_intentions": [
+        {
+          "id": "6C",
+          "death_moment": "Frank dies in the KKK raid — Scarlett feels guilty relief, then guilt about the relief, then suppresses both"
+        }
+      ],
+      "key_dialogue_moments": [
+        {
+          "chapter": 38,
+          "quote_paraphrase": "Scarlett drives herself to the lumber mill daily, pregnant, shocking Atlanta with her unfeminine ambition",
+          "reveals": "6A — business talent as identity, gender norms as obsolete"
+        },
+        {
+          "chapter": 40,
+          "quote_paraphrase": "She is attacked on the Decatur road by a vagrant. The incident triggers Frank and Ashley to ride with the Klan.",
+          "reveals": "6D — vulnerability she cannot control leads to catastrophic consequences she did not intend"
+        },
+        {
+          "chapter": 41,
+          "quote_paraphrase": "Frank is killed. Scarlett: 'I killed him. I didn't mean to, but I killed him.' Then immediately: 'I'll think about it tomorrow.'",
+          "reveals": "P2, 6D, 5D — the guilt-suppression cycle at its most explicit"
+        },
+        {
+          "chapter": 42,
+          "quote_paraphrase": "Rhett proposes while Scarlett is drunk and grieving. She accepts. 'Why don't you say what you really mean — that you want me?'",
+          "reveals": "Third marriage-as-transaction, but this time there is genuine desire beneath the calculation"
+        }
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "Marriage to Rhett — Wealth and Hidden Vulnerability",
+      "chapter_range": "43-50 (Part Four end / Part Five beginning)",
+      "timeline": "1868-1870",
+      "emotional_state": "Surface satisfaction masking deep confusion. She has everything she wanted and feels empty. Rhett both thrills and frightens her because he sees her truly.",
+      "soul_quality": "Gilded cage — wealth creates the illusion of safety but the soul remains unfed",
+      "core_intentions": [
+        {
+          "id": "7A",
+          "text": "I want wealth, luxury, and social position to prove I have won",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.85,
+          "connections": [
+            "5A",
+            "4A",
+            "1B"
+          ],
+          "note": "She builds a gaudy mansion. Old Atlanta despises it. She doesn't care — or tells herself she doesn't."
+        },
+        {
+          "id": "7B",
+          "text": "I still love Ashley — he is my true soulmate, not Rhett",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.5,
+          "connections": [
+            "1A"
+          ],
+          "note": "Increasingly hollow. She clings to this belief because abandoning it would mean confronting what she actually feels for Rhett — which terrifies her."
+        },
+        {
+          "id": "7C",
+          "text": "Rhett must not know he has power over me — vulnerability is death",
+          "type": "fear",
+          "layer": "unconscious",
+          "strength": 0.9,
+          "connections": [
+            "P1",
+            "3D"
+          ],
+          "note": "THE tragic mechanism. She loves Rhett but cannot admit it because admitting love = admitting need = vulnerability. So she pushes him away and clings to Ashley as a shield."
+        },
+        {
+          "id": "7D",
+          "text": "I want Rhett's approval and tenderness but I don't know how to ask for it",
+          "type": "desire",
+          "layer": "unconscious",
+          "strength": 0.8,
+          "connections": [
+            "7C",
+            "P1",
+            "P3"
+          ],
+          "note": "She responds to Rhett's rare moments of tenderness with confusion and retreat. She was never taught to receive love — only to perform for admiration."
+        },
+        {
+          "id": "7E",
+          "text": "Something is missing but I cannot name it — the fog dream continues",
+          "type": "fear",
+          "layer": "unconscious",
+          "strength": 0.7,
+          "connections": [
+            "5D",
+            "P2"
+          ],
+          "note": "Wealth has not cured the emptiness. The recurring nightmare persists."
+        }
+      ],
+      "new_intentions": [
+        "7A",
+        "7B",
+        "7C",
+        "7D",
+        "7E"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "1A",
+          "change": "Now 7B: reduced to 0.5, increasingly a habit/defense mechanism rather than genuine desire"
+        },
+        {
+          "id": "5A",
+          "change": "Partially satisfied — she is rich. But satisfaction does not bring peace, so it morphs into 7A (social status)"
+        }
+      ],
+      "died_intentions": [],
+      "key_dialogue_moments": [
+        {
+          "chapter": 43,
+          "quote_paraphrase": "Rhett: 'I loved you because we are alike — both scoundrels, neither of us genteel. But you're determined to have your damned Ashley.'",
+          "reveals": "7C, 7D — he offers truth and she deflects with denial"
+        },
+        {
+          "chapter": 45,
+          "quote_paraphrase": "Scarlett and Rhett's marriage oscillates between passionate connection and bitter warfare. She uses sex as currency; he uses mockery as armor.",
+          "reveals": "7C — two people who love each other but have identical fear-of-vulnerability wounds"
+        },
+        {
+          "chapter": 47,
+          "quote_paraphrase": "Rhett, drunk, carries Scarlett upstairs. The next morning she feels something she has never felt before — but she tells herself it was nothing.",
+          "reveals": "7D, P2 — the closest she comes to recognizing her love for Rhett, immediately suppressed"
+        },
+        {
+          "chapter": 48,
+          "quote_paraphrase": "She is pregnant. Rhett is cold. She falls down the stairs and miscarries.",
+          "reveals": "7C — the physical fall mirrors the emotional destruction caused by their mutual inability to be vulnerable"
+        }
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "Bonnie Years — Motherhood Conflict",
+      "chapter_range": "51-57 (Part Five, middle)",
+      "timeline": "1870-1873",
+      "emotional_state": "Jealousy of Bonnie. Confusion at Rhett's transformation into devoted father. Increasing isolation as Rhett withdraws love from her and pours it into Bonnie.",
+      "soul_quality": "Hollowing — the armor is still in place but there is less and less behind it",
+      "core_intentions": [
+        {
+          "id": "8A",
+          "text": "Rhett loves Bonnie more than me — I have been replaced",
+          "type": "fear",
+          "layer": "unconscious",
+          "strength": 0.8,
+          "connections": [
+            "P1",
+            "7C",
+            "1D"
+          ],
+          "note": "Echoes the Ashley wound: someone she needs has chosen someone else. But she frames it as irritation, not heartbreak."
+        },
+        {
+          "id": "8B",
+          "text": "I am a poor mother and I know it — but I don't know how to be different",
+          "type": "belief",
+          "layer": "unconscious",
+          "strength": 0.65,
+          "connections": [
+            "P3",
+            "4E"
+          ],
+          "note": "She feels nothing for Wade or Ella. She cannot access maternal warmth because she walled off all tender feeling in Phase 4."
+        },
+        {
+          "id": "8C",
+          "text": "I want Rhett back but I don't know what I did to lose him",
+          "type": "desire",
+          "layer": "unconscious",
+          "strength": 0.75,
+          "connections": [
+            "7D",
+            "7C"
+          ],
+          "note": "The fog dream intensifies. She is getting closer to self-knowledge but P2 keeps blocking it."
+        },
+        {
+          "id": "7B",
+          "text": "Ashley is my true love",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.35,
+          "connections": [
+            "1A"
+          ],
+          "note": "Nearly dead. She visits Ashley and feels only pity and confusion. But she cannot let go because it is the last thread of her pre-war self."
+        },
+        {
+          "id": "4A",
+          "text": "I will never be hungry again",
+          "type": "value",
+          "layer": "conscious",
+          "strength": 0.7,
+          "connections": [],
+          "note": "Still present but no longer the dominant driver — she is rich. The emptiness is emotional now, not material."
+        }
+      ],
+      "new_intentions": [
+        "8A",
+        "8B",
+        "8C"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "7B",
+          "change": "Weakened to 0.35 — nearly vestigial"
+        },
+        {
+          "id": "4A",
+          "change": "Weakened to 0.7 — material security achieved but emotional security not"
+        }
+      ],
+      "died_intentions": [],
+      "key_dialogue_moments": [
+        {
+          "chapter": 52,
+          "quote_paraphrase": "Scarlett is seen in Ashley's arms at the mill — an innocent comfort embrace. Ashley's birthday party becomes a social disaster.",
+          "reveals": "7B — the Ashley attachment now causes harm to everyone and satisfies no one, including Scarlett"
+        },
+        {
+          "chapter": 53,
+          "quote_paraphrase": "Rhett forces Scarlett to attend Ashley's party in a red dress. 'You wanted the admiration of every man — tonight you shall have it.'",
+          "reveals": "7C, 8A — Rhett punishes her with the very vanity she once valued. Their love has curdled into mutual cruelty."
+        },
+        {
+          "chapter": 55,
+          "quote_paraphrase": "Rhett pours all his love into Bonnie, buying her a pony, spoiling her, taking her everywhere",
+          "reveals": "8A — Rhett has transferred his capacity for love to a safer vessel. Scarlett watches, excluded."
+        }
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "Crisis and Loss — Bonnie, Melanie, Self-Knowledge",
+      "chapter_range": "58-62",
+      "timeline": "1873",
+      "emotional_state": "Catastrophic collapse of all defensive structures. Grief that can no longer be deferred. Terror. And finally — clarity.",
+      "soul_quality": "Shattering and reassembly — the armor breaks and for the first time she sees clearly, but it may be too late",
+      "core_intentions": [
+        {
+          "id": "9A",
+          "text": "Bonnie is dead and Rhett is destroyed — I am losing everything",
+          "type": "fear",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "8A",
+            "P1"
+          ],
+          "note": "Bonnie's death in a riding accident shatters the household. Rhett breaks down. The invulnerable man is broken."
+        },
+        {
+          "id": "9B",
+          "text": "Melanie is the person who truly loved me — and she is dying",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "1C",
+            "P3"
+          ],
+          "note": "THE great reversal of intention 1C. The woman she dismissed as a rival was her truest friend, her moral anchor, her protector. She realizes this only as Melanie dies."
+        },
+        {
+          "id": "9C",
+          "text": "I never loved Ashley — it was a fantasy, a child's dream. I have loved Rhett all along.",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "7C",
+            "7D",
+            "1A"
+          ],
+          "note": "The central anagnorisis. Seeing Ashley by Melanie's deathbed, she finally sees him clearly: a gentle, broken man she feels only pity for. The 'love' evaporates like fog — and she realizes the fog dream was about Rhett all along."
+        },
+        {
+          "id": "9D",
+          "text": "I must tell Rhett I love him — vulnerability is the only path left",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "9C",
+            "7C"
+          ],
+          "note": "For the first time, she chooses vulnerability. The anti-P1 moment. She runs home to tell Rhett."
+        },
+        {
+          "id": "9E",
+          "text": "I have wasted years chasing a phantom while the real thing was right beside me",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "9C",
+            "P2"
+          ],
+          "note": "The cost of 'I'll think about it tomorrow' finally becomes visible: she deferred self-knowledge until it was too late."
+        }
+      ],
+      "new_intentions": [
+        "9A",
+        "9B",
+        "9C",
+        "9D",
+        "9E"
+      ],
+      "shifted_intentions": [],
+      "died_intentions": [
+        {
+          "id": "1A/7B",
+          "death_moment": "Chapter 62 — the Ashley fantasy dies permanently when she sees him clearly at Melanie's deathbed"
+        },
+        {
+          "id": "4E",
+          "death_moment": "Chapter 62 — the 'I must not feel' strategy collapses under the weight of accumulated grief"
+        },
+        {
+          "id": "P2",
+          "death_moment": "Chapter 62 — 'tomorrow' has finally arrived. She can no longer defer. The repression breaks."
+        }
+      ],
+      "key_dialogue_moments": [
+        {
+          "chapter": 59,
+          "quote_paraphrase": "Bonnie dies trying to jump her pony over a fence, exactly as her grandfather Gerald died falling from a horse. Rhett loses his mind with grief.",
+          "reveals": "9A — the O'Hara pattern of reckless courage destroying itself"
+        },
+        {
+          "chapter": 61,
+          "quote_paraphrase": "Melanie, dying, whispers: 'Be kind to Captain Butler. He loves you so.' And: 'Look after Ashley for me.'",
+          "reveals": "9B — Melanie's last acts are generosity. Scarlett finally understands what she had and what she is losing."
+        },
+        {
+          "chapter": 62,
+          "quote_paraphrase": "Scarlett looks at Ashley and sees 'a man she knew only as a friend.' The obsession is simply... gone. 'I never really loved Ashley.'",
+          "reveals": "9C — twelve years of pursuit revealed as projection. The most important intention-death in the novel."
+        },
+        {
+          "chapter": 62,
+          "quote_paraphrase": "She runs home through the fog — the literal fog matching her lifelong dream — and realizes: 'I love Rhett — I've always loved Rhett.'",
+          "reveals": "9C, 9D — the fog dream resolves. What she was searching for was Rhett."
+        }
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "The Ending — 'Tomorrow Is Another Day'",
+      "chapter_range": "63",
+      "timeline": "1873",
+      "emotional_state": "Devastation, then — characteristically — defiant hope. Not denial this time, but genuine resilience forged through loss.",
+      "soul_quality": "Irreducible core — stripped of illusions, wealth-obsession, Ashley-fantasy, and social ambition, what remains is the survival instinct transmuted into something closer to genuine strength",
+      "core_intentions": [
+        {
+          "id": "10A",
+          "text": "I love Rhett and I will get him back",
+          "type": "desire",
+          "layer": "conscious",
+          "strength": 0.9,
+          "connections": [
+            "9C",
+            "9D"
+          ],
+          "note": "Her first honest emotional intention. But is it genuine love or another conquest? Mitchell leaves this ambiguous."
+        },
+        {
+          "id": "10B",
+          "text": "I will go home to Tara — Tara is where I find strength",
+          "type": "value",
+          "layer": "conscious",
+          "strength": 0.95,
+          "connections": [
+            "4B",
+            "3B"
+          ],
+          "note": "The land-as-mother intention returns. Tara is her psychological foundation. She goes home to regroup, not to retreat."
+        },
+        {
+          "id": "10C",
+          "text": "Tomorrow is another day — I will survive this too",
+          "type": "value",
+          "layer": "conscious",
+          "strength": 1.0,
+          "connections": [
+            "P2",
+            "4A",
+            "3A"
+          ],
+          "note": "CRITICAL: this is P2 ('think about it tomorrow') TRANSFORMED. Same words, different meaning. Before it was repression. Now it is resilience. The survival instinct has evolved from avoidance into genuine fortitude."
+        },
+        {
+          "id": "10D",
+          "text": "I have lost almost everything and I am still standing",
+          "type": "belief",
+          "layer": "conscious",
+          "strength": 0.85,
+          "connections": [
+            "4A",
+            "3A"
+          ],
+          "note": "Rhett is gone, Melanie is dead, Ashley is irrelevant, Bonnie is dead, her parents are dead. And she endures. This is the irreducible Scarlett."
+        }
+      ],
+      "new_intentions": [
+        "10A",
+        "10B",
+        "10C",
+        "10D"
+      ],
+      "shifted_intentions": [
+        {
+          "id": "P2",
+          "change": "TRANSMUTED: 'I'll think about it tomorrow' changes from repression mechanism to resilience statement. Same surface, opposite depth."
+        }
+      ],
+      "died_intentions": [
+        {
+          "id": "7A",
+          "death_moment": "Wealth and social position no longer mentioned — irrelevant"
+        },
+        {
+          "id": "5A",
+          "death_moment": "Money-as-security drops away — she has discovered that emotional connection is what she actually needed"
+        }
+      ],
+      "key_dialogue_moments": [
+        {
+          "chapter": 63,
+          "quote_paraphrase": "Scarlett: 'Rhett, if you go, where shall I go? What shall I do?' Rhett: 'Frankly, my dear, I don't give a damn.'",
+          "reveals": "9D fails — vulnerability offered too late. The tragic cost of P2's lifetime of deferral."
+        },
+        {
+          "chapter": 63,
+          "quote_paraphrase": "'I'll go home to Tara tomorrow... I'll think of some way to get him back. After all, tomorrow is another day.'",
+          "reveals": "10B, 10C — Tara as psychological bedrock; 'tomorrow' reborn as hope rather than avoidance. But also: ambiguity — is this growth or is she simply repeating her pattern?"
+        }
+      ]
+    }
+  ],
+  "intention_lifecycle_summary": {
+    "ashley_obsession": {
+      "id_chain": [
+        "1A",
+        "7B"
+      ],
+      "birth": "Chapter 1 — narcissistic wound from rejection",
+      "peak": "Phase 1 (0.95)",
+      "true_nature": "Never genuine love — projection of idealized Southern womanhood and narcissistic need to conquer the unconquerable",
+      "death": "Chapter 62 — dissolved by clear sight at Melanie's deathbed",
+      "duration": "61 chapters"
+    },
+    "survival_instinct": {
+      "id_chain": [
+        "3A",
+        "4A",
+        "10C"
+      ],
+      "birth": "Chapter 17 — siege of Atlanta",
+      "evolution": "Physical survival (3A) -> material security vow (4A) -> money obsession (5A) -> emotional resilience (10C)",
+      "note": "The deepest throughline. Transforms from fear-based to strength-based, but the question of whether the transformation is complete is left open."
+    },
+    "vulnerability_avoidance": {
+      "id_chain": [
+        "P1",
+        "4E",
+        "7C"
+      ],
+      "birth": "Pre-novel — rooted in Ellen's emotional distance",
+      "peak": "Phase 7 (7C at 0.9) — destroying her marriage to Rhett",
+      "crisis": "Chapter 62 — forced open by accumulated loss",
+      "note": "This is the tragic mechanism of the entire novel. If Scarlett could have been vulnerable with Rhett at any point in Phases 7-8, the ending would be different."
+    },
+    "tara_land_obsession": {
+      "id_chain": [
+        "3B",
+        "4B",
+        "10B"
+      ],
+      "birth": "Chapter 22 — flight from Atlanta",
+      "nature": "Tara = Ellen = mother = safety. The only stable love object in her life.",
+      "note": "Gerald's philosophy ('land is the only thing that lasts') becomes Scarlett's psychological bedrock"
+    },
+    "marriage_as_tool": {
+      "instances": [
+        {
+          "target": "Charles Hamilton",
+          "chapter": 7,
+          "purpose": "Spite Ashley"
+        },
+        {
+          "target": "Frank Kennedy",
+          "chapter": 33,
+          "purpose": "Save Tara (tax money)"
+        },
+        {
+          "target": "Rhett Butler",
+          "chapter": 42,
+          "purpose": "Security + desire (first time desire is present)"
+        }
+      ],
+      "note": "Each marriage is more honest than the last. The arc bends toward authenticity."
+    },
+    "think_about_it_tomorrow": {
+      "id": "P2",
+      "first_appearance": "Early chapters",
+      "frequency": "Dozens of instances across the novel",
+      "function": "Repression of guilt, grief, fear, and self-knowledge",
+      "transformation": "Chapter 63 — same words become resilience instead of avoidance",
+      "note": "This is the single most important intention for DualSoul to track, because its SURFACE stays identical while its DEPTH inverts. A detection system must distinguish P2-as-repression from P2-as-resilience."
+    },
+    "recurring_fog_dream": {
+      "first_appearance": "Phase 5 (chapter ~36)",
+      "content": "Running through fog, searching for something she cannot name or find",
+      "resolution": "Chapter 62 — the fog is literal as she runs home to Rhett. What she was searching for was love/connection with Rhett.",
+      "note": "The unconscious mind's persistent signal that her conscious intentions (Ashley, money) are wrong. Key detection target for unconscious intention tracking."
+    }
+  },
+  "detection_challenges_for_dualsoul": [
+    {
+      "challenge": "Conscious vs unconscious intention divergence",
+      "example": "Scarlett consciously believes she loves Ashley (1A/7B) while unconsciously loving Rhett (7D). A detector must identify both layers simultaneously.",
+      "difficulty": "high"
+    },
+    {
+      "challenge": "Same surface text, opposite depth",
+      "example": "'I'll think about it tomorrow' means repression in chapters 1-62 and resilience in chapter 63. Surface NLP will miss this entirely.",
+      "difficulty": "very_high"
+    },
+    {
+      "challenge": "Intention strength decay over time",
+      "example": "Ashley obsession decays from 0.95 to 0.35 over 55 chapters before dying. The detector must track gradual weakening, not just on/off.",
+      "difficulty": "medium"
+    },
+    {
+      "challenge": "Intention transmutation (not death)",
+      "example": "Survival instinct (3A) does not die — it transmutes from physical (hunger) to material (money) to emotional (resilience). Same root, different expression.",
+      "difficulty": "high"
+    },
+    {
+      "challenge": "Defensive intention masking true intention",
+      "example": "7C (must not show vulnerability to Rhett) masks 7D (desperately wants Rhett's love). The defense and the desire coexist and conflict.",
+      "difficulty": "very_high"
+    },
+    {
+      "challenge": "Marriage-as-tool pattern recognition",
+      "example": "Three marriages with increasing authenticity. The pattern repeats but evolves. Detector must see both the pattern and the evolution.",
+      "difficulty": "medium"
+    }
+  ]
+}
