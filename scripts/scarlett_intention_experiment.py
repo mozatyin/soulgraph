@@ -26,7 +26,7 @@ from soulgraph.graph.models import SoulGraph, SoulItem
 
 FIXTURE_PATH = Path(__file__).parent.parent / "fixtures" / "scarlett_full.jsonl"
 GROUND_TRUTH_PATH = Path(__file__).parent.parent / "fixtures" / "scarlett_intentions.json"
-RESULTS_DIR = Path(__file__).parent.parent / "results" / "scarlett_intention_experiment_v2"
+RESULTS_DIR = Path(__file__).parent.parent / "results" / "scarlett_intention_experiment_v3"
 
 
 def load_dialogue() -> dict[int, list[dict]]:
@@ -70,6 +70,8 @@ def extract_intentions(graph: SoulGraph) -> list[dict]:
             "tags": item.tags,
             "abstraction_level": item.abstraction_level,
             "motivation_tags": item.motivation_tags,
+            "emotional_valence": item.emotional_valence,
+            "authenticity_hint": item.authenticity_hint,
         })
     return intentions
 
@@ -90,12 +92,14 @@ def compare_phase(
     )
 
     surface_text = "\n".join(
-        f"- {i['text']} (conf: {i['confidence']:.2f}, mentions: {i['mention_count']})"
+        f"- {i['text']} (conf: {i['confidence']:.2f}, mentions: {i['mention_count']}, "
+        f"valence: {i.get('emotional_valence', 'neutral')}, auth: {i.get('authenticity_hint', 'unknown')})"
         for i in surface_intentions[:20]
     ) or "(empty)"
 
     deep_text = "\n".join(
-        f"- {i['text']} (conf: {i['confidence']:.2f}, mentions: {i['mention_count']})"
+        f"- {i['text']} (conf: {i['confidence']:.2f}, mentions: {i['mention_count']}, "
+        f"valence: {i.get('emotional_valence', 'neutral')}, auth: {i.get('authenticity_hint', 'unknown')})"
         for i in deep_intentions[:20]
     ) or "(empty)"
 
