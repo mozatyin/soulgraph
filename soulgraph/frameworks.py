@@ -93,6 +93,16 @@ FRAMEWORKS: dict[str, dict] = {
             "distance_need": "Unmet need for distance from what is toxic (beneath disgust)",
         },
     },
+    "existential": {
+        "name": "Existential Psychology (Frankl/Yalom)",
+        "description": "4 ultimate concerns of human existence that shape motivation beneath need-satisfaction",
+        "values": {
+            "meaning": "Search for purpose, significance, coherence in life — why one exists",
+            "mortality": "Awareness of death, legacy, finite time — drives urgency and priority",
+            "freedom": "Burden of choice, responsibility, groundlessness — anxiety of unlimited options",
+            "isolation": "Fundamental aloneness, unbridgeable gap between self and others",
+        },
+    },
 }
 
 # Default: use ALL frameworks for annotation

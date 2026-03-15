@@ -2,9 +2,9 @@ from soulgraph.frameworks import FRAMEWORKS, DEFAULT_FRAMEWORKS, validate_tag, f
 
 
 class TestFrameworkRegistry:
-    def test_all_six_frameworks_present(self):
-        assert len(FRAMEWORKS) == 6
-        for key in ["maslow", "sdt", "reiss", "attachment", "schema", "eft"]:
+    def test_all_seven_frameworks_present(self):
+        assert len(FRAMEWORKS) == 7
+        for key in ["maslow", "sdt", "reiss", "attachment", "schema", "eft", "existential"]:
             assert key in FRAMEWORKS
 
     def test_maslow_has_five_levels(self):
@@ -58,3 +58,31 @@ class TestPromptSection:
         section = framework_prompt_section(["attachment"])
         assert "secure" in section
         assert "autonomy" not in section
+
+
+class TestExistentialFramework:
+    def test_existential_in_registry(self):
+        assert "existential" in FRAMEWORKS
+
+    def test_existential_has_four_values(self):
+        assert len(FRAMEWORKS["existential"]["values"]) == 4
+
+    def test_existential_values(self):
+        values = set(FRAMEWORKS["existential"]["values"].keys())
+        assert values == {"meaning", "mortality", "freedom", "isolation"}
+
+    def test_existential_in_default_frameworks(self):
+        assert "existential" in DEFAULT_FRAMEWORKS
+
+    def test_validate_existential_tags(self):
+        assert validate_tag("existential", "meaning") is True
+        assert validate_tag("existential", "mortality") is True
+        assert validate_tag("existential", "freedom") is True
+        assert validate_tag("existential", "isolation") is True
+        assert validate_tag("existential", "invalid") is False
+
+    def test_prompt_section_includes_existential(self):
+        section = framework_prompt_section()
+        assert "Existential" in section
+        assert "Frankl" in section
+        assert "meaning" in section
