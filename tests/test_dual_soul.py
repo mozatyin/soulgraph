@@ -440,6 +440,16 @@ class TestMetaConsolidation:
         assert maslow_set == {"love", "safety", "esteem"}
 
 
+class TestMetaConsolidationEmotional:
+    def test_root_discovery_prompt_mentions_authenticity(self):
+        assert "amplified" in DualSoul._ROOT_DISCOVERY_PROMPT
+        assert "disclosure" in DualSoul._ROOT_DISCOVERY_PROMPT.lower()
+        assert "EMOTIONAL AUTHENTICITY" in DualSoul._ROOT_DISCOVERY_PROMPT
+
+    def test_root_discovery_prompt_mentions_slip(self):
+        assert "slip" in DualSoul._ROOT_DISCOVERY_PROMPT
+
+
 class TestConsolidationEmotionalFields:
     @patch("soulgraph.dual_soul.Detector")
     def test_new_deep_item_preserves_emotional_fields(self, MockDetector):

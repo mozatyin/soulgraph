@@ -216,6 +216,11 @@ Your task: discover the ABSTRACT ROOT MOTIVATIONS that drive clusters of these c
 5. A concrete intention can map to MULTIPLE roots (multifinality).
 6. Only create roots backed by 2+ concrete intentions (equifinality signal).
 7. For Maslow: prefer lower layers when ambiguous (prepotency principle).
+8. EMOTIONAL AUTHENTICITY: Each concrete item has emotional_valence and authenticity_hint.
+   - "extreme" + "amplified" = likely false positive (emotion exaggeration). Reduce weight for root grouping.
+   - "extreme" + "slip" = likely genuine disclosure (barrier breakthrough). Increase weight — this reveals hidden truth.
+   - "aroused" + "consistent" = high signal — emotion validates the intention.
+   - "neutral" or "unknown" = treat normally.
 
 Return JSON array:
 [
@@ -250,7 +255,8 @@ Return JSON array:
 
         items_text = "\n".join(
             f'- id: "{i.id}", text: "{i.text}", domains: {i.domains}, '
-            f'mentions: {i.mention_count}, confidence: {i.confidence:.2f}'
+            f'mentions: {i.mention_count}, confidence: {i.confidence:.2f}, '
+            f'valence: {i.emotional_valence}, authenticity: {i.authenticity_hint}'
             for i in top_items
         )
         existing_roots_text = "\n".join(
