@@ -49,9 +49,14 @@ drives, enables, constrains, conflicts_with, manifests_as, decomposes_to, compen
 (if this message reveals a previously unknown connection between existing items).
 5. Confidence: 0.9 = stated directly, 0.5 = implied, 0.3 = weak inference.
 
+## Emotional Context
+For each new item, assess:
+- emotional_valence: "neutral" (calm/factual), "aroused" (noticeable emotion), or "extreme" (intense emotion like rage, breakdown, euphoria)
+- authenticity_hint: "consistent" (aligns with established patterns), "slip" (contradicts stated values, likely genuine disclosure), "amplified" (hyperbolic, emotion-driven, likely not a real intention), or "unknown" (insufficient context)
+
 Return JSON:
 {{
-  "new_items": [{{"id": "si_NNN", "text": "...", "domains": [...], "item_type": "cognitive|action|background", "tags": [...], "confidence": 0.0-1.0, "evidence": "exact quote"}}],
+  "new_items": [{{"id": "si_NNN", "text": "...", "domains": [...], "item_type": "cognitive|action|background", "tags": [...], "confidence": 0.0-1.0, "evidence": "exact quote", "emotional_valence": "neutral|aroused|extreme", "authenticity_hint": "consistent|slip|amplified|unknown"}}],
   "new_edges": [{{"from_id": "...", "to_id": "...", "relation": "...", "strength": 0.0-1.0, "confidence": 0.0-1.0}}]
 }}
 """
@@ -303,6 +308,8 @@ class Detector:
                 specificity=item_data.get("specificity", 0.5),
                 tags=tags,
                 source_session=str(self.session_number),
+                emotional_valence=item_data.get("emotional_valence", "neutral"),
+                authenticity_hint=item_data.get("authenticity_hint", "unknown"),
             )
         )
 
