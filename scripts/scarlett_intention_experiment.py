@@ -15,9 +15,10 @@ import traceback
 from pathlib import Path
 from collections import defaultdict
 
-# Force unbuffered output
-sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
-sys.stderr = os.fdopen(sys.stderr.fileno(), 'w', buffering=1)
+# Force unbuffered output (only when run directly, not when imported by pytest)
+if __name__ == "__main__":
+    sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
+    sys.stderr = os.fdopen(sys.stderr.fileno(), 'w', buffering=1)
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
