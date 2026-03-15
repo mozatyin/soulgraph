@@ -45,3 +45,33 @@ class TestSoulItemAbstraction:
         json_str = item.model_dump_json()
         parsed = json.loads(json_str)
         assert parsed["motivation_tags"]["reiss"] == "tranquility"
+
+
+class TestSoulItemEmotionalFields:
+    def test_default_emotional_valence_is_neutral(self):
+        item = SoulItem(id="t1", text="test", domains=["d"])
+        assert item.emotional_valence == "neutral"
+
+    def test_default_authenticity_hint_is_unknown(self):
+        item = SoulItem(id="t1", text="test", domains=["d"])
+        assert item.authenticity_hint == "unknown"
+
+    def test_emotional_fields_roundtrip_json(self):
+        item = SoulItem(
+            id="t1", text="test", domains=["d"],
+            emotional_valence="extreme",
+            authenticity_hint="slip",
+        )
+        data = json.loads(item.model_dump_json())
+        assert data["emotional_valence"] == "extreme"
+        assert data["authenticity_hint"] == "slip"
+
+    def test_emotional_fields_in_model_validate(self):
+        data = {
+            "id": "t1", "text": "test", "domains": ["d"],
+            "emotional_valence": "aroused",
+            "authenticity_hint": "amplified",
+        }
+        item = SoulItem.model_validate(data)
+        assert item.emotional_valence == "aroused"
+        assert item.authenticity_hint == "amplified"

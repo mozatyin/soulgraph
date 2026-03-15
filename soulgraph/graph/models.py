@@ -55,6 +55,8 @@ class SoulItem(BaseModel):
     last_reinforced_cycle: int = 0
     abstraction_level: int = 0
     motivation_tags: dict[str, str] = {}
+    emotional_valence: str = "neutral"      # "neutral" | "aroused" | "extreme"
+    authenticity_hint: str = "unknown"      # "consistent" | "slip" | "amplified" | "unknown"
 
     @field_validator("confidence", "specificity", mode="before")
     @classmethod
