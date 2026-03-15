@@ -9,6 +9,7 @@ Usage:
 """
 import json
 import os
+import re
 import sys
 import traceback
 from pathlib import Path
@@ -147,14 +148,29 @@ Return JSON:
             messages=[{"role": "user", "content": prompt}],
         )
         raw = response.content[0].text
+        # Try full JSON parse
         start = raw.find("{")
         end = raw.rfind("}")
         if start >= 0 and end >= 0:
-            return json.loads(raw[start:end + 1])
+            try:
+                return json.loads(raw[start:end + 1])
+            except json.JSONDecodeError:
+                pass
+
+        # Fallback: regex extract overall_understanding
+        match = re.search(r'"overall_understanding"\s*:\s*([\d.]+)', raw)
+        if match:
+            score = float(match.group(1))
+            print(f"  [warn] JSON parse failed, regex fallback: {score}")
+            return {
+                "phase": phase_num,
+                "overall_understanding": score,
+                "commentary": "partial parse — regex fallback",
+            }
     except Exception as e:
         print(f"  [warn] LLM comparison failed: {e}")
 
-    return {"phase": phase_num, "overall_understanding": 0.0, "commentary": "comparison failed"}
+    return {"phase": phase_num, "overall_understanding": -1, "commentary": "comparison failed"}
 
 
 def main():
@@ -297,6 +313,13 @@ def main():
             "surface_items": pr["stats"]["surface_items"],
             "deep_items": pr["stats"]["deep_items"],
         })
+
+    valid_scores = [ps["understanding"] for ps in evolution["phase_scores"]
+                    if isinstance(ps["understanding"], (int, float)) and ps["understanding"] >= 0]
+    if valid_scores:
+        avg = sum(valid_scores) / len(valid_scores)
+        print(f"\n  Average understanding (excluding errors): {avg:.3f}")
+        print(f"  Phases with parse errors: {len(evolution['phase_scores']) - len(valid_scores)}")
 
     # Final LLM summary of the entire evolution
     print("\nGenerating final soul evolution analysis...")
