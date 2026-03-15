@@ -440,6 +440,59 @@ class TestMetaConsolidation:
         assert maslow_set == {"love", "safety", "esteem"}
 
 
+class TestConsolidationEmotionalFields:
+    @patch("soulgraph.dual_soul.Detector")
+    def test_new_deep_item_preserves_emotional_fields(self, MockDetector):
+        """When a new Surface item goes to Deep, emotional fields survive."""
+        mock_det = MockDetector.return_value
+        g = SoulGraph(owner_id="test")
+        mock_det.detected_graph = g
+        ds = DualSoul(api_key="test-key")
+        # Add surface item with emotional fields
+        surface_item = SoulItem(
+            id="si_001", text="I hate everything about this", domains=["emotion"],
+            emotional_valence="extreme", authenticity_hint="amplified",
+        )
+        ds.surface.add_item(surface_item)
+        # Force consolidate — Deep is empty so all surface items become new
+        with patch.object(ds, '_batch_merge', return_value=[]):
+            with patch.object(ds, '_carry_forward_and_reset'):
+                result = ds.consolidate()
+        # Find the item in Deep
+        deep_items = [i for i in ds.deep.items if "hate everything" in i.text]
+        assert len(deep_items) == 1
+        assert deep_items[0].emotional_valence == "extreme"
+        assert deep_items[0].authenticity_hint == "amplified"
+
+    @patch("soulgraph.dual_soul.Detector")
+    def test_merged_item_takes_max_valence(self, MockDetector):
+        """When merging, Deep item gets the more extreme valence."""
+        mock_det = MockDetector.return_value
+        g = SoulGraph(owner_id="test")
+        mock_det.detected_graph = g
+        ds = DualSoul(api_key="test-key")
+        # Add existing deep item with neutral valence
+        deep_item = SoulItem(
+            id="di_0001", text="dislikes confrontation", domains=["personality"],
+            emotional_valence="neutral", authenticity_hint="unknown",
+        )
+        ds._deep.add_item(deep_item)
+        # Add surface item that will merge (similar text)
+        surface_item = SoulItem(
+            id="si_001", text="hates confrontation intensely", domains=["personality"],
+            emotional_valence="aroused", authenticity_hint="consistent",
+        )
+        ds.surface.add_item(surface_item)
+        # Mock batch_merge to return merged text; lower threshold so texts merge
+        with patch.object(ds, '_batch_merge', return_value=["dislikes confrontation, sometimes intensely"]):
+            with patch.object(ds, '_carry_forward_and_reset'):
+                with patch.object(ds, '_adaptive_merge_threshold', return_value=0.3):
+                    ds.consolidate()
+        # Check deep item got updated emotional fields
+        assert ds._deep.items[0].emotional_valence == "aroused"
+        assert ds._deep.items[0].authenticity_hint == "consistent"
+
+
 class TestQueryWithRoots:
     @patch("soulgraph.dual_soul.Detector")
     def test_query_system_prompt_includes_roots(self, MockDetector):

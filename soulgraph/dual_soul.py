@@ -145,6 +145,12 @@ class DualSoul:
                 for dom in s_item.domains:
                     if dom not in d_item.domains:
                         d_item.domains.append(dom)
+                # Emotional fields: take most extreme valence, most informative hint
+                valence_order = {"neutral": 0, "aroused": 1, "extreme": 2}
+                if valence_order.get(s_item.emotional_valence, 0) > valence_order.get(d_item.emotional_valence, 0):
+                    d_item.emotional_valence = s_item.emotional_valence
+                if s_item.authenticity_hint != "unknown" and d_item.authenticity_hint == "unknown":
+                    d_item.authenticity_hint = s_item.authenticity_hint
                 merged_count += 1
 
         # Add new items to Deep
@@ -161,6 +167,8 @@ class DualSoul:
                 tags=item.tags,
                 mention_count=item.mention_count + 1,
                 last_reinforced_cycle=self._consolidation_count,
+                emotional_valence=item.emotional_valence,
+                authenticity_hint=item.authenticity_hint,
             )
             self._deep.add_item(deep_item)
             added_count += 1
