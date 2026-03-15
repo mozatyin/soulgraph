@@ -53,6 +53,8 @@ class SoulItem(BaseModel):
     mention_count: int = 0
     tags: list[str] = []
     last_reinforced_cycle: int = 0
+    abstraction_level: int = 0
+    motivation_tags: dict[str, str] = {}
 
     @field_validator("confidence", "specificity", mode="before")
     @classmethod
