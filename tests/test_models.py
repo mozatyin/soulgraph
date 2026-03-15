@@ -66,6 +66,22 @@ class TestSoulItemEmotionalFields:
         assert data["emotional_valence"] == "extreme"
         assert data["authenticity_hint"] == "slip"
 
+    def test_emotional_valence_normalizes_invalid(self):
+        item = SoulItem(id="t1", text="test", domains=["d"], emotional_valence="EXTREME")
+        assert item.emotional_valence == "extreme"
+
+    def test_emotional_valence_rejects_unknown(self):
+        item = SoulItem(id="t1", text="test", domains=["d"], emotional_valence="very_angry")
+        assert item.emotional_valence == "neutral"
+
+    def test_authenticity_hint_normalizes_case(self):
+        item = SoulItem(id="t1", text="test", domains=["d"], authenticity_hint="SLIP")
+        assert item.authenticity_hint == "slip"
+
+    def test_authenticity_hint_rejects_unknown_value(self):
+        item = SoulItem(id="t1", text="test", domains=["d"], authenticity_hint="maybe")
+        assert item.authenticity_hint == "unknown"
+
     def test_emotional_fields_in_model_validate(self):
         data = {
             "id": "t1", "text": "test", "domains": ["d"],

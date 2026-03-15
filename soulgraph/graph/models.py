@@ -58,6 +58,18 @@ class SoulItem(BaseModel):
     emotional_valence: str = "neutral"      # "neutral" | "aroused" | "extreme"
     authenticity_hint: str = "unknown"      # "consistent" | "slip" | "amplified" | "unknown"
 
+    @field_validator("emotional_valence", mode="before")
+    @classmethod
+    def normalize_valence(cls, v: str) -> str:
+        v = str(v).lower().strip()
+        return v if v in ("neutral", "aroused", "extreme") else "neutral"
+
+    @field_validator("authenticity_hint", mode="before")
+    @classmethod
+    def normalize_hint(cls, v: str) -> str:
+        v = str(v).lower().strip()
+        return v if v in ("consistent", "slip", "amplified", "unknown") else "unknown"
+
     @field_validator("confidence", "specificity", mode="before")
     @classmethod
     def clamp_floats(cls, v: float) -> float:

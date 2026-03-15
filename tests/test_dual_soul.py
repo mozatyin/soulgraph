@@ -503,6 +503,32 @@ class TestConsolidationEmotionalFields:
         assert ds._deep.items[0].authenticity_hint == "consistent"
 
 
+    @patch("soulgraph.dual_soul.Detector")
+    def test_merged_item_hint_upgrades_by_priority(self, MockDetector):
+        """When merging, Deep item gets the higher-priority hint."""
+        mock_det = MockDetector.return_value
+        g = SoulGraph(owner_id="test")
+        mock_det.detected_graph = g
+        ds = DualSoul(api_key="test-key")
+        from soulgraph.graph.models import SoulItem
+        deep_item = SoulItem(
+            id="di_0001", text="fears abandonment", domains=["psychology"],
+            emotional_valence="aroused", authenticity_hint="amplified",
+        )
+        ds._deep.add_item(deep_item)
+        surface_item = SoulItem(
+            id="si_001", text="deeply fears abandonment", domains=["psychology"],
+            emotional_valence="extreme", authenticity_hint="consistent",
+        )
+        ds.surface.add_item(surface_item)
+        with patch.object(ds, '_batch_merge', return_value=["fears abandonment deeply"]):
+            with patch.object(ds, '_carry_forward_and_reset'):
+                with patch.object(ds, '_adaptive_merge_threshold', return_value=0.3):
+                    ds.consolidate()
+        assert ds._deep.items[0].authenticity_hint == "consistent"  # upgraded from amplified
+        assert ds._deep.items[0].emotional_valence == "extreme"  # upgraded from aroused
+
+
 class TestQueryWithRoots:
     @patch("soulgraph.dual_soul.Detector")
     def test_query_system_prompt_includes_roots(self, MockDetector):

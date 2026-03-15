@@ -149,7 +149,8 @@ class DualSoul:
                 valence_order = {"neutral": 0, "aroused": 1, "extreme": 2}
                 if valence_order.get(s_item.emotional_valence, 0) > valence_order.get(d_item.emotional_valence, 0):
                     d_item.emotional_valence = s_item.emotional_valence
-                if s_item.authenticity_hint != "unknown" and d_item.authenticity_hint == "unknown":
+                hint_priority = {"unknown": 0, "amplified": 1, "consistent": 2, "slip": 3}
+                if hint_priority.get(s_item.authenticity_hint, 0) > hint_priority.get(d_item.authenticity_hint, 0):
                     d_item.authenticity_hint = s_item.authenticity_hint
                 merged_count += 1
 
