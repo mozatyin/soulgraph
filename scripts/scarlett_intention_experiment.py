@@ -25,7 +25,7 @@ from soulgraph.graph.models import SoulGraph, SoulItem
 
 FIXTURE_PATH = Path(__file__).parent.parent / "fixtures" / "scarlett_full.jsonl"
 GROUND_TRUTH_PATH = Path(__file__).parent.parent / "fixtures" / "scarlett_intentions.json"
-RESULTS_DIR = Path(__file__).parent.parent / "results" / "scarlett_intention_experiment"
+RESULTS_DIR = Path(__file__).parent.parent / "results" / "scarlett_intention_experiment_v2"
 
 
 def load_dialogue() -> dict[int, list[dict]]:
@@ -51,6 +51,7 @@ def extract_intentions(graph: SoulGraph) -> list[dict]:
         # Intention indicators: item_type, tags, or text patterns
         is_intention = (
             item.item_type.value in ("intention", "belief", "preference")
+            or item.abstraction_level == 1  # Root intentions always count
             or any(t in item.tags for t in ["intention", "belief", "desire", "fear", "strategy", "value"])
             or any(kw in item.text.lower() for kw in [
                 "want", "need", "must", "will", "desire", "fear",
@@ -66,6 +67,8 @@ def extract_intentions(graph: SoulGraph) -> list[dict]:
             "mention_count": item.mention_count,
             "is_intention": is_intention,
             "tags": item.tags,
+            "abstraction_level": item.abstraction_level,
+            "motivation_tags": item.motivation_tags,
         })
     return intentions
 
@@ -95,6 +98,11 @@ def compare_phase(
         for i in deep_intentions[:20]
     ) or "(empty)"
 
+    roots_text = "\n".join(
+        f"- {i['text']} (tags: {i.get('motivation_tags', {})}, conf: {i['confidence']:.2f}, mentions: {i['mention_count']})"
+        for i in deep_intentions if i.get('abstraction_level') == 1
+    ) or "(no root intentions discovered yet)"
+
     prompt = f"""Compare the AI's detected soul graph against the ground-truth intentions for Scarlett O'Hara.
 
 ## Phase: {gt_phase.get('name', f'Phase {phase_num}')}
@@ -102,6 +110,9 @@ def compare_phase(
 
 ## Ground Truth Intentions
 {gt_text}
+
+## AI Detected — Root Motivations (abstract psychological drivers)
+{roots_text}
 
 ## AI Detected — Surface Soul (recent)
 {surface_text}
@@ -180,7 +191,7 @@ def main():
     print()
 
     # Initialize DualSoul with smaller cycle for more frequent consolidation
-    ds = DualSoul(api_key=api_key, deep_cycle=25, max_surface_nodes=80, carry_forward_k=8)
+    ds = DualSoul(api_key=api_key, deep_cycle=25, max_surface_nodes=80, carry_forward_k=8, meta_cycle=2)
 
     phase_results = []
 
@@ -217,6 +228,17 @@ def main():
         print(f"  Surface intentions: {surface_intention_count}/{len(surface_intentions)}")
         print(f"  Deep intentions:    {deep_intention_count}/{len(deep_intentions)}")
 
+        # Report root intentions
+        root_intentions = [
+            {"id": i.id, "text": i.text, "motivation_tags": i.motivation_tags,
+             "confidence": i.confidence, "mention_count": i.mention_count}
+            for i in ds.deep.items if i.abstraction_level == 1
+        ]
+        print(f"  Root intentions: {len(root_intentions)}")
+        for ri in root_intentions:
+            tags_str = ", ".join(f"{k}={v}" for k, v in ri["motivation_tags"].items())
+            print(f"    [{tags_str}] {ri['text']} (mentions: {ri['mention_count']}, conf: {ri['confidence']:.2f})")
+
         # Compare with ground truth if available
         gt_phase = gt_phases.get(phase_num)
         if gt_phase:
@@ -239,6 +261,7 @@ def main():
             "stats": s,
             "surface_intentions": surface_intentions,
             "deep_intentions": deep_intentions,
+            "root_intentions": root_intentions,
             "comparison": comparison,
         }
         phase_results.append(phase_snapshot)
@@ -286,6 +309,10 @@ def main():
         f"- {i.text} (mentions: {i.mention_count}, conf: {i.confidence:.2f})"
         for i in sorted(ds.deep.items, key=lambda x: x.mention_count, reverse=True)[:30]
     )
+    root_items_text = "\n".join(
+        f"- [{', '.join(f'{k}={v}' for k, v in i.motivation_tags.items())}] {i.text} (mentions: {i.mention_count})"
+        for i in ds.deep.items if i.abstraction_level == 1
+    ) or "(none)"
 
     try:
         response = client.messages.create(
@@ -295,6 +322,9 @@ def main():
 
 ## Phase-by-phase scores
 {phase_summaries}
+
+## Root Motivations Discovered (abstract psychological drivers)
+{root_items_text}
 
 ## Top 30 Deep Soul items (long-term, compressed)
 {deep_items_text}
